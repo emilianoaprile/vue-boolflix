@@ -25,7 +25,7 @@ export default {
           }
         })
         .then(res => {
-          // mappo i risultati della chiamata per avere un oggetto con le sole proprietà che mi servono attualmente
+          // mappo i risultati della chiamata per avere un array di oggetti con le sole proprietà che mi servono
           const dataResults = res.data.results
           console.log('API result:', dataResults)
           this.dataMapped = dataResults.map(curr => ({
