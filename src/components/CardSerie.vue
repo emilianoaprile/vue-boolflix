@@ -1,6 +1,7 @@
 <template>
     <div class="card">
         <h2 class="film_title">{{ serie.title }}</h2>
+        <img :src="store.imgBaseUrl + serie.imgFront" alt="">
         <h3 class="original_title">Titolo Originale: <span>{{ serie.original_title }}</span></h3>
         <img class="flag_language"v-if="countryString" :src="countryFlag(countryString)" alt="">
         <p v-else class="film_language">Lingua: <span>{{ languageNotFound }}</span></p>
@@ -9,6 +10,8 @@
 </template>
 
 <script>
+import { store } from '../store.js'
+
 export default {
     props: {
         serie: {
@@ -18,8 +21,9 @@ export default {
     },
     data() {
         return {
+            store,
             countryString: null,
-            languageNotFound: 'Lingua non trovata'
+            languageNotFound: 'Lingua non trovata',
         }
     },
     methods: {
@@ -43,7 +47,7 @@ export default {
     },
     created() {
         this.countryString = this.languageMap(this.serie.language)
-    },
+    }
 }
 </script>
 

@@ -28,9 +28,11 @@ export default {
         .then(res => {
           // mappo i risultati della chiamata per avere un array di oggetti con le sole proprietà che mi servono
           const dataResults = res.data.results
+          console.log(dataResults)
           this.filmsMapped = dataResults.map(curr => ({
             id: curr.id,
             title: curr.title,
+            imgFront: curr.poster_path,
             original_title: curr.original_title,
             language: curr.original_language,
             vote: curr.vote_average
@@ -55,9 +57,11 @@ export default {
         .then(res => {
           // mappo i risultati della chiamata per avere un array di oggetti con le sole proprietà che mi servono
           const dataResults = res.data.results
+          console.log(dataResults)
           this.seriesMapped = dataResults.map(curr => ({
             id: curr.id,
             title: curr.name,
+            imgFront: curr.poster_path,
             original_title: curr.original_name,
             language: curr.original_language,
             vote: curr.vote_average
