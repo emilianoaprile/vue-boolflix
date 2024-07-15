@@ -1,8 +1,13 @@
 <template>
     <main>
         <div class="container">
+            <h1>films</h1>
             <div class="cards">
-                <Card v-for="film in store.films" :key="film.id" :film="film"></Card>
+                <CardFilm v-for="film in store.films" :key="film.id" :film="film"></CardFilm>
+            </div>
+            <h1>Series</h1>
+            <div class="cards">
+                <CardSerie v-for="serie in store.series" :key="serie.id" :serie="serie"></CardSerie>
             </div>
         </div>
     </main>
@@ -10,10 +15,12 @@
 
 <script>
 import {store} from '../store.js'
-import Card from './Card.vue';
+import CardFilm from './CardFilm.vue';
+import CardSerie from './CardSerie.vue';
     export default {
         components: {
-            Card
+            CardFilm,
+            CardSerie
         },
         data() {
             return {

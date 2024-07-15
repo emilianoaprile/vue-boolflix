@@ -2,20 +2,50 @@
     <div class="card">
         <h2 class="film_title">{{ film.title }}</h2>
         <h3 class="original_title">Titolo Originale: <span>{{ film.original_title }}</span></h3>
-        <p class="film_language">Lingua: <span>{{ film.language }}</span></p>
+        <img class="flag_language"v-if="countryString" :src="countryFlag(countryString)" alt="">
+        <p v-else class="film_language">Lingua: <span>{{ languageNotFound }}</span></p>
         <p class="film_rating">Voto: <span>{{ film.vote }}</span></p>
     </div>
 </template>
 
 <script>
-    export default {
-        props: {
-            film: {
-                type: Object,
-                required: true
-            }
+export default {
+    props: {
+        film: {
+            type: Object,
+            required: true
+        },
+    },
+    data() {
+        return {
+            countryString: null,
+            languageNotFound: 'Lingua non trovata'
+
         }
-    }
+    },
+    methods: {
+        languageMap(language) {
+            const availableLang = {
+                en: 'en',
+                it: 'it',
+                es: 'es',
+                fr: 'fr',
+                zh: 'zh',
+                de: 'de',
+                ja: 'ja',
+                cn: 'cn'
+            }
+            return availableLang[language]
+        },
+
+        countryFlag(string) {
+            return `public/img/${string}.png`
+        }
+    },
+    created() {
+        this.countryString = this.languageMap(this.film.language)
+    },
+}
 </script>
 
 <style lang="scss" scoped>
@@ -60,7 +90,9 @@
             color: $text-color;
         }
     }
+
+    .flag_language {
+        width: 40px;
+    }
 }
-
-
 </style>

@@ -10,7 +10,7 @@
                     <!-- utilizzo del v-model per sincronizzare il valore dell'input alla variabile searchInput salvata nello store -->
                     <input class="input_search" v-model="store.searchInput" type="text" placeholder="Titoli, persone, generi">
                     <!-- $emit per gestire l'invio dell'evento click da componte figlio (Header) a componente Madre (App) -->
-                    <button class="btn btn_search" @click="$emit('search')">Cerca</button>
+                    <button class="btn btn_search" @click="$emit('searchFilms'), $emit('searchSeries')">Cerca</button>
                 </div>
             </nav>
         </div>
