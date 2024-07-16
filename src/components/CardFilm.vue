@@ -1,8 +1,6 @@
 <template>
     <div class="card">
-        <h2 class="film_title">{{ film.title }}</h2>
         <img :src="store.imgBaseUrl + film.imgFront" alt="">
-        <h3 class="original_title">Titolo Originale: <span>{{ film.original_title }}</span></h3>
         <img class="flag_language"v-if="countryString" :src="countryFlag(countryString)" alt="">
         <p v-else class="film_language">Lingua: <span>{{ languageNotFound }}</span></p>
         <div>

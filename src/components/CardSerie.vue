@@ -1,8 +1,6 @@
 <template>
     <div class="card">
-        <h2 class="film_title">{{ serie.title }}</h2>
         <img :src="store.imgBaseUrl + serie.imgFront" alt="">
-        <h3 class="original_title">Titolo Originale: <span>{{ serie.original_title }}</span></h3>
         <img class="flag_language"v-if="countryString" :src="countryFlag(countryString)" alt="">
         <p v-else class="film_language">Lingua: <span>{{ languageNotFound }}</span></p>
         <p class="film_rating">Voto: <span>{{ serie.vote }}</span></p>

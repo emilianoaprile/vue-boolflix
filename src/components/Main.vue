@@ -1,14 +1,12 @@
 <template>
-    <main>
-        <div class="container">
-            <h1>films</h1>
-            <div class="cards">
-                <CardFilm v-for="film in transformedFilms" :key="film.id" :film="film"></CardFilm>
-            </div>
-            <h1>Series</h1>
-            <div class="cards">
-                <CardSerie v-for="serie in transformedSeries" :key="serie.id" :serie="serie"></CardSerie>
-            </div>
+    <main class="main_content">
+        <h1>films</h1>
+        <div class="cards">
+            <CardFilm v-for="film in transformedFilms" :key="film.id" :film="film"></CardFilm>
+        </div>
+        <h1>Series</h1>
+        <div class="cards">
+            <CardSerie v-for="serie in transformedSeries" :key="serie.id" :serie="serie"></CardSerie>
         </div>
     </main>
 </template>
@@ -57,7 +55,9 @@ export default {
 @use '../styles/partials/variables' as *;
 @use '../styles/partials/mixins' as *;
 
-
+.main_content {
+    padding: 0 60px;
+}
 .cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
