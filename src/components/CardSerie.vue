@@ -6,6 +6,10 @@
         <img class="flag_language"v-if="countryString" :src="countryFlag(countryString)" alt="">
         <p v-else class="film_language">Lingua: <span>{{ languageNotFound }}</span></p>
         <p class="film_rating">Voto: <span>{{ serie.vote }}</span></p>
+        <div>
+            <font-awesome-icon v-for="n in roundedVote" :key="n" :icon="['fas', 'star']" class="stars" />
+            <font-awesome-icon v-for="n in emptyStars" :key="n" :icon="['far', 'star']" class="stars" />
+        </div>
     </div>
 </template>
 
@@ -43,6 +47,14 @@ export default {
 
         countryFlag(string) {
             return `public/img/${string}.png`
+        }
+    },
+    computed: {
+        roundedVote() {
+            return Math.ceil(this.serie.vote)
+        },
+        emptyStars() {
+            return 5 - Math.ceil(this.serie.vote)
         }
     },
     created() {
@@ -96,6 +108,9 @@ export default {
 
     .flag_language {
         width: 40px;
+    }
+    .stars {
+        color: gold;
     }
 }
 </style>
