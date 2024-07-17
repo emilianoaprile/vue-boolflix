@@ -1,13 +1,13 @@
 <template>
     <div class="card">
-        <img :src="store.imgBaseUrl + serie.imgFront" alt="">
-        <img class="flag_language"v-if="countryString" :src="countryFlag(countryString)" alt="">
+        <img class="card_img" :src="imgSrcControll()" alt="">
+        <!-- <img class="flag_language"v-if="countryString" :src="countryFlag(countryString)" alt="">
         <p v-else class="film_language">Lingua: <span>{{ languageNotFound }}</span></p>
         <p class="film_rating">Voto: <span>{{ serie.vote }}</span></p>
         <div>
             <font-awesome-icon v-for="n in roundedVote" :key="n" :icon="['fas', 'star']" class="stars" />
             <font-awesome-icon v-for="n in emptyStars" :key="n" :icon="['far', 'star']" class="stars" />
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -26,6 +26,7 @@ export default {
             store,
             countryString: null,
             languageNotFound: 'Lingua non trovata',
+            defaultImg: '/img/default-img.jpg'
         }
     },
     methods: {
@@ -45,6 +46,11 @@ export default {
 
         countryFlag(string) {
             return `public/img/${string}.png`
+        },
+
+        imgSrcControll() {
+            const basePath = store.imgBaseUrl
+            return this.serie.imgFront === null ? this.defaultImg : basePath + this.serie.imgFront
         }
     },
     computed: {
@@ -72,10 +78,16 @@ export default {
 .card {
     background-color: $card-bg-color;
     border-radius: $border-radius;
-    padding: $padding;
-    width: $card-width;
+    max-width: $card-width;
+    max-height: 100%;
     box-shadow: $box-shadow;
     color: $text-color;
+
+    .card_img {
+        height: 100%;
+        border-radius: $border-radius;
+
+    }
 
     .film_title {
         font-size: $title-font-size;
@@ -107,8 +119,10 @@ export default {
     .flag_language {
         width: 40px;
     }
+
     .stars {
         color: gold;
+
     }
 }
 </style>

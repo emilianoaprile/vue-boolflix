@@ -10,9 +10,15 @@
                 </ul>
             </div>
             <div class="searchBar">
-                <input class="input_search" v-model="store.searchInput" type="text"
+                <input class="input_search" 
+                    v-model="store.searchInput"
+                    @keyup.enter="$emit('searchFilms'), $emit('searchSeries')" 
+                    type="text"
                     placeholder="Titoli, persone, generi">
-                <button class="btn btn_search" @click="$emit('searchFilms'), $emit('searchSeries')">Cerca</button>
+                <button class="btn btn_search" 
+                    @keyup.enter="$emit('searchFilms'), $emit('searchSeries')">
+                    Cerca
+                </button>
             </div>
         </nav>
     </header>

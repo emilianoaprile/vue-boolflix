@@ -28,17 +28,19 @@ export default {
         .then(res => {
           // mappo i risultati della chiamata per avere un array di oggetti con le sole proprietà che mi servono
           const dataResults = res.data.results
-          console.log(dataResults)
+          // console.log('MOVIES DATA',dataResults)
           this.filmsMapped = dataResults.map(curr => ({
             id: curr.id,
             title: curr.title,
             imgFront: curr.poster_path,
-            original_title: curr.original_title,
+            imgBack: curr.backdrop_path,
+            description: curr.overview,
             language: curr.original_language,
             vote: curr.vote_average
           }))
           // assegno il valore dell'array mappato a quello dello store
           store.films = this.filmsMapped
+          store.searchInput = ''
 
           console.log('Array films mapped:', store.films)
         })
@@ -57,17 +59,19 @@ export default {
         .then(res => {
           // mappo i risultati della chiamata per avere un array di oggetti con le sole proprietà che mi servono
           const dataResults = res.data.results
-          console.log(dataResults)
+          // console.log('SERIE DATA:', dataResults)
           this.seriesMapped = dataResults.map(curr => ({
             id: curr.id,
             title: curr.name,
             imgFront: curr.poster_path,
-            original_title: curr.original_name,
+            imgBack: curr.backdrop_path,
+            description: curr.overview,
             language: curr.original_language,
             vote: curr.vote_average
           }))
           // assegno il valore dell'array mappato a quello dello store
           store.series = this.seriesMapped
+          store.searchInput = ''
 
           console.log('Array series mapped:', store.series)
         })

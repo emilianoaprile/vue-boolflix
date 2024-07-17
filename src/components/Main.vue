@@ -46,7 +46,7 @@ export default {
         }
     },
     updated() {
-        console.log(this.transformedFilms);
+        // console.log(this.transformedFilms);
     }
 }
 </script>

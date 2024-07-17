@@ -1,17 +1,22 @@
 <template>
-    <div class="card">
-        <img :src="store.imgBaseUrl + film.imgFront" alt="">
-        <img class="flag_language"v-if="countryString" :src="countryFlag(countryString)" alt="">
-        <p v-else class="film_language">Lingua: <span>{{ languageNotFound }}</span></p>
-        <div>
-            <font-awesome-icon v-for="n in roundedVote" :key="n" :icon="['fas', 'star']" class="stars" />
-            <font-awesome-icon v-for="n in emptyStars" :key="n" :icon="['far', 'star']" class="stars" />
+    <div class="card" @mouseenter="isMouseEnter" @mouseleave="isMouseLeave">
+        <img v-if="!mouseEnter" class="card_img" :src="imgSrcControll()" alt="">
+        <div v-else class="card-info">
+            <img class="flag_language" v-if="countryString" :src="countryFlag(countryString)" alt="">
+            <p v-else class="film_language">Lingua: <span>{{ languageNotFound }}</span></p>
+            <div>
+                <font-awesome-icon v-for="n in roundedVote" :key="n" :icon="['fas', 'star']" class="stars" />
+                <font-awesome-icon v-for="n in emptyStars" :key="n" :icon="['far', 'star']" class="stars" />
+            </div>
         </div>
     </div>
 </template>
 
+
+
 <script>
 import { store } from '../store.js'
+
 export default {
     props: {
         film: {
@@ -23,8 +28,9 @@ export default {
         return {
             store,
             countryString: null,
-            languageNotFound: 'Lingua non trovata'
-
+            languageNotFound: 'Lingua non trovata',
+            defaultImg: '/img/default-img.jpg',
+            mouseEnter: false
         }
     },
     methods: {
@@ -41,9 +47,18 @@ export default {
             }
             return availableLang[language]
         },
-
         countryFlag(string) {
             return `public/img/${string}.png`
+        },
+        imgSrcControll() {
+            const basePath = store.imgBaseUrl
+            return this.film.imgFront === null ? this.defaultImg : basePath + this.film.imgFront
+        },
+        isMouseEnter() {
+            this.mouseEnter = true
+        },
+        isMouseLeave() {
+            this.mouseEnter = false
         }
     },
     computed: {
@@ -60,55 +75,64 @@ export default {
 }
 </script>
 
+
+
 <style lang="scss" scoped>
 @use '../styles/partials/variables' as *;
 @use '../styles/partials/mixins' as *;
 
-
-@use '../styles/partials/variables' as *;
-@use '../styles/partials/mixins' as *;
-
 .card {
-    background-color: $card-bg-color;
+  background-color: $card-bg-color;
+  border-radius: $border-radius;
+  max-width: $card-width;
+  max-height: 100%;
+  box-shadow: $box-shadow;
+  color: $text-color;
+  position: relative;
+  overflow: hidden;
+
+  .card_img {
+    width: 100%;
+    height: 100%;
     border-radius: $border-radius;
-    padding: $padding;
-    width: $card-width;
-    box-shadow: $box-shadow;
+    object-fit: cover;
+  }
+
+  .card-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
     color: $text-color;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border-radius: $border-radius;
+  }
 
-    .film_title {
-        font-size: $title-font-size;
-        margin: 0 0 $margin-small;
-        color: $primary-color;
+  .film_language,
+  .film_rating {
+    font-size: $text-font-size;
+    margin: $margin-small 0;
+    color: $secondary-color;
+
+    span {
+      color: $text-color;
     }
+  }
 
-    .original_title {
-        font-size: $subtitle-font-size;
-        margin: $margin-small 0;
-        color: $secondary-color;
+  .flag_language {
+    width: 40px;
+    margin-bottom: 10px;
+  }
 
-        span {
-            color: $text-color;
-        }
-    }
-
-    .film_language,
-    .film_rating {
-        font-size: $text-font-size;
-        margin: $margin-small 0;
-        color: $secondary-color;
-
-        span {
-            color: $text-color;
-        }
-    }
-
-    .flag_language {
-        width: 40px;
-    }
-    .stars {
-        color: gold;
-
-    }
+  .stars {
+    color: gold;
+    margin-top: 10px;
+  }
 }
 </style>
