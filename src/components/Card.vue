@@ -6,7 +6,7 @@
                 <img :src="imgBackSrcControll()" alt="" srcset="">
             </div>
             <div class="card_content">
-                <h1 class="card_info-title">{{ film.title }}</h1>
+                <h1 class="card_info-title">{{ item.title }}</h1>
                 <p class="card_info-desc">{{ descriptionSlice(170) }}</p>
                 <img class="flag_language" v-if="countryString" :src="countryFlag(countryString)" alt="">
                 <p v-else class="language">Lingua: <span>{{ languageNotFound }}</span></p>
@@ -19,14 +19,12 @@
     </div>
 </template>
 
-
-
 <script>
 import { store } from '../store.js'
 
 export default {
     props: {
-        film: {
+        item: {
             type: Object,
             required: true
         },
@@ -54,16 +52,18 @@ export default {
             }
             return availableLang[language]
         },
+
         countryFlag(string) {
             return `public/img/${string}.png`
         },
+
         imgFrontSrcControll() {
             const basePath = store.imgBaseUrl
-            return this.film.imgFront === null ? this.defaultImg : basePath + this.film.imgFront
+            return this.item.imgFront === null ? this.defaultImg : basePath + this.item.imgFront
         },
         imgBackSrcControll() {
             const basePath = store.imgBaseUrl
-            return this.film.imgBack === null ? this.defaultImg : basePath + this.film.imgBack
+            return this.item.imgBack === null ? this.defaultImg : basePath + this.item.imgBack
         },
         isMouseEnter() {
             this.mouseEnter = true
@@ -72,30 +72,31 @@ export default {
             this.mouseEnter = false
         },
         descriptionSlice(maxLength) {
-            if (this.film.description.length > maxLength) {
-                return this.film.description.slice(0, maxLength).trimEnd() + '...'
+            if (this.item.description.length > maxLength) {
+                return this.item.description.slice(0, maxLength).trimEnd() + '...'
             }
-            return this.film.description
+            return this.item.description
         }
     },
     computed: {
         roundedVote() {
-            return Math.ceil(this.film.vote)
+            return Math.ceil(this.item.vote)
         },
         emptyStars() {
-            return 5 - Math.ceil(this.film.vote)
-        },
-
+            return 5 - Math.ceil(this.item.vote)
+        }
     },
     created() {
-        this.countryString = this.languageMap(this.film.language)
+        this.countryString = this.languageMap(this.item.language)
     }
 }
 </script>
 
-
-
 <style lang="scss" scoped>
+@use '../styles/partials/variables' as *;
+@use '../styles/partials/mixins' as *;
+
+
 @use '../styles/partials/variables' as *;
 @use '../styles/partials/mixins' as *;
 
@@ -140,7 +141,7 @@ export default {
             padding-bottom: 10px;
         }
 
-        .img_back>img {
+        .img_back > img {
             width: 270px;
             height: 151px;
         }

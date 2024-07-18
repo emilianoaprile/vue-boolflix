@@ -2,23 +2,21 @@
     <main class="main_content">
         <h1>films</h1>
         <div class="cards">
-            <CardFilm v-for="film in transformedFilms" :key="film.id" :film="film"></CardFilm>
+            <Card v-for="film in transformedFilms" :key="film.id" :item="film"></Card>
         </div>
         <h1>Series</h1>
         <div class="cards">
-            <CardSerie v-for="serie in transformedSeries" :key="serie.id" :serie="serie"></CardSerie>
+            <Card v-for="serie in transformedSeries" :key="serie.id" :item="serie"></Card>
         </div>
     </main>
 </template>
 
 <script>
 import { store } from '../store.js'
-import CardFilm from './CardFilm.vue';
-import CardSerie from './CardSerie.vue';
+import Card from './Card.vue';
 export default {
     components: {
-        CardFilm,
-        CardSerie
+        Card
     },
     data() {
         return {
