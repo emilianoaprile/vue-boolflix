@@ -152,7 +152,8 @@ export default {
     }
 
     .flag_language {
-        width: 30px;
+        width: 40px;
+        height: 20px;
     }
 
     .stars {

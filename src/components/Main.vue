@@ -66,8 +66,12 @@ export default {
 @use '../styles/partials/mixins' as *;
 
 .main_content {
-    padding: 0 60px;
-    
+    padding: 30px 60px;
+
+    .cards {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
     .main_content-title {
         text-transform: uppercase;
         color: white;

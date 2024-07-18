@@ -22,6 +22,10 @@
             slidesPerView: 5,
             spaceBetween: 10,
         },
+        '1400': {
+            slidesPerView: 6,
+            spaceBetween: 10,
+        },
     }" :modules="modules" class="mySwiper">
         <slot></slot>
     </swiper>
@@ -52,7 +56,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .swiper {
   width: 100%;
   height: 100%;
@@ -60,17 +64,19 @@ export default {
 
 .swiper-slide {
   text-align: center;
-  background: #fff;
-  height: 600px;
-
   /* Center slide text vertically */
   /* display: flex;
   justify-content: center;
   align-items: center; */
 }
 
-.swiper-pagination {
-    position: static;
+.mySwiper .swiper-pagination {
+  position: static !important;
+  text-align: center;
+  transition: 300ms opacity;
+  transform: translate3d(0, 0, 0);
+  z-index: 10;
+  margin-top: 30px;
 }
 
 .swiper-slide img {
@@ -78,6 +84,16 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.mySwiper .swiper-pagination-bullet-active {
+    background: red;
+}
+
+.mySwiper .swiper-pagination-bullet {
+    background: red;
+    width: 15px;
+    height: 15px;
 }
 
 
