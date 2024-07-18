@@ -1,13 +1,21 @@
 <template>
-    <div class="card">
-        <img class="card_img" :src="imgSrcControll()" alt="">
-        <!-- <img class="flag_language"v-if="countryString" :src="countryFlag(countryString)" alt="">
-        <p v-else class="film_language">Lingua: <span>{{ languageNotFound }}</span></p>
-        <p class="film_rating">Voto: <span>{{ serie.vote }}</span></p>
-        <div>
-            <font-awesome-icon v-for="n in roundedVote" :key="n" :icon="['fas', 'star']" class="stars" />
-            <font-awesome-icon v-for="n in emptyStars" :key="n" :icon="['far', 'star']" class="stars" />
-        </div> -->
+    <div class="card" @mouseenter="isMouseEnter" @mouseleave="isMouseLeave">
+        <img v-if="!mouseEnter" class="card_img" :src="imgFrontSrcControll()" alt="">
+        <div v-else class="card_info">
+            <div class="img_back">
+                <img :src="imgBackSrcControll()" alt="" srcset="">
+            </div>
+            <div class="card_content">
+                <h1 class="card_info-title">{{ serie.title }}</h1>
+                <p class="card_info-desc">{{ descriptionSlice(170) }}</p>
+                <img class="flag_language" v-if="countryString" :src="countryFlag(countryString)" alt="">
+                <p v-else class="language">Lingua: <span>{{ languageNotFound }}</span></p>
+            </div>
+            <div class="review_icons">
+                <font-awesome-icon v-for="n in roundedVote" :key="n" :icon="['fas', 'star']" class="stars" />
+                <font-awesome-icon v-for="n in emptyStars" :key="n" :icon="['far', 'star']" class="stars" />
+            </div>
+        </div>
     </div>
 </template>
 
@@ -26,7 +34,8 @@ export default {
             store,
             countryString: null,
             languageNotFound: 'Lingua non trovata',
-            defaultImg: '/img/default-img.jpg'
+            defaultImg: '/img/default-img.jpg',
+            mouseEnter: false
         }
     },
     methods: {
@@ -48,9 +57,25 @@ export default {
             return `public/img/${string}.png`
         },
 
-        imgSrcControll() {
+        imgFrontSrcControll() {
             const basePath = store.imgBaseUrl
             return this.serie.imgFront === null ? this.defaultImg : basePath + this.serie.imgFront
+        },
+        imgBackSrcControll() {
+            const basePath = store.imgBaseUrl
+            return this.serie.imgBack === null ? this.defaultImg : basePath + this.serie.imgBack
+        },
+        isMouseEnter() {
+            this.mouseEnter = true
+        },
+        isMouseLeave() {
+            this.mouseEnter = false
+        },
+        descriptionSlice(maxLength) {
+            if (this.serie.description.length > maxLength) {
+                return this.serie.description.slice(0, maxLength).trimEnd() + '...'
+            }
+            return this.serie.description
         }
     },
     computed: {
@@ -80,35 +105,50 @@ export default {
     border-radius: $border-radius;
     max-width: $card-width;
     max-height: 100%;
+    height: 450px;
     box-shadow: $box-shadow;
     color: $text-color;
+    position: relative;
+    overflow: hidden;
 
     .card_img {
+        width: 100%;
         height: 100%;
         border-radius: $border-radius;
-
+        object-fit: cover;
     }
 
-    .film_title {
-        font-size: $title-font-size;
-        margin: 0 0 $margin-small;
-        color: $primary-color;
-    }
+    .card_info {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: $text-color;
+        padding: 15px;
+        border-radius: $border-radius;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
 
-    .original_title {
-        font-size: $subtitle-font-size;
-        margin: $margin-small 0;
-        color: $secondary-color;
+        .card_content {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            height: 100%;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
 
-        span {
-            color: $text-color;
+        .img_back > img {
+            width: 270px;
+            height: 151px;
         }
     }
 
-    .film_language,
-    .film_rating {
+    .language {
         font-size: $text-font-size;
-        margin: $margin-small 0;
         color: $secondary-color;
 
         span {
@@ -117,12 +157,17 @@ export default {
     }
 
     .flag_language {
-        width: 40px;
+        width: 30px;
     }
 
     .stars {
         color: gold;
+    }
 
+    .card_info-title {
+        font-size: 22px;
+        text-align: center;
+        margin-bottom: 10px;
     }
 }
 </style>
