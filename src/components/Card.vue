@@ -1,14 +1,14 @@
 <template>
     <div class="card" @mouseenter="isMouseEnter" @mouseleave="isMouseLeave">
-        <img v-if="!mouseEnter" class="card_img" :src="imgFrontSrcControll()" alt="">
+        <img v-if="!mouseEnter" class="card_img" :src="imgFrontSrcControll()" alt="" />
         <div v-else class="card_info">
             <div class="img_back">
-                <img :src="imgBackSrcControll()" alt="" srcset="">
+                <img :src="imgBackSrcControll()" alt="" />
             </div>
             <div class="card_content">
                 <h1 class="card_info-title">{{ item.title }}</h1>
                 <p class="card_info-desc">{{ descriptionSlice(170) }}</p>
-                <img class="flag_language" v-if="countryString" :src="countryFlag(countryString)" alt="">
+                <img class="flag_language" v-if="countryString" :src="countryFlag(countryString)" alt="" />
                 <p v-else class="language">Lingua: <span>{{ languageNotFound }}</span></p>
             </div>
             <div class="review_icons">
@@ -20,14 +20,14 @@
 </template>
 
 <script>
-import { store } from '../store.js'
+import { store } from '../store.js';
 
 export default {
     props: {
         item: {
             type: Object,
             required: true
-        },
+        }
     },
     data() {
         return {
@@ -36,7 +36,7 @@ export default {
             languageNotFound: 'Lingua non trovata',
             defaultImg: '/img/default-img.jpg',
             mouseEnter: false
-        }
+        };
     },
     methods: {
         languageMap(language) {
@@ -49,54 +49,48 @@ export default {
                 de: 'de',
                 ja: 'ja',
                 cn: 'cn'
-            }
-            return availableLang[language]
+            };
+            return availableLang[language];
         },
-
         countryFlag(string) {
-            return `public/img/${string}.png`
+            return `public/img/${string}.png`;
         },
-
         imgFrontSrcControll() {
-            const basePath = store.imgBaseUrl
-            return this.item.imgFront === null ? this.defaultImg : basePath + this.item.imgFront
+            const basePath = store.imgBaseUrl;
+            return this.item.imgFront === null ? this.defaultImg : basePath + this.item.imgFront;
         },
         imgBackSrcControll() {
-            const basePath = store.imgBaseUrl
-            return this.item.imgBack === null ? this.defaultImg : basePath + this.item.imgBack
+            const basePath = store.imgBaseUrl;
+            return this.item.imgBack === null ? this.defaultImg : basePath + this.item.imgBack;
         },
         isMouseEnter() {
-            this.mouseEnter = true
+            this.mouseEnter = true;
         },
         isMouseLeave() {
-            this.mouseEnter = false
+            this.mouseEnter = false;
         },
         descriptionSlice(maxLength) {
             if (this.item.description.length > maxLength) {
-                return this.item.description.slice(0, maxLength).trimEnd() + '...'
+                return this.item.description.slice(0, maxLength).trimEnd() + '...';
             }
-            return this.item.description
+            return this.item.description;
         }
     },
     computed: {
         roundedVote() {
-            return Math.ceil(this.item.vote)
+            return Math.ceil(this.item.vote);
         },
         emptyStars() {
-            return 5 - Math.ceil(this.item.vote)
+            return 5 - Math.ceil(this.item.vote);
         }
     },
     created() {
-        this.countryString = this.languageMap(this.item.language)
+        this.countryString = this.languageMap(this.item.language);
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-@use '../styles/partials/variables' as *;
-@use '../styles/partials/mixins' as *;
-
-
 @use '../styles/partials/variables' as *;
 @use '../styles/partials/mixins' as *;
 
@@ -140,10 +134,11 @@ export default {
             padding-top: 10px;
             padding-bottom: 10px;
         }
-
-        .img_back > img {
-            width: 270px;
+        .img_back>img {
+            max-width: 270px;
             height: 151px;
+            object-position: center;
+            display: block;
         }
     }
 

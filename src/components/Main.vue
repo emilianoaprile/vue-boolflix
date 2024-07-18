@@ -1,12 +1,20 @@
 <template>
     <main class="main_content">
-        <h1>films</h1>
+        <h1 class="main_content-title">Films</h1>
         <div class="cards">
-            <Card v-for="film in transformedFilms" :key="film.id" :item="film"></Card>
+            <Swiper>
+                <SwiperSlide v-for="film in transformedFilms" :key="film.id">
+                    <Card :item="film"></Card>
+                </SwiperSlide>
+            </Swiper>
         </div>
-        <h1>Series</h1>
+        <h1 class="main_content-title">Series</h1>
         <div class="cards">
-            <Card v-for="serie in transformedSeries" :key="serie.id" :item="serie"></Card>
+            <Swiper>
+                <SwiperSlide v-for="serie in transformedSeries" :key="serie.id">
+                    <Card :item="serie"></Card>
+                </SwiperSlide>
+            </Swiper>
         </div>
     </main>
 </template>
@@ -14,9 +22,13 @@
 <script>
 import { store } from '../store.js'
 import Card from './Card.vue';
+import Swiper from './Swiper.vue';
+import { SwiperSlide } from 'swiper/vue';
 export default {
     components: {
-        Card
+        Card,
+        Swiper,
+        SwiperSlide
     },
     data() {
         return {
@@ -55,12 +67,11 @@ export default {
 
 .main_content {
     padding: 0 60px;
+    
+    .main_content-title {
+        text-transform: uppercase;
+        color: white;
+    }
 }
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 40px;
-    padding: 30px 10px;
 
-}
 </style>
