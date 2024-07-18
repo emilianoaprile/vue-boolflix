@@ -3,11 +3,13 @@ import Header from './components/Header.vue';
 import Main from './components/Main.vue';
 import { store } from '../src/store.js';
 import axios from 'axios';
+import Swiper from './components/Swiper.vue';
 
 export default {
   components: {
     Header,
-    Main
+    Main,
+    Swiper
   },
   data() {
     return {
@@ -91,6 +93,7 @@ export default {
   <!-- collegamento dell' $emit dove al click recuperiamo i dati che vengono ritornati dalla chiamata axios -->
   <Header @searchFilms="fetchFilms" @searchSeries="fetchSeries"></Header>
   <Main></Main>
+  <Swiper></Swiper>
 </template>
 
 <style lang="scss">

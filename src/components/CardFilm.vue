@@ -1,10 +1,13 @@
 <template>
     <div class="card" @mouseenter="isMouseEnter" @mouseleave="isMouseLeave">
         <img v-if="!mouseEnter" class="card_img" :src="imgSrcControll()" alt="">
-        <div v-else class="card-info">
+        <div v-else class="card_info">
+            <img :src="store.imgBaseUrl + film.imgBack" alt="" srcset="">
+            <h1 class="card_info-title">{{ film.title }}</h1>
+            <p class="card_info-desc">{{ descriptionSlice(170) }}</p>
             <img class="flag_language" v-if="countryString" :src="countryFlag(countryString)" alt="">
             <p v-else class="film_language">Lingua: <span>{{ languageNotFound }}</span></p>
-            <div>
+            <div class="review_icons">
                 <font-awesome-icon v-for="n in roundedVote" :key="n" :icon="['fas', 'star']" class="stars" />
                 <font-awesome-icon v-for="n in emptyStars" :key="n" :icon="['far', 'star']" class="stars" />
             </div>
@@ -59,6 +62,12 @@ export default {
         },
         isMouseLeave() {
             this.mouseEnter = false
+        },
+        descriptionSlice(maxLength) {
+            if(this.film.description.length > maxLength) {
+                return this.film.description.slice(0, maxLength).trimEnd() + '...'
+            }
+            return this.film.description
         }
     },
     computed: {
@@ -67,11 +76,12 @@ export default {
         },
         emptyStars() {
             return 5 - Math.ceil(this.film.vote)
-        }
+        },
+        
     },
     created() {
         this.countryString = this.languageMap(this.film.language)
-    },
+    }
 }
 </script>
 
@@ -86,6 +96,7 @@ export default {
   border-radius: $border-radius;
   max-width: $card-width;
   max-height: 100%;
+  height: 450px;
   box-shadow: $box-shadow;
   color: $text-color;
   position: relative;
@@ -98,7 +109,7 @@ export default {
     object-fit: cover;
   }
 
-  .card-info {
+  .card_info {
     position: absolute;
     top: 0;
     left: 0;
@@ -106,11 +117,11 @@ export default {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
     color: $text-color;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    // align-items: center;
+    padding: 15px;
     border-radius: $border-radius;
   }
 
@@ -126,13 +137,11 @@ export default {
   }
 
   .flag_language {
-    width: 40px;
-    margin-bottom: 10px;
+    width: 30px;
   }
 
   .stars {
     color: gold;
-    margin-top: 10px;
   }
 }
 </style>
