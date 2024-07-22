@@ -1,20 +1,28 @@
 <template>
     <main class="main_content">
-        <h1 class="main_content-title">Films</h1>
-        <div class="cards">
-            <Swiper>
-                <SwiperSlide v-for="film in transformedFilms" :key="film.id">
-                    <Card :item="film"></Card>
-                </SwiperSlide>
-            </Swiper>
+        <div v-if="store.films.length > 0 || store.series > 0" class="main_wrapper">
+            <h1 class="main_content-title">Films</h1>
+            <div class="cards">
+                <Swiper>
+                    <SwiperSlide v-for="film in transformedFilms" :key="film.id">
+                        <Card :item="film"></Card>
+                    </SwiperSlide>
+                </Swiper>
+            </div>
+            <h1 class="main_content-title">Series</h1>
+            <div class="cards">
+                <Swiper>
+                    <SwiperSlide v-for="serie in transformedSeries" :key="serie.id">
+                        <Card :item="serie"></Card>
+                    </SwiperSlide>
+                </Swiper>
+            </div>
         </div>
-        <h1 class="main_content-title">Series</h1>
-        <div class="cards">
-            <Swiper>
-                <SwiperSlide v-for="serie in transformedSeries" :key="serie.id">
-                    <Card :item="serie"></Card>
-                </SwiperSlide>
-            </Swiper>
+
+        <div v-else class="isNotSearch">
+            <h1>
+                Nessun film o serie cercata..
+            </h1>
         </div>
     </main>
 </template>
@@ -72,10 +80,17 @@ export default {
         padding-top: 30px;
         padding-bottom: 30px;
     }
+
     .main_content-title {
         text-transform: uppercase;
         color: white;
     }
 }
 
+.isNotSearch > h1 {
+    color: white;
+    text-align: center;
+    margin-top: 300px;
+
+}
 </style>

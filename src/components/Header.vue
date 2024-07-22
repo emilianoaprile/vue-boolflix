@@ -96,7 +96,7 @@ export default {
             width: 300px;
             padding: 8px 3px;
             padding-left: 10px;
-            border-radius: 15px;
+            border-radius: 5px;
         }
 
         .menu {
