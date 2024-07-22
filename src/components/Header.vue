@@ -16,7 +16,7 @@
                     type="text"
                     placeholder="Titoli, persone, generi">
                 <button class="btn btn_search" 
-                    @keyup.enter="$emit('searchFilms'), $emit('searchSeries')">
+                    @click="$emit('searchFilms'), $emit('searchSeries')">
                     Cerca
                 </button>
             </div>

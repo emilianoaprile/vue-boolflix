@@ -30,7 +30,7 @@ export default {
         .then(res => {
           // mappo i risultati della chiamata per avere un array di oggetti con le sole proprietà che mi servono
           const dataResults = res.data.results
-          // console.log('MOVIES DATA',dataResults)
+          console.log('MOVIES DATA',dataResults)
           this.filmsMapped = dataResults.map(curr => ({
             id: curr.id,
             title: curr.title,
@@ -61,7 +61,7 @@ export default {
         .then(res => {
           // mappo i risultati della chiamata per avere un array di oggetti con le sole proprietà che mi servono
           const dataResults = res.data.results
-          // console.log('SERIE DATA:', dataResults)
+          console.log('SERIE DATA:', dataResults)
           this.seriesMapped = dataResults.map(curr => ({
             id: curr.id,
             title: curr.name,
