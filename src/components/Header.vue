@@ -2,7 +2,9 @@
     <header class="page_header">
         <nav class="navbar">
             <div class="menu">
-                <img class="logo" :src="imgLogoPath" alt="">
+                <router-link :to="{name: 'home'}">
+                    <img class="logo" :src="imgLogoPath" alt="">
+                </router-link>
                 <ul class="menu_list">
                     <li class="menu_item" v-for="(listItem, i) in menu">
                         <a :href="listItem.href">{{ listItem.item }}</a>
