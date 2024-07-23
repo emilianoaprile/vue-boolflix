@@ -1,30 +1,29 @@
 <template>
     <Header @searchFilms="fetchFilms" @searchSeries="fetchSeries"></Header>
-    <Main></Main>
-    <Swiper></Swiper>
+    <Main :loadingMain="loading"></Main>
 </template>
 
 <script>
 import Header from '../components/Header.vue';
 import Main from '../components/Main.vue';
-import Swiper from '../components/Swiper.vue';
 import { store } from '../store.js';
 import axios from 'axios';
 export default {
     components: {
         Header,
         Main,
-        Swiper
     },
     data() {
         return {
             store,
             filmsMapped: null,
-            seriesMapped: null
+            seriesMapped: null,
+            loading: false
         }
     },
     methods: {
-        fetchFilms() {
+        fetchFilms(showLoader = true) {
+            if(showLoader) {this.loading = true}
             axios
                 .get(store.API_URL_MOVIES, {
                     // al metodo GET passiamo l'url e un oggetto (params) che ha una proprietà (query) che prende il valore dell'input memorizzato nello store
@@ -48,14 +47,15 @@ export default {
                     // assegno il valore dell'array mappato a quello dello store
                     store.films = this.filmsMapped
                     store.searchInput = ''
-
+                    this.loading = false
                     console.log('Array films mapped:', store.films)
                 })
                 .catch(err => {
                     console.error(err)
                 })
         },
-        fetchSeries() {
+        fetchSeries(showLoader = true) {
+            if(showLoader) {this.loading = true}
             axios
                 .get(store.API_URL_SERIES, {
                     // al metodo GET passiamo l'url e un oggetto (params) che ha una proprietà (query) che prende il valore dell'input memorizzato nello store
@@ -79,7 +79,7 @@ export default {
                     // assegno il valore dell'array mappato a quello dello store
                     store.series = this.seriesMapped
                     store.searchInput = ''
-
+                    this.loading = false
                     console.log('Array series mapped:', store.series)
                 })
                 .catch(err => {
@@ -88,8 +88,8 @@ export default {
         }
     },
     created() {
-        this.fetchFilms()
-        this.fetchSeries()
+        this.fetchFilms(false)
+        this.fetchSeries(false)
     }
 }
 </script>

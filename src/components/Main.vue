@@ -1,5 +1,6 @@
 <template>
-    <main class="main_content">
+    <Loader v-if="loadingMain"></Loader>
+    <main v-else class="main_content">
         <div v-if="store.films.length > 0 || store.series > 0" class="main_wrapper">
             <h1 class="main_content-title">Films</h1>
             <div class="cards">
@@ -18,12 +19,6 @@
                 </Swiper>
             </div>
         </div>
-
-        <div v-else class="isNotSearch">
-            <h1>
-                Nessun film o serie cercata..
-            </h1>
-        </div>
     </main>
 </template>
 
@@ -32,11 +27,20 @@ import { store } from '../store.js'
 import Card from './Card.vue';
 import Swiper from './Swiper.vue';
 import { SwiperSlide } from 'swiper/vue';
+import Loader from '../components/Loader.vue';
+
 export default {
+    props: {
+        loadingMain: {
+            type: Boolean,
+            require: true
+        }
+    },
     components: {
         Card,
         Swiper,
-        SwiperSlide
+        SwiperSlide,
+        Loader
     },
     data() {
         return {
