@@ -1,6 +1,6 @@
 <template>
     <router-link :to="{name: 'show', params: {id: item.id}}">
-        <div class="card" @mouseenter="isMouseEnter" @mouseleave="isMouseLeave">
+        <div class="card">
             <img class="card_img":src="imgFrontSrcControll()" alt="" />
         </div>
     </router-link>
@@ -22,7 +22,6 @@ export default {
             countryString: null,
             languageNotFound: 'Lingua non trovata',
             defaultImg: '/img/default-img.jpg',
-            mouseEnter: false
         };
     },
     methods: {
@@ -50,12 +49,6 @@ export default {
             const basePath = store.imgBaseUrl;
             return this.item.imgBack === null ? this.defaultImg : basePath + this.item.imgBack;
         },
-        isMouseEnter() {
-            this.mouseEnter = true;
-        },
-        isMouseLeave() {
-            this.mouseEnter = false;
-        },
         descriptionSlice(maxLength) {
             if (this.item.description.length > maxLength) {
                 return this.item.description.slice(0, maxLength).trimEnd() + '...';
@@ -73,7 +66,6 @@ export default {
     },
     created() {
         this.countryString = this.languageMap(this.item.language);
-        console.log(this.item.id)
     }
 };
 </script>

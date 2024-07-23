@@ -1,7 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 
 import HomeView from "./pages/HomeView.vue";
-import FilmShow from './pages/show/FilmShow.vue';
+import ShowItem from './pages/show/ShowItem.vue';
 
 const routes = [
   {
@@ -12,7 +12,8 @@ const routes = [
   {
     path: "/:id",
     name: 'show',
-    component: FilmShow,
+    props: true,
+    component: ShowItem,
   },
 ];
 

@@ -111,6 +111,11 @@ export default {
             .menu_list {
                 display: flex;
                 gap: 20px;
+
+                .menu_item {
+                    font-size: 13.5px;
+                    font-weight: 300;
+                }
             }
         }
     }
