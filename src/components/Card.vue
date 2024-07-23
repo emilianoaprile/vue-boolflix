@@ -1,22 +1,9 @@
 <template>
-    <div class="card" @mouseenter="isMouseEnter" @mouseleave="isMouseLeave">
-        <img v-if="!mouseEnter" class="card_img" :src="imgFrontSrcControll()" alt="" />
-        <div v-else class="card_info">
-            <div class="img_back">
-                <img :src="imgBackSrcControll()" alt="" />
-            </div>
-            <div class="card_content">
-                <h1 class="card_info-title">{{ item.title }}</h1>
-                <p class="card_info-desc">{{ descriptionSlice(170) }}</p>
-                <img class="flag_language" v-if="countryString" :src="countryFlag(countryString)" alt="" />
-                <p v-else class="language">Lingua: <span>{{ languageNotFound }}</span></p>
-            </div>
-            <div class="review_icons">
-                <font-awesome-icon v-for="n in roundedVote" :key="n" :icon="['fas', 'star']" class="stars" />
-                <font-awesome-icon v-for="n in emptyStars" :key="n" :icon="['far', 'star']" class="stars" />
-            </div>
+    <router-link :to="{name: 'show', params: {id: item.id}}">
+        <div class="card" @mouseenter="isMouseEnter" @mouseleave="isMouseLeave">
+            <img class="card_img":src="imgFrontSrcControll()" alt="" />
         </div>
-    </div>
+    </router-link>
 </template>
 
 <script>
@@ -86,6 +73,7 @@ export default {
     },
     created() {
         this.countryString = this.languageMap(this.item.language);
+        console.log(this.item.id)
     }
 };
 </script>

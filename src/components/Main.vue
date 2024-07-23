@@ -1,5 +1,5 @@
 <template>
-    <Loader v-if="loadingMain"></Loader>
+    <Loader v-if="loadingMain" class="loader"></Loader>
     <main v-else class="main_content">
         <div v-if="store.films.length > 0 || store.series > 0" class="main_wrapper">
             <h1 class="main_content-title">Films</h1>
@@ -79,6 +79,7 @@ export default {
 
 .main_content {
     padding: 30px 60px;
+    position: relative;
 
     .cards {
         padding-top: 30px;
@@ -96,5 +97,12 @@ export default {
     text-align: center;
     margin-top: 300px;
 
+}
+
+.loader {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(-50%, -50%);
 }
 </style>

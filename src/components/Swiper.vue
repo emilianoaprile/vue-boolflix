@@ -19,11 +19,11 @@
             spaceBetween: 10,
         },
         '1200': {
-            slidesPerView: 5,
+            slidesPerView: 4,
             spaceBetween: 10,
         },
         '1400': {
-            slidesPerView: 6,
+            slidesPerView: 5,
             spaceBetween: 10,
         },
     }" :modules="modules" class="mySwiper">
