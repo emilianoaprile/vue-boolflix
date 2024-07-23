@@ -16,8 +16,8 @@ import { store } from '../../store.js';
         },
         data() {
             return {
-                filmShow: [],
-                serieShow: [],
+                filmShow: {},
+                serieShow: {},
                 apiKey: store.api_key
             }
         },
@@ -26,7 +26,20 @@ import { store } from '../../store.js';
                 axios
                 .get(`https://api.themoviedb.org/3/movie/${this.id}${this.apiKey}`)
                 .then((res) => {
-                    console.log(res.data)
+                    const curr = res.data
+                    console.log(curr)
+                    this.filmShow = {
+                        title: curr.title,
+                        date: curr.release_date,
+                        genres: curr.genres,
+                        vote: curr.vote_average,
+                        tagline: curr.tagline,
+                        description: curr.overview,
+                        imgFront: curr.poster_path,
+                        imgBack: curr.backdrop_path,
+                        imagesCollection: curr.belongs_to_collection
+                    }
+                    console.log(this.filmShow)
                 })
             }
         },
