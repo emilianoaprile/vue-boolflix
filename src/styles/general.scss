@@ -1,36 +1,91 @@
-*{
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-    font-family: "Roboto", sans-serif;
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: "Roboto", sans-serif;
 }
 
 body {
-    background-color: #141414;
-    letter-spacing: .03rem;
-    user-select: none;
+  background-color: #141414;
+  letter-spacing: 0.03rem;
+  user-select: none;
 }
 
 img {
-    width: 100%;
-    display: block;
+  width: 100%;
+  display: block;
 }
 
-ul, li, ol, menu {
-    list-style: none;
-    color: currentColor;
-    text-decoration: none;
+ul,
+li,
+ol,
+menu {
+  list-style: none;
+  color: currentColor;
+  text-decoration: none;
 }
 
 a {
-    text-decoration: none;
-    color: currentColor;
+  text-decoration: none;
+  color: currentColor;
 }
 
 .btn {
-    padding: 8px 3px;
-    width: 70px;
-    border-radius: 5px;
+  min-width: 130px;
+  height: 40px;
+  color: #fff;
+  padding-left: 2rem;
+  padding-right: 2.4rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  outline: none;
+  border-radius: 5px;
+  z-index: 0;
+  background: #fff;
+  overflow: hidden;
+  border: 2px solid #141414;
+  color: #141414;
+}
+.btn:hover {
+  color: #fff;
+  border-color: #DB202B;
+}
+.btn:hover:after {
+  width: 100%;
+}
+.btn:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  transition: all 0.3s ease;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background: #141414;
+}
+
+.btn_round {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(42, 42, 42, 0.6);
     cursor: pointer;
+    padding: 0.8rem;
+    user-select: none;
+    border-radius: 50%;   
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.6); /* Bordo bianco opacizzato */
+    transition: background-color 0.3s, border-color 0.3s; /* Transizione per l'hover */
+}
+
+.btn_round:hover {
+    background-color: rgba(107, 107, 107, 0.8); /* Background più chiaro al hover */
+    border-color: rgba(255, 255, 255, 0.9); /* Bordo più chiaro al hover */
 }
 

@@ -4,29 +4,39 @@
         <div class="show_wrapper">
             <div class="jumbo">
                 <img class="jumbo_img" :src="imgBackSrcControll()" alt="">
-                <button>Riproduci &triangleright;</button>
-                <button class="btn_round btn_addlist">&plus;</button>
-                <button class="btn_round btn_like">&hearts;</button>
+                <div class="item_title">
+                    <h1 class="title">{{ filmShow.title }}</h1>
+                    <p class="tagline">{{ filmShow.tagline }}</p>
+                </div>
+                <div class="overlay"></div>
+                <div class="buttons">
+                    <button class="btn btn_play">
+                        <font-awesome-icon class="play_icon" :icon="['fas', 'play']" />
+                        <span>Riproduci</span>
+                    </button>
+                    <button class="btn_round btn_addlist">
+                        <font-awesome-icon :icon="['fas', 'plus']" />
+                    </button>
+                    <button class="btn_round btn_like">
+                        <font-awesome-icon :icon="['far', 'thumbs-up']" />
+                    </button>
+                    <div class="vote btn_round">
+                        73%
+                    </div>
+                </div>
             </div>
             <div class="item_content">
                 <div class="info_content-left">
-                    <h1>titolo</h1>
-                    <p>data release</p>
-                    <p>tagline</p>
-                    <p>Overview: Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, incidunt. Lorem,
-                        ipsum dolor sit amet consectetur adipisicing elit. Laborum, ducimus.</p>
-                    <div class="vote">
-                        73%
-                    </div>
+                    <p>{{filmShow.date}}</p>
+                    <p>{{filmShow.duration}} min</p>
+                    <div>HD</div>
+                    <p>{{filmShow.description}}</p>
+
                 </div>
                 <div class="info_content-right">
                     <ul>
                         Generi:
-                        <li>gen</li>
-                        <li>gen</li>
-                        <li>gen</li>
-                        <li>gen</li>
-                        <li>gen</li>
+                        <li v-for="genre in filmShow.genres">{{genre.name}}</li>
                     </ul>
                 </div>
 
@@ -69,6 +79,7 @@ export default {
                     this.filmShow = {
                         title: curr.title,
                         date: curr.release_date,
+                        duration: curr.runtime,
                         genres: curr.genres,
                         vote: curr.vote_average,
                         tagline: curr.tagline,
@@ -93,15 +104,92 @@ export default {
 
 <style lang="scss" scoped>
 .show_wrapper {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 20px;
 }
 
 .jumbo {
-    height: 650px;
+    position: relative;
 
-    .jumbo_img {
-        height: 100%;
+    img {
+        width: 100%;
+        height: auto;
+        max-height: 85vh;
+        opacity: 0.45;
     }
+
+    .item_title {
+        position: absolute;
+        bottom: 40%;
+        left: 60px;
+        border-radius: 30px;
+        max-width: 45%;
+
+        .title {
+            font-size: 38px;
+            color: white;
+            text-transform: uppercase;
+            padding-bottom: 20px;
+
+        }
+
+        .tagline {
+            border-radius: 30px;
+            color: white;
+            font-weight: 700;
+            font-size: 18px
+        }
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(0deg, #181818, transparent 50%);
+        pointer-events: none;
+    }
+
+    .buttons {
+        
+        position: absolute;
+        bottom: 20%;
+        left: 60px;
+        width: 40%;
+        display: flex;
+        gap: 20px;
+
+        .btn_play {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+
+            .play_icon {
+                font-size: 25px;
+            }
+        }
+        
+        .vote {
+            font-size: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
+
+
+.item_content {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 60px;
+}
+
+.info_content-left,
+.info_content-right {
+    width: 48%;
 }
 </style>
