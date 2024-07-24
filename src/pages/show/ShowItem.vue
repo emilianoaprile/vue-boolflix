@@ -27,16 +27,21 @@
             </div>
             <div class="item_content">
                 <div class="info_content-left">
-                    <p>{{filmShow.date}}</p>
-                    <p>{{filmShow.duration}} min</p>
-                    <div>HD</div>
-                    <p>{{filmShow.description}}</p>
+                    <div class="date_duration">
+                        <p>{{ filmShow.date }}</p>
+                        <p>{{ filmShow.duration }} min</p>
+                        <div class="hd_box">HD</div>
+                    </div>
+
+                    <div class="description">
+                        <p>{{ filmShow.description }}</p>
+                    </div>
 
                 </div>
                 <div class="info_content-right">
-                    <ul>
+                    <ul class="genres">
                         Generi:
-                        <li v-for="genre in filmShow.genres">{{genre.name}}</li>
+                        <li v-for="genre in filmShow.genres">{{ genre.name }}</li>
                     </ul>
                 </div>
 
@@ -153,7 +158,7 @@ export default {
     }
 
     .buttons {
-        
+
         position: absolute;
         bottom: 20%;
         left: 60px;
@@ -171,7 +176,7 @@ export default {
                 font-size: 25px;
             }
         }
-        
+
         .vote {
             font-size: 12px;
             display: flex;
@@ -186,10 +191,38 @@ export default {
     display: flex;
     justify-content: space-between;
     padding: 0 60px;
+    color: white;
 }
 
-.info_content-left,
+.info_content-left {
+    width: 60%;
+    padding-bottom: 20px;
+}
+
 .info_content-right {
-    width: 48%;
+    width: 30%;
+    padding-bottom: 20px;
+}
+
+.genres {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.date_duration {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.hd_box {
+    border: 1px solid hsla(0, 0%, 100%, .4);
+    border-radius: 3px;
+    font-size: .7em;
+    padding: 0 .5em;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
 }
 </style>
