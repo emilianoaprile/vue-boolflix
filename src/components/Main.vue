@@ -5,7 +5,7 @@
             <h1 class="main_content-title">Films</h1>
             <div class="cards">
                 <Swiper>
-                    <SwiperSlide v-for="film in transformedFilms" :key="film.id">
+                    <SwiperSlide v-for="film in films" :key="film.id">
                         <Card :item="film"></Card>
                     </SwiperSlide>
                 </Swiper>
@@ -13,7 +13,7 @@
             <h1 class="main_content-title">Series</h1>
             <div class="cards">
                 <Swiper>
-                    <SwiperSlide v-for="serie in transformedSeries" :key="serie.id">
+                    <SwiperSlide v-for="serie in series" :key="serie.id">
                         <Card :item="serie"></Card>
                     </SwiperSlide>
                 </Swiper>
@@ -34,6 +34,14 @@ export default {
         loadingMain: {
             type: Boolean,
             require: true
+        },
+        films: {
+            type: Array,
+            required: true
+        },
+        series: {
+            type: Array,
+            required: true
         }
     },
     components: {
@@ -47,29 +55,29 @@ export default {
             store
         }
     },
-    computed: {
-        transformedFilms() {
-            // mappo i voti trasformandoli di scala da 1 a 10 -> 1 a 5 arrotondati per eccesso se >= 0.5, per difetto se < 0.5 (es. 2.4 = 2)
-            return this.store.films.map(film => {
-                return {
-                    ...film,
-                    vote: Math.round(film.vote / 2)
-                };
-            });
-        },
-        transformedSeries() {
-            // mappo i voti trasformandoli di scala da 1 a 10 -> 1 a 5 arrotondati per eccesso se >= 0.5, per difetto se < 0.5 (es. 2.4 = 2)
-            return this.store.series.map(serie => {
-                return {
-                    ...serie,
-                    vote: Math.round(serie.vote / 2)
-                };
-            });
-        }
-    },
-    updated() {
-        // console.log(this.transformedFilms);
-    }
+    // computed: {
+    //     transformedFilms() {
+    //         // mappo i voti trasformandoli di scala da 1 a 10 -> 1 a 5 arrotondati per eccesso se >= 0.5, per difetto se < 0.5 (es. 2.4 = 2)
+    //         return this.store.films.map(film => {
+    //             return {
+    //                 ...film,
+    //                 vote: Math.round(film.vote / 2)
+    //             };
+    //         });
+    //     },
+    //     transformedSeries() {
+    //         // mappo i voti trasformandoli di scala da 1 a 10 -> 1 a 5 arrotondati per eccesso se >= 0.5, per difetto se < 0.5 (es. 2.4 = 2)
+    //         return this.store.series.map(serie => {
+    //             return {
+    //                 ...serie,
+    //                 vote: Math.round(serie.vote / 2)
+    //             };
+    //         });
+    //     }
+    // },
+    // updated() {
+    //     // console.log(this.transformedFilms);
+    // }
 }
 </script>
 

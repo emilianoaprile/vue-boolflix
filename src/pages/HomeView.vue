@@ -1,6 +1,6 @@
 <template>
     <Header @searchFilms="fetchFilms" @searchSeries="fetchSeries"></Header>
-    <Main :loadingMain="loading"></Main>
+    <Main :loadingMain="loading" :films="filteredFilms" :series="filteredSeries"></Main>
 </template>
 
 <script>
@@ -16,8 +16,8 @@ export default {
     data() {
         return {
             store,
-            filmsMapped: null,
-            seriesMapped: null,
+            filmsMapped: [],
+            seriesMapped: [],
             loading: false
         }
     },
@@ -46,7 +46,6 @@ export default {
                     }))
                     // assegno il valore dell'array mappato a quello dello store
                     store.films = this.filmsMapped
-                    store.searchInput = ''
                     this.loading = false
                     console.log('Array films mapped:', store.films)
                 })
@@ -78,13 +77,33 @@ export default {
                     }))
                     // assegno il valore dell'array mappato a quello dello store
                     store.series = this.seriesMapped
-                    store.searchInput = ''
                     this.loading = false
                     console.log('Array series mapped:', store.series)
                 })
                 .catch(err => {
                     console.error(err)
                 })
+        }
+    },
+    computed: {
+        filteredFilms() {
+            return this.filmsMapped.filter(film =>
+                film.title.toLowerCase().includes(store.searchInput.toLowerCase())
+            );
+        },  
+        filteredSeries() {
+            return this.seriesMapped.filter(serie =>
+                serie.title.toLowerCase().includes(store.searchInput.toLowerCase())
+            );
+        }
+
+    },
+    watch: {
+        'store.searchInput' : function(value) {
+            if(value){
+                this.fetchFilms()
+                this.fetchSeries()
+            }
         }
     },
     created() {
