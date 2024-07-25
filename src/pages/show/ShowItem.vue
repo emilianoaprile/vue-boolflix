@@ -5,8 +5,8 @@
             <div class="jumbo">
                 <img class="jumbo_img" :src="imgBackSrcControll()" alt="">
                 <div class="item_title">
-                    <h1 class="title">{{ filmShow.title }}</h1>
-                    <p class="tagline">{{ filmShow.tagline }}</p>
+                    <h1 class="title">{{ showDetails.title }}</h1>
+                    <p class="tagline">{{ showDetails.tagline }}</p>
                 </div>
                 <div class="overlay"></div>
                 <div class="buttons">
@@ -28,20 +28,22 @@
             <div class="item_content">
                 <div class="info_content-left">
                     <div class="date_duration">
-                        <p>{{ filmShow.date }}</p>
-                        <p>{{ filmShow.duration }} min</p>
+                        <p>{{ showDetails.date }}</p>
+                        <p>{{ showDetails.duration }}
+                            <span v-if="showDetails.duration">min</span>
+                        </p>
                         <div class="hd_box">HD</div>
                     </div>
 
                     <div class="description">
-                        <p>{{ filmShow.description }}</p>
+                        <p>{{ showDetails.description }}</p>
                     </div>
 
                 </div>
                 <div class="info_content-right">
                     <ul class="genres">
                         Generi:
-                        <li v-for="genre in filmShow.genres">{{ genre.name }}</li>
+                        <li v-for="genre in showDetails.genres">{{ genre.name }}</li>
                     </ul>
                 </div>
 
@@ -63,46 +65,56 @@ export default {
         id: {
             type: String,
             required: true
+        },
+        type: {
+            type: String,
+            required: true
         }
+
     },
     data() {
         return {
             store,
-            filmShow: {},
-            serieShow: {},
+            showDetails: {},
             apiKey: store.api_key,
             defaultImg: '/img/default-img.jpg',
         }
     },
     methods: {
-        fetchFilm() {
+        fetchDetails() {
+            const url = this.type === 'film'
+                ? `https://api.themoviedb.org/3/movie/${this.id}?api_key=${this.apiKey}&language=it_IT`
+                : `https://api.themoviedb.org/3/tv/${this.id}?api_key=${this.apiKey}&language=it_IT`;
+
             axios
-                .get(`https://api.themoviedb.org/3/movie/${this.id}${this.apiKey}`)
+                .get(url)
                 .then((res) => {
-                    const curr = res.data
-                    console.log(curr)
-                    this.filmShow = {
-                        title: curr.title,
-                        date: curr.release_date,
-                        duration: curr.runtime,
+                    const curr = res.data;
+                    this.showDetails = {
+                        title: this.type === 'film' ? curr.title : curr.name,
+                        date: this.type === 'film' ? curr.release_date : curr.first_air_date,
+                        duration: this.type === 'film' ? curr.runtime : '',
                         genres: curr.genres,
                         vote: curr.vote_average,
-                        tagline: curr.tagline,
+                        tagline: this.type === 'film' ? curr.tagline : '',
                         description: curr.overview,
                         imgFront: curr.poster_path,
                         imgBack: curr.backdrop_path,
-                        imagesCollection: curr.belongs_to_collection
-                    }
-                    console.log(this.filmShow)
+                    };
+                    this.loading = false;
                 })
+                .catch((err) => {
+                    console.error(err);
+                    this.loading = false;
+                });
         },
         imgBackSrcControll() {
             const basePath = store.imgBaseUrl_bg;
-            return this.filmShow.imgBack === null ? this.defaultImg : basePath + this.filmShow.imgBack;
+            return this.showDetails.imgBack === null ? this.defaultImg : basePath + this.showDetails.imgBack;
         },
     },
     created() {
-        this.fetchFilm()
+        this.fetchDetails()
     }
 }
 </script>

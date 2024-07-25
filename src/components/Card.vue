@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="{name: 'show', params: {id: item.id}}">
+    <router-link :to="{name: 'show', params: {id: item.id, type: type}}">
         <div class="card">
             <img class="card_img":src="imgFrontSrcControll()" alt="" />
         </div>
@@ -13,6 +13,10 @@ export default {
     props: {
         item: {
             type: Object,
+            required: true
+        },
+        type: {
+            type: String,
             required: true
         }
     },
@@ -38,9 +42,6 @@ export default {
             };
             return availableLang[language];
         },
-        countryFlag(string) {
-            return `public/img/${string}.png`;
-        },
         imgFrontSrcControll() {
             const basePath = store.imgBaseUrl;
             return this.item.imgFront === null ? this.defaultImg : basePath + this.item.imgFront;
@@ -48,12 +49,6 @@ export default {
         imgBackSrcControll() {
             const basePath = store.imgBaseUrl;
             return this.item.imgBack === null ? this.defaultImg : basePath + this.item.imgBack;
-        },
-        descriptionSlice(maxLength) {
-            if (this.item.description.length > maxLength) {
-                return this.item.description.slice(0, maxLength).trimEnd() + '...';
-            }
-            return this.item.description;
         }
     },
     computed: {

@@ -10,7 +10,7 @@ const routes = [
     component: HomeView,
   },
   {
-    path: "/:id",
+    path: "/:type/:id",
     name: 'show',
     props: true,
     component: ShowItem,

@@ -6,7 +6,7 @@
             <div class="cards">
                 <Swiper>
                     <SwiperSlide v-for="film in films" :key="film.id">
-                        <Card :item="film"></Card>
+                        <Card :item="film" :type="itemType.film"></Card>
                     </SwiperSlide>
                 </Swiper>
             </div>
@@ -14,7 +14,7 @@
             <div class="cards">
                 <Swiper>
                     <SwiperSlide v-for="serie in series" :key="serie.id">
-                        <Card :item="serie"></Card>
+                        <Card :item="serie" :type="itemType.serie"></Card>
                     </SwiperSlide>
                 </Swiper>
             </div>
@@ -52,32 +52,13 @@ export default {
     },
     data() {
         return {
-            store
+            store,
+            itemType: {
+                film: 'film',
+                serie: 'serie'
+            }
         }
-    },
-    // computed: {
-    //     transformedFilms() {
-    //         // mappo i voti trasformandoli di scala da 1 a 10 -> 1 a 5 arrotondati per eccesso se >= 0.5, per difetto se < 0.5 (es. 2.4 = 2)
-    //         return this.store.films.map(film => {
-    //             return {
-    //                 ...film,
-    //                 vote: Math.round(film.vote / 2)
-    //             };
-    //         });
-    //     },
-    //     transformedSeries() {
-    //         // mappo i voti trasformandoli di scala da 1 a 10 -> 1 a 5 arrotondati per eccesso se >= 0.5, per difetto se < 0.5 (es. 2.4 = 2)
-    //         return this.store.series.map(serie => {
-    //             return {
-    //                 ...serie,
-    //                 vote: Math.round(serie.vote / 2)
-    //             };
-    //         });
-    //     }
-    // },
-    // updated() {
-    //     // console.log(this.transformedFilms);
-    // }
+    }
 }
 </script>
 

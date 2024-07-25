@@ -11,5 +11,5 @@ export const store = reactive({
   // array dei films e delle serie nei quali verrano mappati i risulati cercati tramite la barra di ricerca
   films: [],
   series: [],
-  api_key: '?api_key=923fd129639cf98cbea32d9013dacbfd&language=it_IT'
+  api_key: '923fd129639cf98cbea32d9013dacbfd'
 });
