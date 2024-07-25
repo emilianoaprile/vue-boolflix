@@ -1,6 +1,11 @@
 <template>
     <Header @searchFilms="fetchFilms" @searchSeries="fetchSeries"></Header>
-    <Main :loadingMain="loading" :films="filteredFilms" :series="filteredSeries"></Main>
+    <Main 
+        :loadingMain="loading" 
+        :films="filteredFilms" 
+        :series="filteredSeries"
+        :noResults="noResults">
+    </Main>
 </template>
 
 <script>
@@ -18,7 +23,8 @@ export default {
             store,
             filmsMapped: [],
             seriesMapped: [],
-            loading: false
+            loading: false,
+            searchMode: false
         }
     },
     methods: {
@@ -95,14 +101,20 @@ export default {
             return this.seriesMapped.filter(serie =>
                 serie.title.toLowerCase().includes(store.searchInput.toLowerCase())
             );
+        },
+        noResults() {
+            return this.searchMode && this.filteredFilms.length === 0 && this.filteredSeries.length === 0
         }
 
     },
     watch: {
         'store.searchInput' : function(value) {
             if(value){
+                this.searchMode = true
                 this.fetchFilms()
                 this.fetchSeries()
+            } else {
+                this.searchMode = false
             }
         }
     },

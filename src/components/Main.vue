@@ -1,22 +1,38 @@
 <template>
     <Loader v-if="loadingMain" class="loader"></Loader>
     <main v-else class="main_content">
-        <div v-if="store.films.length > 0 || store.series > 0" class="main_wrapper">
-            <h1 class="main_content-title">Films</h1>
-            <div class="cards">
-                <Swiper>
-                    <SwiperSlide v-for="film in films" :key="film.id">
-                        <Card :item="film" :type="itemType.film"></Card>
-                    </SwiperSlide>
-                </Swiper>
+        <div v-if="noResults" class="no_results">
+            <div class="no_results-content">
+                <h2>Nessun risultato per la tua ricerca</h2>
+                <p>Suggerimenti:</p>
+                <ul class="advice_list">
+                    <li>- Prova con parole chiave diverse</li>
+                    <li>- Cerchi un film o un serie TV?</li>
+                    <li>- Prova a usare il titolo di un film o serie TV oppure il nome di un attore</li>
+                    <li>- Prova con un genere, per esempio Commedia, Romantici, Sport o Dramma</li>
+                </ul>
             </div>
-            <h1 class="main_content-title">Series</h1>
-            <div class="cards">
-                <Swiper>
-                    <SwiperSlide v-for="serie in series" :key="serie.id">
-                        <Card :item="serie" :type="itemType.serie"></Card>
-                    </SwiperSlide>
-                </Swiper>
+        </div>
+        <div v-else class="main_wrapper">
+            <div v-if="films.length > 0">
+                <h1 class="main_content-title">Films</h1>
+                <div class="cards">
+                    <Swiper>
+                        <SwiperSlide v-for="film in films" :key="film.id">
+                            <Card :item="film" type="film"></Card>
+                        </SwiperSlide>
+                    </Swiper>
+                </div>
+            </div>
+            <div v-if="series.length > 0">
+                <h1 class="main_content-title">Series</h1>
+                <div class="cards">
+                    <Swiper>
+                        <SwiperSlide v-for="serie in series" :key="serie.id">
+                            <Card :item="serie" type="serie"></Card>
+                        </SwiperSlide>
+                    </Swiper>
+                </div>
             </div>
         </div>
     </main>
@@ -41,6 +57,10 @@ export default {
         },
         series: {
             type: Array,
+            required: true
+        },
+        noResults: {
+            type: Boolean,
             required: true
         }
     },
@@ -79,9 +99,26 @@ export default {
         text-transform: uppercase;
         color: white;
     }
+
+    .no_results {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 100px;
+        .no_results-content {
+            font-size: 12px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .advice_list > li {
+            margin-top: 5px;
+        }
+    }
 }
 
-.isNotSearch > h1 {
+.isNotSearch>h1 {
     color: white;
     text-align: center;
     margin-top: 300px;
