@@ -9,8 +9,19 @@ export const store = reactive({
   imgBaseUrl_bg: "http://image.tmdb.org/t/p/w1280/",
   searchInput: "",
   showCards: true,
-  // array dei films e delle serie nei quali verrano mappati i risulati cercati tramite la barra di ricerca
   films: [],
   series: [],
-  api_key: '923fd129639cf98cbea32d9013dacbfd'
-});
+  api_key: "923fd129639cf98cbea32d9013dacbfd",
+  myList: [],
+  addToMyList(item) {
+    let exists = false;
+    this.myList.forEach((el) => {
+      if (el.id === item.id) {
+        exists = true
+      }
+    });
+    if (!exists) {
+      this.myList.push(item)
+    }
+  }
+})

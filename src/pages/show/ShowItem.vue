@@ -14,7 +14,7 @@
                         <font-awesome-icon class="play_icon" :icon="['fas', 'play']" />
                         <span>Riproduci</span>
                     </button>
-                    <button class="btn_round btn_addlist">
+                    <button @click="addToMyList" class="btn_round btn_addlist">
                         <font-awesome-icon :icon="['fas', 'plus']" />
                     </button>
                     <button class="btn_round btn_like">
@@ -36,14 +36,12 @@
                         <p>{{ showDetails.description }}</p>
                     </div>
 
-                    <div class="vote btn_round-item"
-                        :class="
-                        { 
-                         top: ratingColors.green,
-                         mid: ratingColors.yellow, 
-                         low: ratingColors.orange, 
-                         bad: ratingColors.red 
-                        }">
+                    <div class="vote btn_round-item" :class="{
+                    top: ratingColors.green,
+                    mid: ratingColors.yellow,
+                    low: ratingColors.orange,
+                    bad: ratingColors.red
+                }">
                         {{ rating }}
                         <span class="percentage">%</span>
                     </div>
@@ -108,6 +106,7 @@ export default {
                 .then((res) => {
                     const curr = res.data;
                     this.showDetails = {
+                        id: curr.id,
                         title: this.type === 'film' ? curr.title : curr.name,
                         date: this.type === 'film' ? curr.release_date : curr.first_air_date,
                         duration: this.type === 'film' ? curr.runtime : '',
@@ -119,6 +118,7 @@ export default {
                         imgBack: curr.backdrop_path,
                     };
                     this.loading = false;
+                    console.log(this.showDetails)
                     this.generateRating()
                 })
                 .catch((err) => {
@@ -145,10 +145,14 @@ export default {
                 this.ratingColors.red = true
             }
             return this.rating
+        },
+        addToMyList() {
+            store.addToMyList(this.showDetails)
         }
     },
     created() {
         this.fetchDetails()
+        console.log(store.myList)
     }
 }
 </script>
@@ -223,7 +227,7 @@ export default {
             }
         }
 
-        
+
     }
 }
 
@@ -231,7 +235,7 @@ export default {
 .item_content {
     display: flex;
     justify-content: space-between;
-    padding: 0 60px;
+    padding: 30px 60px;
     color: white;
 }
 
@@ -243,53 +247,53 @@ export default {
     position: relative;
 
     .vote {
-            font-size: 18px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 700;
-            display: flex;
-            position: absolute;
-            top: 0;
-            right: 30px;
+        font-size: 18px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 700;
+        display: flex;
+        position: absolute;
+        top: 0;
+        right: 30px;
 
-            .percentage {
-                font-size: 11px;
-                align-self: flex-start;
-                margin-top: 3px;
-            }
+        .percentage {
+            font-size: 11px;
+            align-self: flex-start;
+            margin-top: 3px;
         }
+    }
 
-        .btn_round-item {
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: rgba(42, 42, 42, 0.6);
-            cursor: pointer;
-            padding: 0.8rem;
-            user-select: none;
-            border-radius: 50%;
-            color: white;
+    .btn_round-item {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(42, 42, 42, 0.6);
+        cursor: pointer;
+        padding: 0.8rem;
+        user-select: none;
+        border-radius: 50%;
+        color: white;
 
-        }
+    }
 
-        .top {
-            border: 2px solid rgba(60, 255, 30, 0.6);
-        }
+    .top {
+        border: 2px solid rgba(60, 255, 30, 0.6);
+    }
 
-        .mid {
-            border: 2px solid rgba(255, 244, 30, 0.6);
-        }
+    .mid {
+        border: 2px solid rgba(255, 244, 30, 0.6);
+    }
 
-        .low {
-            border: 2px solid rgba(255, 165, 30, 0.6);
-        }
+    .low {
+        border: 2px solid rgba(255, 165, 30, 0.6);
+    }
 
-        .bad {
-            border: 2px solid rgba(255, 30, 30, 0.6);
-        }
+    .bad {
+        border: 2px solid rgba(255, 30, 30, 0.6);
+    }
 }
 
 .info_content-right {
