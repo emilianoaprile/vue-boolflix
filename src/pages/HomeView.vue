@@ -95,17 +95,16 @@ export default {
         filteredFilms() {
             return this.filmsMapped.filter(film =>
                 film.title.toLowerCase().includes(store.searchInput.toLowerCase())
-            );
+            )
         },  
         filteredSeries() {
             return this.seriesMapped.filter(serie =>
                 serie.title.toLowerCase().includes(store.searchInput.toLowerCase())
-            );
+            )
         },
         noResults() {
             return this.searchMode && this.filteredFilms.length === 0 && this.filteredSeries.length === 0
         }
-
     },
     watch: {
         'store.searchInput' : function(value) {

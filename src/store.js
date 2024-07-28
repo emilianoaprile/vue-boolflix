@@ -8,6 +8,7 @@ export const store = reactive({
   imgBaseUrl: "http://image.tmdb.org/t/p/w300/",
   imgBaseUrl_bg: "http://image.tmdb.org/t/p/w1280/",
   searchInput: "",
+  showCards: true,
   // array dei films e delle serie nei quali verrano mappati i risulati cercati tramite la barra di ricerca
   films: [],
   series: [],

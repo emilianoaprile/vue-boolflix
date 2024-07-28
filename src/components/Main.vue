@@ -1,45 +1,48 @@
 <template>
     <Loader v-if="loadingMain" class="loader"></Loader>
     <main v-else class="main_content">
-        <div v-if="noResults" class="no_results">
-            <div class="no_results-content">
-                <h2>Nessun risultato per la tua ricerca</h2>
-                <p>Suggerimenti:</p>
-                <ul class="advice_list">
-                    <li>- Prova con parole chiave diverse</li>
-                    <li>- Cerchi un film o un serie TV?</li>
-                    <li>- Prova a usare il titolo di un film o serie TV oppure il nome di un attore</li>
-                    <li>- Prova con un genere, per esempio Commedia, Romantici, Sport o Dramma</li>
-                </ul>
-            </div>
-        </div>
-        <div v-else class="main_wrapper">
-            <div v-if="films.length > 0">
-                <h1 class="main_content-title">Films</h1>
-                <div class="cards">
-                    <Swiper>
-                        <SwiperSlide v-for="film in films" :key="film.id">
-                            <Card :item="film" type="film"></Card>
-                        </SwiperSlide>
-                    </Swiper>
+        <div v-if="renderCards" class="main_wrapper">
+            <div v-if="noResults" class="no_results">
+                <div class="no_results-content">
+                    <h2>Nessun risultato per la tua ricerca</h2>
+                    <p>Suggerimenti:</p>
+                    <ul class="advice_list">
+                        <li>- Prova con parole chiave diverse</li>
+                        <li>- Cerchi un film o un serie TV?</li>
+                        <li>- Prova a usare il titolo di un film o serie TV oppure il nome di un attore</li>
+                        <li>- Prova con un genere, per esempio Commedia, Romantici, Sport o Dramma</li>
+                    </ul>
                 </div>
             </div>
-            <div v-if="series.length > 0">
-                <h1 class="main_content-title">Series</h1>
-                <div class="cards">
-                    <Swiper>
-                        <SwiperSlide v-for="serie in series" :key="serie.id">
-                            <Card :item="serie" type="serie"></Card>
-                        </SwiperSlide>
-                    </Swiper>
+            <div v-else class="main_wrapper">
+                <div v-if="films.length > 0">
+                    <h1 class="main_content-title">Films</h1>
+                    <div class="cards">
+                        <Swiper>
+                            <SwiperSlide v-for="film in films" :key="film.id">
+                                <Card :item="film" type="film"></Card>
+                            </SwiperSlide>
+                        </Swiper>
+                    </div>
+                </div>
+                <div v-if="series.length > 0">
+                    <h1 class="main_content-title">Series</h1>
+                    <div class="cards">
+                        <Swiper>
+                            <SwiperSlide v-for="serie in series" :key="serie.id">
+                                <Card :item="serie" type="serie"></Card>
+                            </SwiperSlide>
+                        </Swiper>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 </template>
 
+
 <script>
-import { store } from '../store.js'
+import { store } from '../store.js';
 import Card from './Card.vue';
 import Swiper from './Swiper.vue';
 import { SwiperSlide } from 'swiper/vue';
@@ -77,10 +80,22 @@ export default {
                 film: 'film',
                 serie: 'serie'
             }
+        };
+    },
+    computed: {
+        renderCards() {
+            return this.store.searchInput.length > 0 && this.store.showCards
+        }
+    },
+    watch: {
+        'store.searchInput'(value) {
+            this.store.showCards = value.length > 0
         }
     }
 }
 </script>
+
+
 
 <style lang="scss" scoped>
 @use '../styles/partials/variables' as *;
