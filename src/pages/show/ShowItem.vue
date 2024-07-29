@@ -14,9 +14,13 @@
                         <font-awesome-icon class="play_icon" :icon="['fas', 'play']" />
                         <span>Riproduci</span>
                     </button>
-                    <button @click="addToMyList" class="btn_round btn_addlist">
+                    <button v-if="isIntoList" @click="removeFromMyList" class="btn_round btn_addlist">
+                        <font-awesome-icon :icon="['fas', 'check']" />
+                    </button>
+                    <button v-else="isIntoList" @click="addToMyList" class="btn_round btn_addlist">
                         <font-awesome-icon :icon="['fas', 'plus']" />
                     </button>
+
                     <button class="btn_round btn_like">
                         <font-awesome-icon :icon="['far', 'thumbs-up']" />
                     </button>
@@ -91,7 +95,8 @@ export default {
                 yellow: false,
                 orange: false,
                 red: false
-            }
+            },
+            isIntoList: false,
 
         }
     },
@@ -120,6 +125,8 @@ export default {
                     this.loading = false;
                     console.log(this.showDetails)
                     this.generateRating()
+                    this.checkIfIntoList()
+
                 })
                 .catch((err) => {
                     console.error(err);
@@ -148,11 +155,18 @@ export default {
         },
         addToMyList() {
             store.addToMyList(this.showDetails)
+            this.isIntoList = true
+        },
+        removeFromMyList() {
+            store.removeFromMyList(this.showDetails)
+            this.isIntoList = false
+        },
+        checkIfIntoList() {
+            this.isIntoList = store.myList.find(item => item.id === this.showDetails.id);
         }
     },
     created() {
         this.fetchDetails()
-        console.log(store.myList)
     }
 }
 </script>

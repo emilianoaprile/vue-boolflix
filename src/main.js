@@ -13,7 +13,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { 
     faStar as fasStar,
     faPlay,
-    faPlus
+    faPlus,
+    faCheck
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -24,7 +25,7 @@ import {
 
 /* add icons to the library */
 library
-.add(farStar, fasStar, faPlay, faPlus, faThumbsUp)
+.add(farStar, fasStar, faPlay, faPlus, faThumbsUp, faCheck)
 
 createApp(App)
 .use(router)

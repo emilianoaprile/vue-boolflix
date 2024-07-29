@@ -1,5 +1,13 @@
 import { reactive } from "vue";
 
+const loadFromLocalStorage = () => {
+  const data = localStorage.getItem('myList')
+  if(data) {
+    return JSON.parse(data)
+  }
+  return []
+}
+
 export const store = reactive({
   API_URL_MOVIES:
     "https://api.themoviedb.org/3/search/movie?api_key=923fd129639cf98cbea32d9013dacbfd&language=it_IT",
@@ -12,7 +20,8 @@ export const store = reactive({
   films: [],
   series: [],
   api_key: "923fd129639cf98cbea32d9013dacbfd",
-  myList: [],
+  myList: loadFromLocalStorage(),
+
   addToMyList(item) {
     let exists = false;
     this.myList.forEach((el) => {
@@ -22,6 +31,11 @@ export const store = reactive({
     });
     if (!exists) {
       this.myList.push(item)
+      localStorage.setItem('myList', JSON.stringify(this.myList))
     }
+  },
+  removeFromMyList(item) {
+    this.myList = this.myList.filter(el => el.id !== item.id)
+    localStorage.setItem('myList', JSON.stringify(this.myList))
   }
 })
