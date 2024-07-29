@@ -10,15 +10,17 @@ const loadFromLocalStorage = () => {
 
 export const store = reactive({
   API_URL_MOVIES:
-    "https://api.themoviedb.org/3/search/movie?api_key=923fd129639cf98cbea32d9013dacbfd&language=it_IT",
+    "https://api.themoviedb.org/3/search/movie?api_key=923fd129639cf98cbea32d9013dacbfd&language=it-IT",
   API_URL_SERIES:
-    "https://api.themoviedb.org/3/search/tv?api_key=923fd129639cf98cbea32d9013dacbfd&language=it_IT",
+    "https://api.themoviedb.org/3/search/tv?api_key=923fd129639cf98cbea32d9013dacbfd&language=it-IT",
   imgBaseUrl: "http://image.tmdb.org/t/p/w300/",
   imgBaseUrl_bg: "http://image.tmdb.org/t/p/w1280/",
   searchInput: "",
   showCards: true,
   films: [],
   series: [],
+  popularMovies: [],
+  popularSeries: [],
   api_key: "923fd129639cf98cbea32d9013dacbfd",
   myList: loadFromLocalStorage(),
 
