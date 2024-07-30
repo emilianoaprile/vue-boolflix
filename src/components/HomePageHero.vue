@@ -5,7 +5,6 @@
                 <img :src="imgBackSrcControll()" class="jumbo_img" alt="Movie Image">
                 <div class="item_title">
                     <h1 class="title">{{ randomMovie.title }}</h1>
-                    <p class="tagline">{{ randomMovie.description }}</p>
                 </div>
                 <div class="overlay"></div>
                 <div class="buttons">
@@ -76,7 +75,6 @@ export default {
 
 
 <style lang="scss" scoped>
-
 .show_wrapper {
     display: grid;
     grid-template-rows: auto 1fr;
@@ -89,7 +87,7 @@ export default {
     img {
         width: 100%;
         height: auto;
-        max-height: 85vh;
+        max-height: 100vh;
         opacity: 0.45;
     }
 
@@ -98,21 +96,18 @@ export default {
         bottom: 40%;
         left: 60px;
         border-radius: 30px;
-        max-width: 45%;
+        max-width: 35%;
+
 
         .title {
-            font-size: 38px;
+            font-size: 48px;
             color: white;
             text-transform: uppercase;
             padding-bottom: 20px;
-
-        }
-
-        .tagline {
-            border-radius: 30px;
-            color: white;
+            font-family: "Cormorant Garamond", serif;
             font-weight: 700;
-            font-size: 18px
+            font-style: normal;
+
         }
     }
 
@@ -129,7 +124,7 @@ export default {
     .buttons {
 
         position: absolute;
-        bottom: 20%;
+        bottom: 30%;
         left: 60px;
         width: 40%;
         display: flex;
@@ -149,5 +144,4 @@ export default {
 
     }
 }
-
 </style>

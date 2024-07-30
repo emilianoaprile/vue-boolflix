@@ -1,9 +1,12 @@
 <template>
-    <Header @searchFilms="fetchFilms" @searchSeries="fetchSeries"></Header>
-    <HomePageHero :popularMovies="popularMoviesMap"></HomePageHero>
-    <Main :loadingMain="loading" :films="filteredFilms" :series="filteredSeries" :noResults="noResults">
-    </Main>
+    <div class="home_view">
+        <Header class="header" :class="{ scrolled: scrolled}" @searchFilms="fetchFilms" @searchSeries="fetchSeries"></Header>
+        <HomePageHero :popularMovies="popularMoviesMap"></HomePageHero>
+        <Main :loadingMain="loading" :films="filteredFilms" :series="filteredSeries" :noResults="noResults"></Main>
+    </div>
 </template>
+
+
 
 <script>
 import Header from '../components/Header.vue';
@@ -25,7 +28,8 @@ export default {
             popularMoviesMap: [],
             popularSeriesMap: [],
             loading: false,
-            searchMode: false
+            searchMode: false,
+            scrolled: false
         }
     },
     methods: {
@@ -106,12 +110,15 @@ export default {
                         vote: curr.vote_average
                     }))
                     store.popularMovies = this.popularMoviesMap
-                    console.log('popular movies store:',store.popularMovies)
+                    console.log('popular movies store:', store.popularMovies)
 
                 })
                 .catch(err => {
                     console.log(err)
                 })
+        },
+        isScrolled() {
+            this.scrolled = window.scrollY > 0
         }
     },
     computed: {
@@ -144,8 +151,30 @@ export default {
         this.fetchFilms(false)
         this.fetchSeries(false)
         this.fetchPopularMovies()
-    }
+        window.addEventListener('scroll', this.isScrolled)
+        console.log(window)
+    },
+    beforeDestroy() {
+        window.removeEventListener('scroll', this.isScrolled)
+    },
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.home_view {
+    position: relative; 
+
+    .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        transition: background-color 0.3s ease;
+    }
+
+    .header.scrolled {
+        background-color: rgb(20, 20, 20);
+    }
+}
+</style>
