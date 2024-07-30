@@ -12,8 +12,11 @@
                         <font-awesome-icon class="play_icon" :icon="['fas', 'play']" />
                         <span>Riproduci</span>
                     </button>
-                    <button class="btn">
-                        Altre info
+                    <button class="btn btn_info">
+                        <div class="circle">
+                            <font-awesome-icon class="info_icon" :icon="['fas', 'info']" />
+                        </div>
+                        <span>Altre info</span>
                     </button>
                 </div>
             </div>
@@ -130,15 +133,49 @@ export default {
         display: flex;
         gap: 20px;
 
-        .btn_play {
+        .btn_play,
+        .btn_info {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 10px;
 
+
             .play_icon {
                 font-size: 25px;
             }
+
+            .info_icon {
+                font-size: 16px;
+            }
+        }
+
+        .btn_info:hover {
+
+
+            .circle {
+                border: 2px solid white;
+                border-radius: 50%;
+                width: 25px;
+                height: 25px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+            }
+
+        }
+
+        .circle {
+            border: 2px solid black;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.1s;
+
         }
 
 

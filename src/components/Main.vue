@@ -102,7 +102,7 @@ export default {
 @use '../styles/partials/mixins' as *;
 
 .main_content {
-    padding: 30px 60px;
+    padding: 120px 60px;
     position: relative;
 
     .cards {
@@ -113,6 +113,7 @@ export default {
     .main_content-title {
         text-transform: uppercase;
         color: white;
+        font-size: 13.5px;
     }
 
     .no_results {

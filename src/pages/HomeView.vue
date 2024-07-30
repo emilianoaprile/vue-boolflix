@@ -1,7 +1,7 @@
 <template>
     <div class="home_view">
         <Header class="header" :class="{ scrolled: scrolled}" @searchFilms="fetchFilms" @searchSeries="fetchSeries"></Header>
-        <HomePageHero :popularMovies="popularMoviesMap"></HomePageHero>
+        <HomePageHero v-if="showHero && store.searchInput.length === 0" :popularMovies="popularMoviesMap"></HomePageHero>
         <Main :loadingMain="loading" :films="filteredFilms" :series="filteredSeries" :noResults="noResults"></Main>
     </div>
 </template>
@@ -29,7 +29,8 @@ export default {
             popularSeriesMap: [],
             loading: false,
             searchMode: false,
-            scrolled: false
+            scrolled: false,
+            showHero: true
         }
     },
     methods: {
@@ -134,16 +135,18 @@ export default {
         },
         noResults() {
             return this.searchMode && this.filteredFilms.length === 0 && this.filteredSeries.length === 0
-        }
+        },
     },
     watch: {
         'store.searchInput': function (value) {
             if (value) {
                 this.searchMode = true
+                this.showHero = false
                 this.fetchFilms()
                 this.fetchSeries()
             } else {
                 this.searchMode = false
+                this.showHero = true
             }
         }
     },
@@ -152,7 +155,6 @@ export default {
         this.fetchSeries(false)
         this.fetchPopularMovies()
         window.addEventListener('scroll', this.isScrolled)
-        console.log(window)
     },
     beforeDestroy() {
         window.removeEventListener('scroll', this.isScrolled)
@@ -162,7 +164,6 @@ export default {
 
 <style lang="scss" scoped>
 .home_view {
-    position: relative; 
 
     .header {
         position: fixed;
