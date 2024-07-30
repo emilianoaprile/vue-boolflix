@@ -1,7 +1,7 @@
 <template>
     <div class="home_view">
         <Header class="header" :class="{ scrolled: scrolled}" @searchFilms="fetchFilms" @searchSeries="fetchSeries"></Header>
-        <HomePageHero v-if="showHero && store.searchInput.length === 0" :popularMovies="popularMoviesMap"></HomePageHero>
+        <HomePageHero v-if="showHero && store.searchInput.length === 0" :popularMovies="popularMoviesMap" :type="'film'"></HomePageHero>
         <Main :loadingMain="loading" :films="filteredFilms" :series="filteredSeries" :noResults="noResults"></Main>
     </div>
 </template>

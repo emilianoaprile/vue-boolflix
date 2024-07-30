@@ -12,12 +12,14 @@
                         <font-awesome-icon class="play_icon" :icon="['fas', 'play']" />
                         <span>Riproduci</span>
                     </button>
-                    <button class="btn btn_info">
-                        <div class="circle">
-                            <font-awesome-icon class="info_icon" :icon="['fas', 'info']" />
-                        </div>
-                        <span>Altre info</span>
-                    </button>
+                    <router-link :to="{name: 'show', params: {id: popularMovies[randomIndex].id, type: type}}">
+                        <button class="btn btn_info">
+                            <div class="circle">
+                                <font-awesome-icon class="info_icon" :icon="['fas', 'info']" />
+                            </div>
+                            <span>Altre info</span>
+                        </button>
+                    </router-link>
                 </div>
             </div>
         </div>
@@ -32,6 +34,10 @@ export default {
     props: {
         popularMovies: {
             type: Array,
+            required: true
+        },
+        type: {
+            type: String,
             required: true
         }
     },
