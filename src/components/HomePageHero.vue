@@ -12,7 +12,7 @@
                         <font-awesome-icon class="play_icon" :icon="['fas', 'play']" />
                         <span>Riproduci</span>
                     </button>
-                    <router-link :to="{name: 'show', params: {id: popularMovies[randomIndex].id, type: type}}">
+                    <router-link :to="{ name: 'show', params: { id: popularMovies[randomIndex].id, type: type } }">
                         <button class="btn btn_info">
                             <div class="circle">
                                 <font-awesome-icon class="info_icon" :icon="['fas', 'info']" />
@@ -24,13 +24,31 @@
             </div>
         </div>
     </section>
+    <div class="myList_slider" v-if="store.myList.length > 0">
+        <h1 class="main_content-title">La mia lista</h1>
+        <div class="cards">
+            <Swiper>
+                <SwiperSlide v-for="listItem in store.myList" :key="listItem.id">
+                    <Card :item="listItem" :type="listItem.type"></Card>
+                </SwiperSlide>
+            </Swiper>
+        </div>
+    </div>
 </template>
 
 
 <script>
-import { store } from '../store'
+import { store } from '../store';
+import Card from './Card.vue';
+import Swiper from './Swiper.vue';
+import { SwiperSlide } from 'swiper/vue';
 
 export default {
+    components: {
+        Card,
+        Swiper,
+        SwiperSlide
+    },
     props: {
         popularMovies: {
             type: Array,
@@ -84,6 +102,35 @@ export default {
 
 
 <style lang="scss" scoped>
+.section_show {
+    position: relative; 
+    z-index: 1; 
+}
+
+.myList_slider {
+    position: absolute;
+    top: 80%; 
+    left: 0;
+    width: 100%;
+    z-index: 2; 
+    background: transparent;
+    padding: 20px 0;
+    box-sizing: border-box; 
+    padding: 0 60px;
+}
+
+.cards {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.main_content-title {
+    text-transform: uppercase;
+    color: white;
+    font-size: 13.5px;
+}
+
+
 .show_wrapper {
     display: grid;
     grid-template-rows: auto 1fr;
@@ -107,7 +154,6 @@ export default {
         border-radius: 30px;
         max-width: 35%;
 
-
         .title {
             font-size: 48px;
             color: white;
@@ -116,7 +162,6 @@ export default {
             font-family: "Cormorant Garamond", serif;
             font-weight: 700;
             font-style: normal;
-
         }
     }
 
@@ -126,12 +171,11 @@ export default {
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(0deg, #181818, transparent 50%);
+        background: linear-gradient(0deg, #141414, transparent 50%);
         pointer-events: none;
     }
 
     .buttons {
-
         position: absolute;
         bottom: 30%;
         left: 60px;
@@ -146,7 +190,6 @@ export default {
             align-items: center;
             gap: 10px;
 
-
             .play_icon {
                 font-size: 25px;
             }
@@ -157,8 +200,6 @@ export default {
         }
 
         .btn_info:hover {
-
-
             .circle {
                 border: 2px solid white;
                 border-radius: 50%;
@@ -167,9 +208,7 @@ export default {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-
             }
-
         }
 
         .circle {
@@ -181,10 +220,7 @@ export default {
             justify-content: center;
             align-items: center;
             transition: 0.1s;
-
         }
-
-
     }
 }
 </style>

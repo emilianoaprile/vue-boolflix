@@ -35,16 +35,6 @@
                         </Swiper>
                     </div>
                 </div>
-                <div v-if="store.myList.length > 0">
-                    <h1 class="main_content-title">La mia lista</h1>
-                    <div class="cards">
-                        <Swiper>
-                            <SwiperSlide v-for="listItem in store.myList" :key="listItem.id">
-                                <Card :item="listItem" :type="listItem.type"></Card>
-                            </SwiperSlide>
-                        </Swiper>
-                    </div>
-                </div>
             </div>
         </div>
     </main>
@@ -136,6 +126,7 @@ export default {
         justify-content: center;
         align-items: center;
         margin-top: 100px;
+
         .no_results-content {
             font-size: 12px;
             color: white;
@@ -143,7 +134,8 @@ export default {
             flex-direction: column;
             gap: 10px;
         }
-        .advice_list > li {
+
+        .advice_list>li {
             margin-top: 5px;
         }
     }
