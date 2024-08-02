@@ -20,7 +20,7 @@
                     <div class="cards">
                         <Swiper>
                             <SwiperSlide v-for="film in films" :key="film.id">
-                                <Card :item="film" type="film"></Card>
+                                <Card :item="film" :type="film.type"></Card>
                             </SwiperSlide>
                         </Swiper>
                     </div>
@@ -30,7 +30,17 @@
                     <div class="cards">
                         <Swiper>
                             <SwiperSlide v-for="serie in series" :key="serie.id">
-                                <Card :item="serie" type="serie"></Card>
+                                <Card :item="serie" :type="serie.type"></Card>
+                            </SwiperSlide>
+                        </Swiper>
+                    </div>
+                </div>
+                <div v-if="store.myList.length > 0">
+                    <h1 class="main_content-title">La mia lista</h1>
+                    <div class="cards">
+                        <Swiper>
+                            <SwiperSlide v-for="listItem in store.myList" :key="listItem.id">
+                                <Card :item="listItem" :type="listItem.type"></Card>
                             </SwiperSlide>
                         </Swiper>
                     </div>
@@ -91,8 +101,13 @@ export default {
         'store.searchInput'(value) {
             this.store.showCards = value.length > 0
         }
+    },
+    created() {
+        console.log('store my list', store.myList)
+        console.log(this.films)
     }
 }
+
 </script>
 
 

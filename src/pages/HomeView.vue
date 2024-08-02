@@ -57,9 +57,9 @@ export default {
                         vote: curr.vote_average
                     }))
                     // assegno il valore dell'array mappato a quello dello store
-                    store.films = this.filmsMap
+                    store.films = this.filmsMap.map(curr => ({...curr, type: 'film'}))
                     this.loading = false
-                    // console.log('Array films Map:', store.films)
+                    console.log('Array films Map:', store.films)
                 })
                 .catch(err => {
                     console.error(err)
@@ -88,9 +88,9 @@ export default {
                         vote: curr.vote_average
                     }))
                     // assegno il valore dell'array mappato a quello dello store
-                    store.series = this.seriesMap
+                    store.series = this.seriesMap.map(curr => ({...curr, type: 'serie'}))
                     this.loading = false
-                    // console.log('Array series Map:', store.series)
+                    console.log('Array series Map:', store.series)
                 })
                 .catch(err => {
                     console.error(err)
@@ -124,12 +124,12 @@ export default {
     },
     computed: {
         filteredFilms() {
-            return this.filmsMap.filter(film =>
+            return this.store.films.filter(film =>
                 film.title.toLowerCase().includes(store.searchInput.toLowerCase())
             )
         },
         filteredSeries() {
-            return this.seriesMap.filter(serie =>
+            return this.store.series.filter(serie =>
                 serie.title.toLowerCase().includes(store.searchInput.toLowerCase())
             )
         },

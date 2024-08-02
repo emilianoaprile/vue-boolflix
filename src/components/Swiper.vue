@@ -1,34 +1,34 @@
 <template>
-    <swiper :slidesPerView="1" :spaceBetween="10" :pagination="{
-        clickable: true,
-    }" :breakpoints="{
-        '640': {
-            slidesPerView: 2,
-            spaceBetween: 10,
-        },
-        '768': {
-            slidesPerView: 3,
-            spaceBetween: 10,
-        },
-        '992': {
-            slidesPerView: 3,
-            spaceBetween: 10,
-        },
-        '1024': {
-            slidesPerView: 4,
-            spaceBetween: 10,
-        },
-        '1200': {
-            slidesPerView: 4,
-            spaceBetween: 10,
-        },
-        '1400': {
-            slidesPerView: 5,
-            spaceBetween: 10,
-        },
-    }" :modules="modules" class="mySwiper">
-        <slot></slot>
-    </swiper>
+  <swiper :slidesPerView="1" :spaceBetween="10" :pagination="{
+    clickable: true,
+  }" :breakpoints="{
+    '640': {
+      slidesPerView: 2,
+      spaceBetween: 10,
+    },
+    '768': {
+      slidesPerView: 3,
+      spaceBetween: 10,
+    },
+    '992': {
+      slidesPerView: 3,
+      spaceBetween: 10,
+    },
+    '1024': {
+      slidesPerView: 4,
+      spaceBetween: 10,
+    },
+    '1200': {
+      slidesPerView: 4,
+      spaceBetween: 10,
+    },
+    '1400': {
+      slidesPerView: 5,
+      spaceBetween: 10,
+    },
+  }" :modules="modules" class="mySwiper">
+    <slot></slot>
+  </swiper>
 </template>
 <script>
 // Import Swiper Vue.js components
@@ -44,15 +44,15 @@ import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 
 export default {
-    components: {
-        Swiper,
-        SwiperSlide,
-    },
-    setup() {
-        return {
-            modules: [Pagination],
-        };
-    },
+  components: {
+    Swiper,
+    SwiperSlide,
+  },
+  setup() {
+    return {
+      modules: [Pagination],
+    };
+  },
 };
 </script>
 
@@ -87,14 +87,12 @@ export default {
 }
 
 .mySwiper .swiper-pagination-bullet-active {
-    background: red;
+  background: red;
 }
 
 .mySwiper .swiper-pagination-bullet {
-    background: red;
-    width: 15px;
-    height: 15px;
+  background: red;
+  width: 15px;
+  height: 15px;
 }
-
-
 </style>

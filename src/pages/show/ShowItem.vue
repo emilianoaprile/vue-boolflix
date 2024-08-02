@@ -154,7 +154,7 @@ export default {
             return this.rating
         },
         addToMyList() {
-            store.addToMyList(this.showDetails)
+            store.addToMyList({...this.showDetails, type: this.type})
             this.isIntoList = true
         },
         removeFromMyList() {
