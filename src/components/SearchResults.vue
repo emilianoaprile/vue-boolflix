@@ -116,9 +116,8 @@ export default {
     }
 
     .main_content-title {
-        text-transform: uppercase;
         color: white;
-        font-size: 13.5px;
+        font-size: 20px;
     }
 
     .no_results {

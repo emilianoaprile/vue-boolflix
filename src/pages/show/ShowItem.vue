@@ -1,5 +1,5 @@
 <template>
-    <Header></Header>
+    <Header class="header" :class="{scrolled: scrolled}"></Header>
     <section class="section_show">
         <div class="show_wrapper">
             <div class="jumbo">
@@ -97,6 +97,7 @@ export default {
                 red: false
             },
             isIntoList: false,
+            scrolled: false
 
         }
     },
@@ -110,6 +111,7 @@ export default {
                 .get(url)
                 .then((res) => {
                     const curr = res.data;
+                    console.log('response:', curr)
                     this.showDetails = {
                         id: curr.id,
                         title: this.type === 'film' ? curr.title : curr.name,
@@ -133,6 +135,8 @@ export default {
                     this.loading = false;
                 });
         },
+
+
         imgBackSrcControll() {
             const basePath = store.imgBaseUrl_bg;
             return this.showDetails.imgBack === null ? this.defaultImg : basePath + this.showDetails.imgBack;
@@ -154,7 +158,7 @@ export default {
             return this.rating
         },
         addToMyList() {
-            store.addToMyList({...this.showDetails, type: this.type})
+            store.addToMyList({ ...this.showDetails, type: this.type })
             this.isIntoList = true
         },
         removeFromMyList() {
@@ -163,19 +167,44 @@ export default {
         },
         checkIfIntoList() {
             this.isIntoList = store.myList.find(item => item.id === this.showDetails.id);
+        },
+        isScrolled() {
+            this.scrolled = window.scrollY > 0
         }
     },
     created() {
         this.fetchDetails()
-    }
+        window.addEventListener('scroll', this.isScrolled)
+    },
+    beforeDestroy() {
+        window.removeEventListener('scroll', this.isScrolled)
+    },
 }
 </script>
 
 <style lang="scss" scoped>
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+}
+
+.header.scrolled {
+    background-color: rgb(20, 20, 20);
+}
+
 .show_wrapper {
     display: grid;
     grid-template-rows: auto 1fr;
     gap: 20px;
+}
+
+.section_show {
+    position: relative;
+    z-index: 1;
 }
 
 .jumbo {
@@ -184,7 +213,7 @@ export default {
     img {
         width: 100%;
         height: auto;
-        max-height: 85vh;
+        max-height: 100vh;
         opacity: 0.45;
     }
 
@@ -217,7 +246,7 @@ export default {
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(0deg, #181818, transparent 50%);
+        background: linear-gradient(0deg, #141414, transparent 50%);
         pointer-events: none;
     }
 

@@ -1,7 +1,10 @@
 <template>
-    <router-link :to="{name: 'show', params: {id: item.id, type: type}}">
+    <router-link :to="{ name: 'show', params: { id: item.id, type: type } }">
         <div class="card">
-            <img class="card_img":src="imgFrontSrcControll()" alt="" />
+            <div class="img_wrapper">
+                <img class="number" :src="topRatedImgs" alt="" srcset="">
+                <img class="card_img" :src="imgFrontSrcControll()" alt="" />
+            </div>
         </div>
     </router-link>
 </template>
@@ -18,6 +21,10 @@ export default {
         type: {
             type: String,
             required: true
+        },
+        topRatedImgs: {
+            type: String,
+            required: true
         }
     },
     data() {
@@ -26,7 +33,7 @@ export default {
             countryString: null,
             languageNotFound: 'Lingua non trovata',
             defaultImg: '/img/default-img.jpg',
-        };
+        }
     },
     methods: {
         languageMap(language) {
@@ -69,23 +76,43 @@ export default {
 @use '../styles/partials/variables' as *;
 @use '../styles/partials/mixins' as *;
 
-
 .card {
     background-color: $card-bg-color;
     border-radius: $border-radius;
     max-width: $card-width;
     max-height: 100%;
-    height: 450px;
-    box-shadow: $box-shadow;
+    // height: 450px;
+    // box-shadow: $box-shadow;
     color: $text-color;
     position: relative;
     overflow: hidden;
 
-    .card_img {
-        width: 100%;
+    .img_wrapper {
         height: 100%;
-        border-radius: $border-radius;
-        object-fit: cover;
+        overflow: hidden;
+        padding: 35.714285714% 0;
+        position: relative;
+        width: 100%;
+
+        .number {
+            bottom: 0;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 50%;
+            background-color: #141414;
+        }
+
+        .card_img {
+            bottom: 0;
+            height: 100%;
+            left: auto;
+            object-fit: cover;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 50%;
+        }
     }
 }
 </style>

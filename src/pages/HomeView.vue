@@ -1,8 +1,8 @@
 <template>
     <div class="home_view">
         <Header class="header" :class="{ scrolled: scrolled}" @searchFilms="fetchFilms" @searchSeries="fetchSeries"></Header>
-        <HomePageHero v-if="showHero && store.searchInput.length === 0" :popularMovies="popularMoviesMap" :type="'film'"></HomePageHero>
-        <Main :loadingMain="loading" :films="filteredFilms" :series="filteredSeries" :noResults="noResults"></Main>
+        <MainContent v-if="showHero && store.searchInput.length === 0" :popularMovies="popularMoviesMap" :type="'film'"></MainContent>
+        <SearchResults :loadingMain="loading" :films="filteredFilms" :series="filteredSeries" :noResults="noResults"></SearchResults>
     </div>
 </template>
 
@@ -10,15 +10,15 @@
 
 <script>
 import Header from '../components/Header.vue';
-import Main from '../components/Main.vue';
-import HomePageHero from '../components/HomePageHero.vue';
+import SearchResults from '../components/SearchResults.vue';
+import MainContent from '../components/MainContent.vue';
 import { store } from '../store.js';
 import axios from 'axios';
 export default {
     components: {
         Header,
-        Main,
-        HomePageHero,
+        SearchResults,
+        MainContent,
     },
     data() {
         return {

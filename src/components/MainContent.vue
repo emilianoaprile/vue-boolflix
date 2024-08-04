@@ -33,13 +33,36 @@
                 </SwiperSlide>
             </Swiper>
         </div>
+        <!-- qua vengono renderizzati i top 10 -->
+        <!-- ho fatto una prova usando l'array myList, ma bisognerà usare l'array topRated facendo chiamata API alla rispettiva rotta e prende solo i primi 10 della res -->
+        <!-- TODO: fare chiamata API per i top rated, aggiungere array nello store e ciclare gli array -->
+        <h1 class="main_content-title">Top 10 film votati</h1>
+        <div class="cards">
+            <Swiper>
+                <SwiperSlide v-for="(listItem,index) in store.myList" :key="listItem.id">
+                    <CardTopRated :item="listItem" :type="listItem.type" :topRatedImgs="this.topRatedPaths[index]"></CardTopRated>
+                </SwiperSlide>
+            </Swiper>
+        </div>
+
+        <h1 class="main_content-title">Top 10 serie votate</h1>
+        <div class="cards">
+            <Swiper>
+                <SwiperSlide v-for="(listItem,index) in store.myList" :key="listItem.id">
+                    <CardTopRated :item="listItem" :type="listItem.type" :topRatedImgs="this.topRatedPaths[index]"></CardTopRated>
+                </SwiperSlide>
+            </Swiper>
+        </div>
     </div>
+
+    
 </template>
 
 
 <script>
 import { store } from '../store';
 import Card from './Card.vue';
+import CardTopRated from './CardTopRated.vue';
 import Swiper from './Swiper.vue';
 import { SwiperSlide } from 'swiper/vue';
 
@@ -47,7 +70,8 @@ export default {
     components: {
         Card,
         Swiper,
-        SwiperSlide
+        SwiperSlide,
+        CardTopRated
     },
     props: {
         popularMovies: {
@@ -64,6 +88,18 @@ export default {
             store,
             randomMovie: null,
             randomIndex: null,
+            topRatedPaths: [
+                '../../public/img/numero-1.png',
+                '../../public/img/numero-2.png',
+                '../../public/img/numero-3.png',
+                '../../public/img/numero-4.png',
+                '../../public/img/numero-5.png',
+                '../../public/img/numero-6.png',
+                '../../public/img/numero-7.png',
+                '../../public/img/numero-8.png',
+                '../../public/img/numero-9.png',
+                '../../public/img/numero-10.png',
+            ]
         }
     },
     methods: {
@@ -125,9 +161,8 @@ export default {
 }
 
 .main_content-title {
-    text-transform: uppercase;
     color: white;
-    font-size: 13.5px;
+    font-size: 20px;
 }
 
 
