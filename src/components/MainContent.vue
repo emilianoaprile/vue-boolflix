@@ -33,23 +33,20 @@
                 </SwiperSlide>
             </Swiper>
         </div>
-        <!-- qua vengono renderizzati i top 10 -->
-        <!-- ho fatto una prova usando l'array myList, ma bisognerà usare l'array topRated facendo chiamata API alla rispettiva rotta e prende solo i primi 10 della res -->
-        <!-- TODO: fare chiamata API per i top rated, aggiungere array nello store e ciclare gli array -->
-        <h1 class="main_content-title">Top 10 film votati</h1>
+        <h1 class="main_content-title">Top 10 film più amati di sempre</h1>
         <div class="cards">
             <Swiper>
-                <SwiperSlide v-for="(listItem,index) in store.myList" :key="listItem.id">
-                    <CardTopRated :item="listItem" :type="listItem.type" :topRatedImgs="this.topRatedPaths[index]"></CardTopRated>
+                <SwiperSlide v-for="(topFilm,index) in store.topRatedMovies" :key="topFilm.id">
+                    <CardTopRated :item="topFilm" :type="topFilm.type" :topRatedImgs="this.topRatedPaths[index]"></CardTopRated>
                 </SwiperSlide>
             </Swiper>
         </div>
 
-        <h1 class="main_content-title">Top 10 serie votate</h1>
+        <h1 class="main_content-title">Top 10 delle serie TV più acclamate</h1>
         <div class="cards">
             <Swiper>
-                <SwiperSlide v-for="(listItem,index) in store.myList" :key="listItem.id">
-                    <CardTopRated :item="listItem" :type="listItem.type" :topRatedImgs="this.topRatedPaths[index]"></CardTopRated>
+                <SwiperSlide v-for="(topSerie,index) in store.topRatedSeries" :key="topSerie.id">
+                    <CardTopRated :item="topSerie" :type="topSerie.type" :topRatedImgs="this.topRatedPaths[index]"></CardTopRated>
                 </SwiperSlide>
             </Swiper>
         </div>
@@ -80,6 +77,14 @@ export default {
         },
         type: {
             type: String,
+            required: true
+        },
+        topRatedMovies: {
+            type: Array,
+            required: true
+        },
+        topRatedSeries: {
+            type: Array,
             required: true
         }
     },
@@ -112,7 +117,6 @@ export default {
         selectRandomMovie() {
             if (this.popularMovies.length > 0) {
                 this.randomMovie = this.getRandomFilm()
-                console.log(this.randomMovie)
             }
         },
         imgBackSrcControll() {

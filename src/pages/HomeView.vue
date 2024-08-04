@@ -1,8 +1,18 @@
 <template>
     <div class="home_view">
         <Header class="header" :class="{ scrolled: scrolled}" @searchFilms="fetchFilms" @searchSeries="fetchSeries"></Header>
-        <MainContent v-if="showHero && store.searchInput.length === 0" :popularMovies="popularMoviesMap" :type="'film'"></MainContent>
-        <SearchResults :loadingMain="loading" :films="filteredFilms" :series="filteredSeries" :noResults="noResults"></SearchResults>
+        <MainContent v-if="showHero && store.searchInput.length === 0" 
+        :popularMovies="popularMoviesMap"
+        :topRatedMovies="store.topRatedMovies"
+        :topRatedSeries="store.topRatedSeries"
+        :type="'film'">
+        </MainContent>
+        <SearchResults 
+        :loadingMain="loading" 
+        :films="filteredFilms" 
+        :series="filteredSeries" 
+        :noResults="noResults">
+        </SearchResults>
     </div>
 </template>
 
@@ -27,6 +37,8 @@ export default {
             seriesMap: [],
             popularMoviesMap: [],
             popularSeriesMap: [],
+            topRatedMoviesMap: [],
+            topRatedSeriesMap: [],
             loading: false,
             searchMode: false,
             scrolled: false,
@@ -59,7 +71,6 @@ export default {
                     // assegno il valore dell'array mappato a quello dello store
                     store.films = this.filmsMap.map(curr => ({...curr, type: 'film'}))
                     this.loading = false
-                    console.log('Array films Map:', store.films)
                 })
                 .catch(err => {
                     console.error(err)
@@ -90,7 +101,6 @@ export default {
                     // assegno il valore dell'array mappato a quello dello store
                     store.series = this.seriesMap.map(curr => ({...curr, type: 'serie'}))
                     this.loading = false
-                    console.log('Array series Map:', store.series)
                 })
                 .catch(err => {
                     console.error(err)
@@ -111,8 +121,47 @@ export default {
                         vote: curr.vote_average
                     }))
                     store.popularMovies = this.popularMoviesMap
-                    console.log('popular movies store:', store.popularMovies)
 
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
+        fetchTopRatedMovies() {
+            axios
+                .get(`https://api.themoviedb.org/3/movie/top_rated?api_key=${store.api_key}`)
+                .then((res) => {
+                    const dataResults = res.data.results
+                    this.topRatedMoviesMap = dataResults.map(curr => ({
+                        id: curr.id,
+                        title: curr.title,
+                        imgFront: curr.poster_path,
+                        imgBack: curr.backdrop_path,
+                        description: curr.overview,
+                        language: curr.original_language,
+                        vote: curr.vote_average
+                    }))
+                    store.topRatedMovies = this.topRatedMoviesMap.slice(0, 10).map(curr => ({...curr, type: 'film'}))
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
+        fetchTopRatedSeries() {
+            axios
+                .get(`https://api.themoviedb.org/3/tv/top_rated?api_key=${store.api_key}`)
+                .then((res) => {
+                    const dataResults = res.data.results
+                    this.topRatedSeriesMap = dataResults.map(curr => ({
+                        id: curr.id,
+                        title: curr.name,
+                        imgFront: curr.poster_path,
+                        imgBack: curr.backdrop_path,
+                        description: curr.overview,
+                        language: curr.original_language,
+                        vote: curr.vote_average
+                    }))
+                    store.topRatedSeries = this.topRatedSeriesMap.slice(0, 10).map(curr => ({...curr, type: 'serie'}))
                 })
                 .catch(err => {
                     console.log(err)
@@ -154,6 +203,8 @@ export default {
         this.fetchFilms(false)
         this.fetchSeries(false)
         this.fetchPopularMovies()
+        this.fetchTopRatedMovies()
+        this.fetchTopRatedSeries()
         window.addEventListener('scroll', this.isScrolled)
     },
     beforeDestroy() {

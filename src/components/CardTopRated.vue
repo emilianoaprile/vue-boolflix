@@ -77,12 +77,11 @@ export default {
 @use '../styles/partials/mixins' as *;
 
 .card {
-    background-color: $card-bg-color;
+    // background-color: $card-bg-color;
     border-radius: $border-radius;
     max-width: $card-width;
+    height: 220px;
     max-height: 100%;
-    // height: 450px;
-    // box-shadow: $box-shadow;
     color: $text-color;
     position: relative;
     overflow: hidden;
@@ -97,10 +96,10 @@ export default {
         .number {
             bottom: 0;
             position: absolute;
-            left: 0;
+            left: 1px;
             top: 0;
-            width: 50%;
-            background-color: #141414;
+            width: 49%;
+            // background-color: #a02d2d;
         }
 
         .card_img {
@@ -111,7 +110,7 @@ export default {
             position: absolute;
             right: 0;
             top: 0;
-            width: 50%;
+            width: 60%;
         }
     }
 }

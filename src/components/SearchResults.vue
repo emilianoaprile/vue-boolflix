@@ -92,10 +92,6 @@ export default {
             this.store.showCards = value.length > 0
         }
     },
-    created() {
-        console.log('store my list', store.myList)
-        console.log(this.films)
-    }
 }
 
 </script>
