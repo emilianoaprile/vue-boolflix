@@ -198,7 +198,7 @@ export default {
             color: white;
             text-transform: uppercase;
             padding-bottom: 20px;
-            font-family: "Cormorant Garamond", serif;
+            // font-family: "Cormorant Garamond", serif;
             font-weight: 700;
             font-style: normal;
         }

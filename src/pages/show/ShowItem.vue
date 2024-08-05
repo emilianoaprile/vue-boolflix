@@ -223,6 +223,7 @@ export default {
         left: 60px;
         border-radius: 30px;
         max-width: 45%;
+        z-index: 999;
 
         .title {
             font-size: 38px;

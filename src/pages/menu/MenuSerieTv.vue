@@ -36,6 +36,7 @@ export default {
                 .get(`https://api.themoviedb.org/3/trending/tv/week?api_key=${this.apiKey}`)
                 .then((res) => {
                     const dataResults = res.data.results
+                    console.log(dataResults)
                     this.popularSeriesMap = dataResults.map(curr => ({
                         id: curr.id,
                         title: curr.name,

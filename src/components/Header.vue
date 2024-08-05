@@ -6,7 +6,7 @@
                     <img class="logo" :src="imgLogoPath" alt="">
                 </router-link>
                 <ul class="menu_list">
-                    <li class="menu_item" v-for="(listItem, i) in menu" :key="i">
+                    <li class="menu_item" v-for="(listItem, i) in menu" :key="i" :class="{active: isActive(listItem.href)}">
                         <router-link :to="{name: listItem.href}" >
                             <a>{{ listItem.item }}</a>
                         </router-link>
@@ -46,6 +46,11 @@ export default {
             showXmark: false
         }
     },
+    computed: {
+        currentRoute() {
+            return this.$route.name
+        }
+    },
     methods: {
         toggleInput() {
             this.showInput = !this.showInput
@@ -58,6 +63,9 @@ export default {
             if (!searchBox.contains(event.target)) {
                 this.showInput = false
             }
+        },
+        isActive(href) {
+            return this.currentRoute === href
         }
     },
     mounted() {
@@ -148,6 +156,10 @@ export default {
                     font-size: 13.5px;
                     font-weight: 300;
                     transition: all 0.3s ease;
+                }
+
+                .active {
+                    font-weight: 500;
                 }
 
                 .menu_item:hover {

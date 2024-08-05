@@ -5,7 +5,7 @@
                 <img :src="imgBackSrcControll()" class="jumbo_img" alt="Movie Image">
                 <div class="item_title">
                     <h1 class="title">{{ randomSerie.title }}</h1>
-                    <p>{{ randomSerie.description }}</p>
+                    <!-- <p class="description">{{ randomSerie.description }}</p> -->
                 </div>
                 <div class="overlay"></div>
                 <div class="buttons">
@@ -104,19 +104,25 @@ export default {
 
             .item_title {
                 position: absolute;
-                bottom: 30%;
+                bottom: 40%;
                 left: 60px;
                 border-radius: 30px;
                 max-width: 35%;
+                z-index: 999;
+
 
                 .title {
                     font-size: 48px;
                     color: white;
                     text-transform: uppercase;
                     padding-bottom: 20px;
-                    font-family: "Cormorant Garamond", serif;
+                    // font-family: "Cormorant Garamond", serif;
                     font-weight: 700;
                     font-style: normal;
+                }
+
+                .description {
+                    color: white;
                 }
             }
 
@@ -132,7 +138,7 @@ export default {
 
             .buttons {
                 position: absolute;
-                bottom: 20%;
+                bottom: 25%;
                 left: 60px;
                 width: 40%;
                 display: flex;
