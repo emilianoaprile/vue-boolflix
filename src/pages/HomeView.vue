@@ -127,6 +127,7 @@ export default {
                     console.log(err)
                 })
         },
+    
         fetchTopRatedMovies() {
             axios
                 .get(`https://api.themoviedb.org/3/movie/top_rated?api_key=${store.api_key}`)
