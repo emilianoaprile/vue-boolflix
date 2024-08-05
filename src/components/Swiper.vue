@@ -92,7 +92,7 @@ export default {
 
 .mySwiper .swiper-pagination-bullet {
   background: red;
-  width: 15px;
-  height: 15px;
+  width: 10px;
+  height: 10px;
 }
 </style>

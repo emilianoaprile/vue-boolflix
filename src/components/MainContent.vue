@@ -41,7 +41,7 @@
                 </SwiperSlide>
             </Swiper>
         </div>
-
+<!-- 
         <h1 class="main_content-title">Top 10 delle serie TV più acclamate</h1>
         <div class="cards">
             <Swiper>
@@ -49,7 +49,7 @@
                     <CardTopRated :item="topSerie" :type="topSerie.type" :topRatedImgs="this.topRatedPaths[index]"></CardTopRated>
                 </SwiperSlide>
             </Swiper>
-        </div>
+        </div> -->
     </div>
 
     

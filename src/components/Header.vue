@@ -7,7 +7,9 @@
                 </router-link>
                 <ul class="menu_list">
                     <li class="menu_item" v-for="(listItem, i) in menu" :key="i">
-                        <a :href="listItem.href">{{ listItem.item }}</a>
+                        <router-link :to="{name: listItem.href}" >
+                            <a>{{ listItem.item }}</a>
+                        </router-link>
                     </li>
                 </ul>
             </div>
@@ -15,6 +17,7 @@
                 <div v-if="showInput" class="searchBar" @click.stop>
                     <font-awesome-icon class="search_icon" :icon="['fas', 'magnifying-glass']" />
                     <input class="input_search" v-model="store.searchInput" type="text" placeholder="Titoli, persone, generi" />
+                    <font-awesome-icon v-if="store.searchInput.length > 0" @click="removeInputString()"  class="close_input" :icon="['fas', 'xmark']" />
                 </div>
                 <button v-else @click="toggleInput" class="search_tab">
                     <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
@@ -32,19 +35,23 @@ export default {
             store,
             showInput: false,
             menu: [
-                { item: 'Home', href: '#' },
-                { item: 'Serie TV', href: '#' },
-                { item: 'Film', href: '#' },
-                { item: 'Nuovi e Popolari', href: '#' },
-                { item: 'La mia lista', href: '#' },
-                { item: 'Sfoglia per lingua', href: '#' },
+                { item: 'Home', href: 'home' },
+                { item: 'Serie TV', href: 'serieTV' },
+                { item: 'Film', href: 'film' },
+                { item: 'Nuovi e Popolari', href: 'nuovi-e-popolari' },
+                { item: 'La mia lista', href: 'la-mia-lista' },
+                { item: 'Sfoglia per lingua', href: 'sfoglia-per-lingua' },
             ],
-            imgLogoPath: '/img/logo-boolflix.png'
+            imgLogoPath: '/img/logo-boolflix.png',
+            showXmark: false
         }
     },
     methods: {
         toggleInput() {
             this.showInput = !this.showInput
+        },
+        removeInputString() {
+            store.searchInput = ''
         },
         handleClickOutside(event) {
             const searchBox = this.$el.querySelector('.search_box')
@@ -91,6 +98,7 @@ export default {
             gap: 10px;
             background-color: rgba(0, 0, 0, 0.514);
             border: 1px solid hsla(0, 0%, 100%, .85);
+            width: 300px;
 
             .search_icon {
                 font-size: 22px;
@@ -99,6 +107,17 @@ export default {
                 border: none;
                 display: inline-block;
                 padding: 6px 6px;
+            }
+
+            .close_input {
+                font-size: 22px;
+                color: white;
+                background: transparent;
+                border: none;
+                display: inline-block;
+                padding: 6px 6px;
+                cursor: pointer;
+
             }
 
             .input_search {
