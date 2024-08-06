@@ -53,6 +53,26 @@ export default {
                     console.error(err)
                 })
         },
+        fetchTopRatedMovies() {
+            axios
+                .get(`https://api.themoviedb.org/3/movie/top_rated?api_key=${store.api_key}`)
+                .then((res) => {
+                    const dataResults = res.data.results
+                    this.topRatedMoviesMap = dataResults.map(curr => ({
+                        id: curr.id,
+                        title: curr.title,
+                        imgFront: curr.poster_path,
+                        imgBack: curr.backdrop_path,
+                        description: curr.overview,
+                        language: curr.original_language,
+                        vote: curr.vote_average
+                    }))
+                    store.topRatedMovies = this.topRatedMoviesMap.slice(0, 10).map(curr => ({...curr, type: 'film'}))
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
 
         getRandomMovie() {
             const min = 0
@@ -72,6 +92,7 @@ export default {
 
     created() {
         this.fetchPopularMovies()
+        this.fetchTopRatedMovies()
         window.addEventListener('scroll', this.isScrolled)
 
     },

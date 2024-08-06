@@ -4,7 +4,7 @@
             <div class="jumbo">
                 <img :src="imgBackSrcControll()" class="jumbo_img" alt="Movie Image">
                 <div class="item_title">
-                    <h1 class="title">{{ randomMovie.title }}</h1>
+                    <img class="title_img" :src="imgSrc" alt="">
                 </div>
                 <div class="overlay"></div>
                 <div class="buttons">
@@ -52,6 +52,7 @@
 
 
 <script>
+import axios from 'axios';
 import { store } from '../store';
 import Card from './Card.vue';
 import CardTopRated from './CardTopRated.vue';
@@ -84,6 +85,7 @@ export default {
             store,
             randomMovie: null,
             randomIndex: null,
+            imgs: [],
             topRatedPaths: [
                 '../../public/img/numero-1.png',
                 '../../public/img/numero-2.png',
@@ -98,6 +100,13 @@ export default {
             ]
         }
     },
+    computed: {
+        imgSrc() {
+            if (this.imgs.length > 0) {
+                return store.imgBaseUrl + this.imgs[0].file_path
+            }
+        }
+    },
     methods: {
         getRandomFilm() {
             const min = 0
@@ -108,12 +117,20 @@ export default {
         selectRandomMovie() {
             if (this.popularMovies.length > 0) {
                 this.randomMovie = this.getRandomFilm()
+                this.fetchImg()
             }
         },
         imgBackSrcControll() {
             const basePath = store.imgBaseUrl_bg
             return this.randomMovie.imgBack === null ? this.defaultImg : basePath + this.randomMovie.imgBack
         },
+        fetchImg() {
+            axios
+                .get(`https://api.themoviedb.org/3/movie/${this.randomMovie.id}/images?api_key=923fd129639cf98cbea32d9013dacbfd`)
+                .then((res) => {
+                    this.imgs = res.data.logos.filter(item => item.iso_639_1 === 'en')
+                })
+        }
     },
     watch: {
         popularMovies: {
@@ -127,6 +144,9 @@ export default {
     },
     mounted() {
         this.selectRandomMovie()
+    },
+    updated() {
+        console.log(store.myList)
     }
 }
 </script>
@@ -170,11 +190,16 @@ export default {
 .jumbo {
     position: relative;
 
-    img {
+    .jumbo_img {
         width: 100%;
         height: auto;
         max-height: 100vh;
         opacity: 0.45;
+    }
+
+    .title_img {
+        width: 350px;
+        max-height: 250px;
     }
 
     .item_title {
