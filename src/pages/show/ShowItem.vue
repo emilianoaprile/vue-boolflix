@@ -1,11 +1,11 @@
 <template>
-    <Header class="header" :class="{scrolled: scrolled}"></Header>
+    <Header class="header" :class="{ scrolled: scrolled }"></Header>
     <section class="section_show">
         <div class="show_wrapper">
             <div class="jumbo">
                 <img class="jumbo_img" :src="imgBackSrcControll()" alt="">
                 <div class="item_title">
-                    <h1 class="title">{{ showDetails.title }}</h1>
+                    <img class="title_img" :src="imgSrc" alt="">
                     <p class="tagline">{{ showDetails.tagline }}</p>
                 </div>
                 <div class="overlay"></div>
@@ -41,11 +41,11 @@
                     </div>
 
                     <div class="vote btn_round-item" :class="{
-                    top: ratingColors.green,
-                    mid: ratingColors.yellow,
-                    low: ratingColors.orange,
-                    bad: ratingColors.red
-                }">
+        top: ratingColors.green,
+        mid: ratingColors.yellow,
+        low: ratingColors.orange,
+        bad: ratingColors.red
+    }">
                         {{ rating }}
                         <span class="percentage">%</span>
                     </div>
@@ -97,15 +97,23 @@ export default {
                 red: false
             },
             isIntoList: false,
-            scrolled: false
+            scrolled: false,
+            imgs: []
 
+        }
+    },
+    computed: {
+        imgSrc() {
+            if (this.imgs.length > 0) {
+                return store.imgBaseUrl + this.imgs[0].file_path
+            }
         }
     },
     methods: {
         fetchDetails() {
             const url = this.type === 'film'
                 ? `https://api.themoviedb.org/3/movie/${this.id}?api_key=${this.apiKey}&language=it_IT`
-                : `https://api.themoviedb.org/3/tv/${this.id}?api_key=${this.apiKey}&language=it_IT`;
+                : `https://api.themoviedb.org/3/tv/${this.id}?api_key=${this.apiKey}&language=it_IT`
 
             axios
                 .get(url)
@@ -128,12 +136,29 @@ export default {
                     console.log(this.showDetails)
                     this.generateRating()
                     this.checkIfIntoList()
+                    this.fetchImg()
+
 
                 })
                 .catch((err) => {
-                    console.error(err);
-                    this.loading = false;
+                    console.error(err)
+                    this.loading = false
                 });
+        },
+        fetchImg() {
+            const url = this.type === 'film'
+                ? `https://api.themoviedb.org/3/movie/${this.id}/images?api_key=${this.apiKey}`
+                : `https://api.themoviedb.org/3/tv/${this.id}/images?api_key=${this.apiKey}`
+
+            axios
+                .get(url)
+                .then((res) => {
+                    this.imgs = res.data.logos.filter(item => item.iso_639_1 === 'en')
+                    console.log(this.imgs)
+                })
+                .catch(err => {
+                    console.error(err)
+                })
         },
 
 
@@ -210,11 +235,17 @@ export default {
 .jumbo {
     position: relative;
 
-    img {
+    .jumbo_img {
         width: 100%;
         height: auto;
         max-height: 100vh;
         opacity: 0.45;
+    }
+
+    .title_img {
+        width: 350px;
+        max-height: 250px;
+
     }
 
     .item_title {
@@ -224,6 +255,10 @@ export default {
         border-radius: 30px;
         max-width: 45%;
         z-index: 999;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: 30px;
 
         .title {
             font-size: 38px;

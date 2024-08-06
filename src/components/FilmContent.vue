@@ -1,12 +1,12 @@
 <template>
     <section class="section_show">
-        <div class="show_wrapper" v-if="randomSerie">
+        <div class="show_wrapper" v-if="randomMovie">
             <div class="jumbo">
                 <img :src="imgBackSrcControll()" class="jumbo_img" alt="">
                 <div class="item_title">
                     <!-- <h1 class="title">{{ randomSerie.title }}</h1> -->
                     <img class="title_img" :src="imgSrc" alt="">
-                    <!-- <h1 class="title" v-if="imgs.length === 0">{{ randomSerie.title }}</h1> -->
+                    <!-- <h1 class="title" v-if="imgs.length === 0">{{ randomMovie.title }}</h1> -->
                 </div>
                 <div class="overlay"></div>
                 <div class="buttons">
@@ -28,11 +28,11 @@
         </div>
     </section>
     <div class="myList_slider">
-        <h1 class="main_content-title">Top 10 Serie Tv più amate di sempre</h1>
+        <h1 class="main_content-title">Top 10 Film più amati di sempre</h1>
         <div class="cards">
             <Swiper>
-                <SwiperSlide v-for="(topSerie, index) in topSeries" :key="topSerie.id">
-                    <CardTopRated :item="topSerie" :type="topSerie.type" :topRatedImgs="this.topRatedPaths[index]">
+                <SwiperSlide v-for="(topFilm, index) in topFilms" :key="topFilm.id">
+                    <CardTopRated :item="topFilm" :type="topFilm.type" :topRatedImgs="this.topRatedPaths[index]">
                     </CardTopRated>
                 </SwiperSlide>
             </Swiper>
@@ -56,11 +56,11 @@ export default {
         CardTopRated
     },
     props: {
-        popularSeries: {
+        popularMovies: {
             type: Array,
             required: true
         },
-        topSeries: {
+        topFilms: {
             type: Array,
             required: true
         }
@@ -69,7 +69,7 @@ export default {
         return {
             store,
             randomIndex: null,
-            randomSerie: null,
+            randomMovie: null,
             imgs: [],
             defaultImg: '/img/default-img.jpg',
             topRatedPaths: [
@@ -94,42 +94,44 @@ export default {
         }
     },
     methods: {
-        getRandomSerie() {
+        getRandomMovie() {
             const min = 0
-            const max = this.popularSeries.length - 1
+            const max = this.popularMovies.length - 1
             this.randomIndex = Math.floor(Math.random() * (max - min + 1) + min)
-            return this.popularSeries[this.randomIndex]
+            return this.popularMovies[this.randomIndex]
         },
-        selectRandomSerie() {
-            if (this.popularSeries.length > 0) {
-                this.randomSerie = this.getRandomSerie()
+        selectRandomMovie() {
+            if (this.popularMovies.length > 0) {
+                this.randomMovie = this.getRandomMovie()
                 this.fetchImg()
             }
         },
         imgBackSrcControll() {
             const basePath = store.imgBaseUrl_bg
-            return this.randomSerie.imgBack === null ? this.defaultImg : basePath + this.randomSerie.imgBack
+            return this.randomMovie.imgBack === null ? this.defaultImg : basePath + this.randomMovie.imgBack
         },
         fetchImg() {
             axios
-                .get(`https://api.themoviedb.org/3/tv/${this.randomSerie.id}/images?api_key=923fd129639cf98cbea32d9013dacbfd`)
+                .get(`https://api.themoviedb.org/3/movie/${this.randomMovie.id}/images?api_key=923fd129639cf98cbea32d9013dacbfd`)
                 .then((res) => {
+                    console.log(res.data)
                     this.imgs = res.data.logos.filter(item => item.iso_639_1 === 'en')
+                    console.log(this.imgs)
                 })
         },
     },
     watch: {
-        popularSeries: {
+        popularMovies: {
             handler(value) {
                 if (value.length > 0) {
-                    this.selectRandomSerie()
+                    this.selectRandomMovie()
                 }
             },
             immediate: true
         }
     },
     mounted() {
-        this.selectRandomSerie()
+        this.selectRandomMovie()
     },
 
 
