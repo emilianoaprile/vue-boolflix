@@ -2,10 +2,11 @@
     <section class="section_show">
         <div class="show_wrapper" v-if="randomSerie">
             <div class="jumbo">
-                <img :src="imgBackSrcControll()" class="jumbo_img" alt="Movie Image">
+                <img :src="imgBackSrcControll()" class="jumbo_img" alt="">
                 <div class="item_title">
-                    <h1 class="title">{{ randomSerie.title }}</h1>
-                    <!-- <p class="description">{{ randomSerie.description }}</p> -->
+                    <!-- <h1 class="title">{{ randomSerie.title }}</h1> -->
+                    <img class="title_img" :src="imgSrc" alt="">
+                    <h1 class="title" v-if="imgs.length === 0">{{ randomSerie.title }}</h1>
                 </div>
                 <div class="overlay"></div>
                 <div class="buttons">
@@ -26,13 +27,40 @@
             </div>
         </div>
     </section>
+    <div class="myList_slider">
+        <h1 class="main_content-title">Top 10 Serie Tv più amate di sempre</h1>
+        <div class="cards">
+            <Swiper>
+                <SwiperSlide v-for="(topSerie, index) in topSeries" :key="topSerie.id">
+                    <CardTopRated :item="topSerie" :type="topSerie.type" :topRatedImgs="this.topRatedPaths[index]">
+                    </CardTopRated>
+                </SwiperSlide>
+            </Swiper>
+        </div>
+    </div>
 </template>
 
 <script>
+import axios from 'axios';
 import { store } from '../store';
+import Card from './Card.vue';
+import CardTopRated from './CardTopRated.vue';
+import Swiper from './Swiper.vue';
+import { SwiperSlide } from 'swiper/vue';
+
 export default {
+    components: {
+        Card,
+        Swiper,
+        SwiperSlide,
+        CardTopRated
+    },
     props: {
         popularSeries: {
+            type: Array,
+            required: true
+        },
+        topSeries: {
             type: Array,
             required: true
         }
@@ -42,8 +70,27 @@ export default {
             store,
             randomIndex: null,
             randomSerie: null,
+            imgs: [],
             defaultImg: '/img/default-img.jpg',
-
+            topRatedPaths: [
+                '../../public/img/numero-1.png',
+                '../../public/img/numero-2.png',
+                '../../public/img/numero-3.png',
+                '../../public/img/numero-4.png',
+                '../../public/img/numero-5.png',
+                '../../public/img/numero-6.png',
+                '../../public/img/numero-7.png',
+                '../../public/img/numero-8.png',
+                '../../public/img/numero-9.png',
+                '../../public/img/numero-10.png',
+            ]
+        }
+    },
+    computed: {
+        imgSrc() {
+            if (this.imgs.length > 0) {
+                return store.imgBaseUrl + this.imgs[0].file_path
+            }
         }
     },
     methods: {
@@ -56,11 +103,21 @@ export default {
         selectRandomSerie() {
             if (this.popularSeries.length > 0) {
                 this.randomSerie = this.getRandomSerie()
+                this.fetchImg()
             }
         },
         imgBackSrcControll() {
             const basePath = store.imgBaseUrl_bg
             return this.randomSerie.imgBack === null ? this.defaultImg : basePath + this.randomSerie.imgBack
+        },
+        fetchImg() {
+            axios
+                .get(`https://api.themoviedb.org/3/tv/${this.randomSerie.id}/images?api_key=923fd129639cf98cbea32d9013dacbfd`)
+                .then((res) => {
+                    console.log(res.data)
+                    this.imgs = res.data.logos.filter(item => item.iso_639_1 === 'en')
+                    console.log(this.imgs)
+                })
         },
     },
     watch: {
@@ -75,12 +132,35 @@ export default {
     },
     mounted() {
         this.selectRandomSerie()
-    }
+    },
+
 
 }
 </script>
 
 <style lang="scss" scoped>
+.myList_slider {
+    position: absolute;
+    top: 95%;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    background: transparent;
+    padding: 20px 0;
+    box-sizing: border-box;
+    padding: 0 60px;
+}
+
+.cards {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.main_content-title {
+    color: white;
+    font-size: 20px;
+}
+
 .section_show {
     position: relative;
     z-index: 0;
@@ -95,11 +175,15 @@ export default {
         .jumbo {
             position: relative;
 
-            img {
+            .jumbo_img {
                 width: 100%;
                 height: auto;
                 max-height: 100vh;
                 opacity: 0.45;
+            }
+
+            .title_img {
+                width: 350px;
             }
 
             .item_title {
@@ -110,19 +194,11 @@ export default {
                 max-width: 35%;
                 z-index: 999;
 
-
                 .title {
-                    font-size: 48px;
+                    font-size: 38px;
                     color: white;
                     text-transform: uppercase;
                     padding-bottom: 20px;
-                    // font-family: "Cormorant Garamond", serif;
-                    font-weight: 700;
-                    font-style: normal;
-                }
-
-                .description {
-                    color: white;
                 }
             }
 

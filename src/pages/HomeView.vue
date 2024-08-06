@@ -4,7 +4,6 @@
         <MainContent v-if="showHero && store.searchInput.length === 0" 
         :popularMovies="popularMoviesMap"
         :topRatedMovies="store.topRatedMovies"
-        :topRatedSeries="store.topRatedSeries"
         :type="'film'">
         </MainContent>
         <SearchResults 
@@ -148,26 +147,7 @@ export default {
                     console.log(err)
                 })
         },
-        fetchTopRatedSeries() {
-            axios
-                .get(`https://api.themoviedb.org/3/tv/top_rated?api_key=${store.api_key}`)
-                .then((res) => {
-                    const dataResults = res.data.results
-                    this.topRatedSeriesMap = dataResults.map(curr => ({
-                        id: curr.id,
-                        title: curr.name,
-                        imgFront: curr.poster_path,
-                        imgBack: curr.backdrop_path,
-                        description: curr.overview,
-                        language: curr.original_language,
-                        vote: curr.vote_average
-                    }))
-                    store.topRatedSeries = this.topRatedSeriesMap.slice(0, 10).map(curr => ({...curr, type: 'serie'}))
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-        },
+
         isScrolled() {
             this.scrolled = window.scrollY > 0
         }
@@ -205,7 +185,6 @@ export default {
         this.fetchSeries(false)
         this.fetchPopularMovies()
         this.fetchTopRatedMovies()
-        this.fetchTopRatedSeries()
         window.addEventListener('scroll', this.isScrolled)
     },
     beforeDestroy() {

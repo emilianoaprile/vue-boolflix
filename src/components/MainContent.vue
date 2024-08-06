@@ -24,35 +24,30 @@
             </div>
         </div>
     </section>
-    <div class="myList_slider" v-if="store.myList.length > 0">
-        <h1 class="main_content-title">La mia lista</h1>
-        <div class="cards">
-            <Swiper>
-                <SwiperSlide v-for="listItem in store.myList" :key="listItem.id">
-                    <Card :item="listItem" :type="listItem.type"></Card>
-                </SwiperSlide>
-            </Swiper>
+    <!-- TODO: cambiare nomi delle classi -->
+    <div class="myList_slider">
+        <div class="myList_wrapper" v-if="store.myList.length > 0">
+            <h1 class="main_content-title">La mia lista</h1>
+            <div class="cards">
+                <Swiper>
+                    <SwiperSlide v-for="listItem in store.myList" :key="listItem.id">
+                        <Card :item="listItem" :type="listItem.type"></Card>
+                    </SwiperSlide>
+                </Swiper>
+            </div>
         </div>
         <h1 class="main_content-title">Top 10 film più amati di sempre</h1>
         <div class="cards">
             <Swiper>
-                <SwiperSlide v-for="(topFilm,index) in store.topRatedMovies" :key="topFilm.id">
-                    <CardTopRated :item="topFilm" :type="topFilm.type" :topRatedImgs="this.topRatedPaths[index]"></CardTopRated>
+                <SwiperSlide v-for="(topFilm, index) in store.topRatedMovies" :key="topFilm.id">
+                    <CardTopRated :item="topFilm" :type="topFilm.type" :topRatedImgs="this.topRatedPaths[index]">
+                    </CardTopRated>
                 </SwiperSlide>
             </Swiper>
         </div>
-<!-- 
-        <h1 class="main_content-title">Top 10 delle serie TV più acclamate</h1>
-        <div class="cards">
-            <Swiper>
-                <SwiperSlide v-for="(topSerie,index) in store.topRatedSeries" :key="topSerie.id">
-                    <CardTopRated :item="topSerie" :type="topSerie.type" :topRatedImgs="this.topRatedPaths[index]"></CardTopRated>
-                </SwiperSlide>
-            </Swiper>
-        </div> -->
     </div>
 
-    
+
 </template>
 
 
@@ -80,10 +75,6 @@ export default {
             required: true
         },
         topRatedMovies: {
-            type: Array,
-            required: true
-        },
-        topRatedSeries: {
             type: Array,
             required: true
         }
@@ -143,19 +134,19 @@ export default {
 
 <style lang="scss" scoped>
 .section_show {
-    position: relative; 
-    z-index: 1; 
+    position: relative;
+    z-index: 1;
 }
 
 .myList_slider {
     position: absolute;
-    top: 80%; 
+    top: 80%;
     left: 0;
     width: 100%;
-    z-index: 2; 
+    z-index: 2;
     background: transparent;
     padding: 20px 0;
-    box-sizing: border-box; 
+    box-sizing: border-box;
     padding: 0 60px;
 }
 

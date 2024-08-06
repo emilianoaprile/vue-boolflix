@@ -5,26 +5,26 @@
             <h1 class="title">Serie TV</h1>
         </div>
     </div>
-    <JumboMenu :popularSeries="popularSeriesMap"></JumboMenu>
+    <SerieTvContent :popularSeries="store.popularSeries" :topSeries="store.topRatedSeries"></SerieTvContent>
 </template>
 
 <script>
 import axios from 'axios';
 import Header from '../../components/Header.vue';
-import JumboMenu from '../../components/JumboMenu.vue';
-import { store } from '../../store'
+import SerieTvContent from '../../components/SerieTvContent.vue';
+import { store } from '../../store';
 export default {
     components: {
         Header,
-        JumboMenu,
+        SerieTvContent,
     },
     data() {
         return {
             store,
-            scrolled: false,
             randomSerie: null,
             randomIndex: null,
             popularSeriesMap: [],
+            topRatedSeriesMap: [],
             apiKey: store.api_key,
             scrolled: false
 
@@ -49,12 +49,36 @@ export default {
                     store.popularSeries = this.popularSeriesMap.map(curr => ({ ...curr, type: 'serie' }))
                     console.log(store.popularSeries)
                 })
+                .catch(err => {
+                    console.error(err)
+                })
         },
+        fetchTopRatedSeries() {
+            axios
+                .get(`https://api.themoviedb.org/3/tv/top_rated?api_key=${store.api_key}`)
+                .then((res) => {
+                    const dataResults = res.data.results
+                    this.topRatedSeriesMap = dataResults.map(curr => ({
+                        id: curr.id,
+                        title: curr.name,
+                        imgFront: curr.poster_path,
+                        imgBack: curr.backdrop_path,
+                        description: curr.overview,
+                        language: curr.original_language,
+                        vote: curr.vote_average
+                    }))
+                    store.topRatedSeries = this.topRatedSeriesMap.slice(0, 10).map(curr => ({ ...curr, type: 'serie' }))
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
+
         getRandomSerie() {
             const min = 0
-            const max = this.popularSeries.length - 1
+            const max = this.popularSeriesMap.length - 1
             this.randomIndex = Math.floor(Math.random() * (max - min + 1) + min)
-            return this.popularSeries[this.randomIndex]
+            return this.popularSeriesMap[this.randomIndex]
         },
         selectRandomSerie() {
             if (this.popularSeries.length > 0) {
@@ -68,10 +92,11 @@ export default {
 
     created() {
         this.fetchPopularSeries()
+        this.fetchTopRatedSeries()
         window.addEventListener('scroll', this.isScrolled)
 
     },
-    beforeDestroy() {
+    beforeUnmount() {
         window.removeEventListener('scroll', this.isScrolled)
     },
 }
@@ -85,6 +110,7 @@ export default {
     width: 100%;
     z-index: 2;
 }
+
 .sub_header {
     position: fixed;
     top: 0;
