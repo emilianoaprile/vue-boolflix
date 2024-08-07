@@ -5,14 +5,11 @@
             <h1 class="title">La mia lista</h1>
         </div>
     </div>
-    <section class="myList_cards-section">
-        <div class="card" v-for="n in 60" :key="n">
-            Card {{ n }}
-        </div>
-    </section>
+    <MyListContent :myList="store.myList"></MyListContent>
 </template>
 
 <script>
+import {store} from '../../store'
 import Header from '../../components/Header.vue';
 import MyListContent from '../../components/MyListContent.vue';
 export default {
@@ -22,6 +19,7 @@ export default {
     },
     data() {
         return {
+            store,
             scrolled: false
 
         }
@@ -91,26 +89,5 @@ export default {
     }
 }
 
-.myList_cards-section {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 40px 6px;
-    justify-content: center;
-    margin-top: 190px;
-    width: 100%;
-    padding: 0 60px;
-}
 
-.card {
-    max-width: 100%;
-    height: 130px;
-    background-color: #f0f0f0;
-    border: 1px solid #ddd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    color: #333;
-    text-align: center;
-}
 </style>
