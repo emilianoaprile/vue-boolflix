@@ -1,8 +1,11 @@
 <template>
     <section class="myList_cards-section">
-        <div class="card" v-for="(listItem, index) in myList" :key="listItem.id">
-            <img style="width: 100%; height: 100%;" :src="store.imgBaseUrl + imgs[index]"  alt="">
-        </div>
+        <router-link v-for="(listItem, index) in myList" :key="listItem.id"
+            :to="{ name: 'show', params: { id: listItem.id, type: listItem.type } }">
+            <div class="card">
+                <img class="card_img" :src="getImgUrl(listItem.id)" alt="">
+            </div>
+        </router-link>
     </section>
 </template>
 
@@ -20,39 +23,45 @@ export default {
     data() {
         return {
             store,
-            imgs: [],
+            imgList: [],
             apiKey: store.api_key
         }
     },
     methods: {
         fetchMyList() {
-            this.myList.forEach(el => {
+            const request = this.myList.map(el => {
                 const url = el.type === 'film'
-                ? `https://api.themoviedb.org/3/movie/${el.id}/images?api_key=${this.apiKey}`
-                : `https://api.themoviedb.org/3/tv/${el.id}/images?api_key=${this.apiKey}`
+                    ? `https://api.themoviedb.org/3/movie/${el.id}/images?api_key=${this.apiKey}`
+                    : `https://api.themoviedb.org/3/tv/${el.id}/images?api_key=${this.apiKey}`
 
-            axios
-                .get(url)
-                .then((res) => {
-                    // console.log(res.data)
-                    const backdrops = res.data.backdrops
-                    // console.log('un array backdrops di oggetti di ogni elemento di my List :',backdrops)
-                    const backdropEn = backdrops.find(obj => obj.iso_639_1 === 'en')
-                    if(backdropEn) {
-                        this.imgs.push(backdropEn.file_path)
-                    } else {
-                        const backdropAlternative = backdrops.find(obj => (obj.height >= 720 || obj.iso_639_1 === 'it'))
-                        if(backdropAlternative) {
-                            this.imgs.push(backdropAlternative.file_path)
-                        }
-                    }
-                    console.log(this.imgs)
-                })
-                .catch(err => {
-                    console.error(err)
-                })
-            });
+                axios
+                    .get(url)
+                    .then((res) => {
+                        const backdrops = res.data.backdrops
+                        const backdrop1 = backdrops.find(obj => obj.iso_639_1 === 'en')
+                        const backdrop2 = backdrops.find(obj => (obj.height >= 720 || obj.iso_639_1 === 'it'))
+                        const filePath = backdrop1 ? backdrop1.file_path : backdrop2.file_path
 
+                        if(filePath) {
+                            this.imgList.push({id: el.id, url: filePath})
+                        } 
+
+                    })
+                    .catch(err => {
+                        console.error(err)
+                    })
+            })
+
+            Promise.all(request).then(() => {
+                console.log(this.imgList)
+            }).catch(err => {
+                console.error(err)
+            })
+
+        },
+        getImgUrl(id) {
+            const img = this.imgList.find(img => img.id === id)
+            return img ? store.imgBaseUrl + img.url : ''
         }
     },
     created() {
@@ -67,7 +76,7 @@ export default {
 .myList_cards-section {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 40px 8px;
+    gap: 60px 8px;
     justify-content: center;
     margin-top: 190px;
     width: 100%;
@@ -77,4 +86,10 @@ export default {
 .card {
     max-width: 100%;
     height: 130px;
-}</style>
+
+    .card_img {
+        width: 100%; 
+        height: 100%;
+    }
+}
+</style>
