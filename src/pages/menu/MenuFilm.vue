@@ -31,7 +31,7 @@ export default {
         }
     },
     methods: {
-        fetchPopularMovies() {
+        fetchTrendingMovies() {
             axios
                 .get(`https://api.themoviedb.org/3/trending/movie/week?api_key=${this.apiKey}`)
                 .then((res) => {
@@ -91,7 +91,7 @@ export default {
     },
 
     created() {
-        this.fetchPopularMovies()
+        this.fetchTrendingMovies()
         this.fetchTopRatedMovies()
         window.addEventListener('scroll', this.isScrolled)
 

@@ -31,7 +31,7 @@ export const store = reactive({
 
 
   popularMovies: [],
-  popularSeries: [],
+  trendingSeries: [],
 
 
 

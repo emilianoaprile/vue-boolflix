@@ -5,7 +5,7 @@
             <h1 class="title">Serie TV</h1>
         </div>
     </div>
-    <SerieTvContent :popularSeries="store.popularSeries" :topSeries="store.topRatedSeries"></SerieTvContent>
+    <SerieTvContent :trendingSeries="store.trendingSeries" :topSeries="store.topRatedSeries"></SerieTvContent>
 </template>
 
 <script>
@@ -23,7 +23,7 @@ export default {
             store,
             randomSerie: null,
             randomIndex: null,
-            popularSeriesMap: [],
+            trendingSeriesMap: [],
             topRatedSeriesMap: [],
             apiKey: store.api_key,
             scrolled: false
@@ -31,13 +31,13 @@ export default {
         }
     },
     methods: {
-        fetchPopularSeries() {
+        fetchTrendingSeries() {
             axios
                 .get(`https://api.themoviedb.org/3/trending/tv/week?api_key=${this.apiKey}`)
                 .then((res) => {
                     const dataResults = res.data.results
                     console.log(dataResults)
-                    this.popularSeriesMap = dataResults.map(curr => ({
+                    this.trendingSeriesMap = dataResults.map(curr => ({
                         id: curr.id,
                         title: curr.name,
                         imgFront: curr.poster_path,
@@ -46,8 +46,8 @@ export default {
                         vote: curr.vote_average
                     }))
 
-                    store.popularSeries = this.popularSeriesMap.map(curr => ({ ...curr, type: 'serie' }))
-                    console.log(store.popularSeries)
+                    store.trendingSeries = this.trendingSeriesMap.map(curr => ({ ...curr, type: 'serie' }))
+                    console.log(store.trendingSeries)
                 })
                 .catch(err => {
                     console.error(err)
@@ -76,12 +76,12 @@ export default {
 
         getRandomSerie() {
             const min = 0
-            const max = this.popularSeriesMap.length - 1
+            const max = this.trendingSeriesMap.length - 1
             this.randomIndex = Math.floor(Math.random() * (max - min + 1) + min)
-            return this.popularSeriesMap[this.randomIndex]
+            return this.trendingSeriesMap[this.randomIndex]
         },
         selectRandomSerie() {
-            if (this.popularSeries.length > 0) {
+            if (this.trendingSeries.length > 0) {
                 this.randomSerie = this.getRandomSerie()
             }
         },
@@ -91,7 +91,7 @@ export default {
     },
 
     created() {
-        this.fetchPopularSeries()
+        this.fetchTrendingSeries()
         this.fetchTopRatedSeries()
         window.addEventListener('scroll', this.isScrolled)
 

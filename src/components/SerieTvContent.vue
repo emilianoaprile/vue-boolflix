@@ -53,7 +53,7 @@ export default {
         CardTopRated
     },
     props: {
-        popularSeries: {
+        trendingSeries: {
             type: Array,
             required: true
         },
@@ -93,12 +93,12 @@ export default {
     methods: {
         getRandomSerie() {
             const min = 0
-            const max = this.popularSeries.length - 1
+            const max = this.trendingSeries.length - 1
             this.randomIndex = Math.floor(Math.random() * (max - min + 1) + min)
-            return this.popularSeries[this.randomIndex]
+            return this.trendingSeries[this.randomIndex]
         },
         selectRandomSerie() {
-            if (this.popularSeries.length > 0) {
+            if (this.trendingSeries.length > 0) {
                 this.randomSerie = this.getRandomSerie()
                 this.fetchImg()
             }
@@ -116,7 +116,7 @@ export default {
         },
     },
     watch: {
-        popularSeries: {
+        trendingSeries: {
             handler(value) {
                 if (value.length > 0) {
                     this.selectRandomSerie()
