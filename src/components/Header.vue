@@ -6,8 +6,9 @@
                     <img class="logo" :src="imgLogoPath" alt="">
                 </router-link>
                 <ul class="menu_list">
-                    <li class="menu_item" v-for="(listItem, i) in menu" :key="i" :class="{active: isActive(listItem.href)}">
-                        <router-link :to="{name: listItem.href}" >
+                    <li class="menu_item" v-for="(listItem, i) in menu" :key="i"
+                        :class="{ active: isActive(listItem.href) }">
+                        <router-link :to="{ name: listItem.href }">
                             <a>{{ listItem.item }}</a>
                         </router-link>
                     </li>
@@ -16,8 +17,10 @@
             <div class="search_box" @click.stop>
                 <div v-if="showInput" class="searchBar" @click.stop>
                     <font-awesome-icon class="search_icon" :icon="['fas', 'magnifying-glass']" />
-                    <input class="input_search" v-model="store.searchInput" type="text" placeholder="Titoli, persone, generi" />
-                    <font-awesome-icon v-if="store.searchInput.length > 0" @click="removeInputString()"  class="close_input" :icon="['fas', 'xmark']" />
+                    <input class="input_search" v-model="store.searchInput" type="text"
+                        placeholder="Titoli, persone, generi" />
+                    <font-awesome-icon v-if="store.searchInput.length > 0" @click="removeInputString()"
+                        class="close_input" :icon="['fas', 'xmark']" />
                 </div>
                 <button v-else @click="toggleInput" class="search_tab">
                     <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
@@ -156,10 +159,16 @@ export default {
                     font-size: 13.5px;
                     font-weight: 300;
                     transition: all 0.3s ease;
+                    cursor: pointer; // Imposta il cursore su pointer per tutti gli elementi menu_item per default
                 }
 
-                .active {
+                .menu_item.active {
                     font-weight: 500;
+                    cursor: default; // Imposta il cursore su default quando l'elemento ha la classe active
+                }
+
+                .menu_item.active a {
+                    cursor: default; // Imposta il cursore su default per i link all'interno dell'elemento attivo
                 }
 
                 .menu_item:hover {
@@ -184,5 +193,3 @@ export default {
     }
 }
 </style>
-
-

@@ -4,9 +4,7 @@
             <div class="jumbo">
                 <img :src="imgBackSrcControll()" class="jumbo_img" alt="">
                 <div class="item_title">
-                    <!-- <h1 class="title">{{ randomSerie.title }}</h1> -->
                     <img class="title_img" :src="imgSrc" alt="">
-                    <!-- <h1 class="title" v-if="imgs.length === 0">{{ randomMovie.title }}</h1> -->
                 </div>
                 <div class="overlay"></div>
                 <div class="buttons">
@@ -14,7 +12,6 @@
                         <font-awesome-icon class="play_icon" :icon="['fas', 'play']" />
                         <span>Riproduci</span>
                     </button>
-                    <!-- rotta alla show della serie random -->
                     <router-link :to="{name: 'show', params: {id: randomMovie.id, type: randomMovie.type}}">
                         <button class="btn btn_info">
                             <div class="circle">
