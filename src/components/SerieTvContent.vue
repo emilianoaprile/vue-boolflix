@@ -15,14 +15,14 @@
                         <span>Riproduci</span>
                     </button>
                     <!-- rotta alla show della serie random -->
-                    <!-- <router-link> -->
-                    <button class="btn btn_info">
-                        <div class="circle">
-                            <font-awesome-icon class="info_icon" :icon="['fas', 'info']" />
-                        </div>
-                        <span>Altre info</span>
-                    </button>
-                    <!-- </router-link> -->
+                    <router-link :to="{name: 'show', params: {id: randomSerie.id, type: randomSerie.type}}">
+                        <button class="btn btn_info">
+                            <div class="circle">
+                                <font-awesome-icon class="info_icon" :icon="['fas', 'info']" />
+                            </div>
+                            <span>Altre info</span>
+                        </button>
+                    </router-link>
                 </div>
             </div>
         </div>

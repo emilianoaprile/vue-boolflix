@@ -42,9 +42,9 @@ export default {
                         const backdrop2 = backdrops.find(obj => (obj.height >= 720 || obj.iso_639_1 === 'it'))
                         const filePath = backdrop1 ? backdrop1.file_path : backdrop2.file_path
 
-                        if(filePath) {
-                            this.imgList.push({id: el.id, url: filePath})
-                        } 
+                        if (filePath) {
+                            this.imgList.push({ id: el.id, url: filePath })
+                        }
 
                     })
                     .catch(err => {
@@ -81,15 +81,19 @@ export default {
     margin-top: 190px;
     width: 100%;
     padding: 0 60px;
+    padding-bottom: 60px;
 }
 
 .card {
     max-width: 100%;
     height: 130px;
+    border-radius: 0.2vw;
 
     .card_img {
-        width: 100%; 
+        width: 100%;
         height: 100%;
+        border-radius: 0.2vw;
+
     }
 }
 </style>
