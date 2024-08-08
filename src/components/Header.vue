@@ -17,7 +17,7 @@
             <div class="search_box" @click.stop>
                 <div v-if="showInput" class="searchBar" @click.stop>
                     <font-awesome-icon class="search_icon" :icon="['fas', 'magnifying-glass']" />
-                    <input class="input_search" v-model="store.searchInput" type="text"
+                    <input ref="searchInput" class="input_search" v-model="store.searchInput" type="text"
                         placeholder="Titoli, persone, generi" />
                     <font-awesome-icon v-if="store.searchInput.length > 0" @click="removeInputString()"
                         class="close_input" :icon="['fas', 'xmark']" />
@@ -57,6 +57,12 @@ export default {
     methods: {
         toggleInput() {
             this.showInput = !this.showInput
+            this.$nextTick(() => {
+                console.log(this.$refs)
+                if (this.showInput && this.$refs.searchInput) {
+                    this.$refs.searchInput.focus()
+                }
+            })
         },
         removeInputString() {
             store.searchInput = ''
