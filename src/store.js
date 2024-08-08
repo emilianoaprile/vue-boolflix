@@ -27,7 +27,7 @@ export const store = reactive({
   popularSeries: [],
 
   upcomingMovies: [],
-
+  upcomingSeries: [],
 
   trendingMovies: [],
   trendingSeries: [],

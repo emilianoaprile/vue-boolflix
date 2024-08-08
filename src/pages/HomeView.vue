@@ -134,7 +134,7 @@ export default {
         },
         fetchPopularSeries() {
             axios
-                .get(`https://api.themoviedb.org/3/tv/popular?api_key=${store.api_key}&page=1`)
+                .get(`https://api.themoviedb.org/3/tv/popular?api_key=${store.api_key}&page=3`)
                 .then(res => {
                     const dataResults = res.data.results.filter(curr => curr.original_language === 'en')
                     this.popularSeriesMap = dataResults.map(curr => ({
@@ -195,7 +195,7 @@ export default {
         },
         fetchTrendingSeries() {
             axios
-                .get(`https://api.themoviedb.org/3/trending/tv/week?api_key=${store.api_key}`)
+                .get(`https://api.themoviedb.org/3/trending/tv/week?api_key=${store.api_key}&page=3`)
                 .then((res) => {
                     const dataResults = res.data.results.filter(curr => curr.original_language === 'en')
                     this.trendingSeriesMap = dataResults.map(curr => ({
@@ -216,8 +216,9 @@ export default {
 
         fetchUpcomingMovies() {
             axios
-                .get(`https://api.themoviedb.org/3/movie/upcoming?api_key=${store.api_key}&page=2`)
+                .get(`https://api.themoviedb.org/3/movie/upcoming?api_key=${store.api_key}&page=1`)
                 .then(res => {
+                    console.log(res.data.results)
                     const dataResults = res.data.results.filter(curr => curr.original_language === 'en')
                     this.upcomingMoviesMap = dataResults.map(curr => ({
                         id: curr.id,
@@ -269,12 +270,16 @@ export default {
     created() {
         this.fetchFilms(false)
         this.fetchSeries(false)
+
         this.fetchPopularMovies()
+        this.fetchPopularSeries()
+
         this.fetchTopRatedMovies()
         this.fetchTopRatedSeries()
+
         this.fetchTrendingSeries()
         this.fetchUpcomingMovies()
-        this.fetchPopularSeries()
+
         window.addEventListener('scroll', this.isScrolled)
     },
     beforeDestroy() {

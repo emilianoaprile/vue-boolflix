@@ -1,6 +1,17 @@
 <template>
     <section class="newPopular_section">
-        <div class="myList_slider row-1">
+        <div class="myList_slider">
+            <h1 class="main_content-title">Novità su Boolflix</h1>
+            <div class="cards">
+                <Swiper>
+                    <SwiperSlide v-for="(upcomingMovie, index) in upcomingMovies" :key="upcomingMovie.id">
+                        <Card :item="upcomingMovie" :type="upcomingMovie.type">
+                        </Card>
+                    </SwiperSlide>
+                </Swiper>
+            </div>
+        </div>
+        <div class="myList_slider">
             <h1 class="main_content-title">Top 10 Serie Tv più amate di sempre</h1>
             <div class="cards">
                 <Swiper>
@@ -11,7 +22,7 @@
                 </Swiper>
             </div>
         </div>
-        <div class="myList_slider row-2">
+        <div class="myList_slider">
             <h1 class="main_content-title">Top 10 Film più amati di sempre</h1>
             <div class="cards">
                 <Swiper>
@@ -22,11 +33,22 @@
                 </Swiper>
             </div>
         </div>
+
+        <div class="myList_slider">
+            <h1 class="main_content-title">Serie Tv in arrivo nei prossimi giorni</h1>
+            <div class="cards">
+                <Swiper>
+                    <SwiperSlide v-for="(upcomingSerie, index) in upcomingSeries" :key="upcomingSerie.id">
+                        <Card :item="upcomingSerie" :type="upcomingSerie.type">
+                        </Card>
+                    </SwiperSlide>
+                </Swiper>
+            </div>
+        </div>
     </section>
 </template>
 
 <script>
-import axios from 'axios';
 import { store } from '../store';
 import Card from './Card.vue';
 import CardTopRated from './CardTopRated.vue';
@@ -45,6 +67,14 @@ export default {
             require: true
         },
         topSeries: {
+            type: Array,
+            required: true
+        },
+        upcomingMovies: {
+            type: Array,
+            required: true
+        },
+        upcomingSeries: {
             type: Array,
             required: true
         }

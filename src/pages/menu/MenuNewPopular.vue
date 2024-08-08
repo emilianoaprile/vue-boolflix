@@ -7,7 +7,9 @@
     </div>
     <NewPopularContent 
         :topMovies="store.topRatedMovies" 
-        :topSeries="store.topRatedSeries">
+        :topSeries="store.topRatedSeries"
+        :upcomingMovies="store.upcomingMovies"
+        :upcomingSeries="store.upcomingSeries">
     </NewPopularContent>
 </template>
 
@@ -28,6 +30,8 @@ export default {
             apiKey: store.api_key,
             topRatedSeriesMap: [],
             topRatedMoviesMap: [],
+            upcomingMoviesMap: [],
+            upcomingSeriesMap: [],
 
         }
     },
@@ -75,11 +79,52 @@ export default {
                     console.log(err)
                 })
         },
+        fetchUpcomingMovies() {
+            axios
+                .get(`https://api.themoviedb.org/3/movie/upcoming?api_key=${store.api_key}&page=1`)
+                .then(res => {
+                    const dataResults = res.data.results.filter(curr => curr.original_language === 'en')
+                    this.upcomingMoviesMap = dataResults.map(curr => ({
+                        id: curr.id,
+                        title: curr.title,
+                        imgFront: curr.poster_path,
+                        imgBack: curr.backdrop_path,
+                        description: curr.overview,
+                        vote: curr.vote_average
+                    }))
+                    store.upcomingMovies = this.upcomingMoviesMap.map(curr => ({...curr, type: 'film'}))
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
+        fetchUpcomingSeries() {
+            axios
+                .get(`https://api.themoviedb.org/3/tv/on_the_air?api_key=${store.api_key}&page=7`)
+                .then(res => {
+                    console.log(res.data.results)
+                    const dataResults = res.data.results.filter(curr => curr.original_language === 'en')
+                    this.upcomingSeriesMap = dataResults.map(curr => ({
+                        id: curr.id,
+                        title: curr.name,
+                        imgFront: curr.poster_path,
+                        imgBack: curr.backdrop_path,
+                        description: curr.overview,
+                        vote: curr.vote_average
+                    }))
+                    store.upcomingSeries = this.upcomingSeriesMap.map(curr => ({...curr, type: 'serie'}))
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
 
     },
     created() {
         this.fetchTopRatedMovies()
         this.fetchTopRatedSeries()
+        this.fetchUpcomingMovies()
+        this.fetchUpcomingSeries()
         window.addEventListener('scroll', this.isScrolled)
     },
     beforeUnmount() {

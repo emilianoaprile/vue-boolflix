@@ -100,6 +100,7 @@ export default {
                     console.log(err)
                 })
         },
+        
         isScrolled() {
             this.scrolled = window.scrollY > 0
         }
