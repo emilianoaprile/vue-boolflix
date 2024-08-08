@@ -99,7 +99,7 @@ export default {
             left: 1px;
             top: 0;
             width: 49%;
-            // background-color: #a02d2d;
+            background-color: #db202cce;
         }
 
         .card_img {

@@ -2,8 +2,12 @@
     <div class="home_view">
         <Header class="header" :class="{ scrolled: scrolled}" @searchFilms="fetchFilms" @searchSeries="fetchSeries"></Header>
         <MainContent v-if="showHero && store.searchInput.length === 0" 
-        :popularMovies="popularMoviesMap"
+        :popularMovies="store.popularMovies"
+        :popularSeries="store.popularSeries"
         :topRatedMovies="store.topRatedMovies"
+        :topRatedSeries="store.topRatedSeries"
+        :trendingSeries="store.trendingSeries"
+        :upcomingMovies="store.upcomingMovies"
         :type="'film'">
         </MainContent>
         <SearchResults 
@@ -36,8 +40,10 @@ export default {
             seriesMap: [],
             popularMoviesMap: [],
             popularSeriesMap: [],
+            trendingSeriesMap: [],
             topRatedMoviesMap: [],
             topRatedSeriesMap: [],
+            upcomingMoviesMap: [],
             loading: false,
             searchMode: false,
             scrolled: false,
@@ -126,6 +132,26 @@ export default {
                     console.log(err)
                 })
         },
+        fetchPopularSeries() {
+            axios
+                .get(`https://api.themoviedb.org/3/tv/popular?api_key=${store.api_key}&page=1`)
+                .then(res => {
+                    const dataResults = res.data.results
+                    this.popularSeriesMap = dataResults.map(curr => ({
+                        id: curr.id,
+                        title: curr.name,
+                        imgFront: curr.poster_path,
+                        imgBack: curr.backdrop_path,
+                        description: curr.overview,
+                        language: curr.original_language,
+                        vote: curr.vote_average
+                    }))
+                    store.popularSeries = this.popularSeriesMap.map(curr => ({...curr, type: 'serie'}))
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
     
         fetchTopRatedMovies() {
             axios
@@ -145,6 +171,66 @@ export default {
                 })
                 .catch(err => {
                     console.log(err)
+                })
+        },
+        fetchTopRatedSeries() {
+            axios
+                .get(`https://api.themoviedb.org/3/tv/top_rated?api_key=${store.api_key}`)
+                .then((res) => {
+                    const dataResults = res.data.results
+                    this.topRatedSeriesMap = dataResults.map(curr => ({
+                        id: curr.id,
+                        title: curr.name,
+                        imgFront: curr.poster_path,
+                        imgBack: curr.backdrop_path,
+                        description: curr.overview,
+                        language: curr.original_language,
+                        vote: curr.vote_average
+                    }))
+                    store.topRatedSeries = this.topRatedSeriesMap.slice(0, 10).map(curr => ({...curr, type: 'serie'}))
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
+        fetchTrendingSeries() {
+            axios
+                .get(`https://api.themoviedb.org/3/trending/tv/week?api_key=${store.api_key}`)
+                .then((res) => {
+                    const dataResults = res.data.results
+                    this.trendingSeriesMap = dataResults.map(curr => ({
+                        id: curr.id,
+                        title: curr.name,
+                        imgFront: curr.poster_path,
+                        imgBack: curr.backdrop_path,
+                        description: curr.overview,
+                        vote: curr.vote_average
+                    }))
+
+                    store.trendingSeries = this.trendingSeriesMap.map(curr => ({ ...curr, type: 'serie' }))
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
+
+        fetchUpcomingMovies() {
+            axios
+                .get(`https://api.themoviedb.org/3/movie/upcoming?api_key=${store.api_key}&page=2`)
+                .then(res => {
+                    const dataResults = res.data.results.filter(curr => curr.original_language === 'en')
+                    this.upcomingMoviesMap = dataResults.map(curr => ({
+                        id: curr.id,
+                        title: curr.title,
+                        imgFront: curr.poster_path,
+                        imgBack: curr.backdrop_path,
+                        description: curr.overview,
+                        vote: curr.vote_average
+                    }))
+                    store.upcomingMovies = this.upcomingMoviesMap.map(curr => ({...curr, type: 'film'}))
+                })
+                .catch(err => {
+                    console.error(err)
                 })
         },
 
@@ -185,6 +271,10 @@ export default {
         this.fetchSeries(false)
         this.fetchPopularMovies()
         this.fetchTopRatedMovies()
+        this.fetchTopRatedSeries()
+        this.fetchTrendingSeries()
+        this.fetchUpcomingMovies()
+        this.fetchPopularSeries()
         window.addEventListener('scroll', this.isScrolled)
     },
     beforeDestroy() {

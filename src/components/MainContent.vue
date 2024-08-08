@@ -36,6 +36,17 @@
                 </Swiper>
             </div>
         </div>
+
+        <h1 class="main_content-title">Serie TV che ti appassioneranno</h1>
+        <div class="cards">
+            <Swiper>
+                <SwiperSlide v-for="(trendSerie, index) in store.trendingSeries" :key="trendSerie.id">
+                    <Card :item="trendSerie" :type="trendSerie.type">
+                    </Card>
+                </SwiperSlide>
+            </Swiper>
+        </div>
+
         <h1 class="main_content-title">Top 10 film più amati di sempre</h1>
         <div class="cards">
             <Swiper>
@@ -45,9 +56,37 @@
                 </SwiperSlide>
             </Swiper>
         </div>
+
+        <h1 class="main_content-title">Serie TV popolari</h1>
+        <div class="cards">
+            <Swiper>
+                <SwiperSlide v-for="(popularSerie, index) in store.popularSeries" :key="popularSerie.id">
+                    <Card :item="popularSerie" :type="popularSerie.type">
+                    </Card>
+                </SwiperSlide>
+            </Swiper>
+        </div>
+
+        <h1 class="main_content-title">Top 10 serie TV più votate </h1>
+        <div class="cards">
+            <Swiper>
+                <SwiperSlide v-for="(topSerie, index) in store.topRatedSeries" :key="topSerie.id">
+                    <CardTopRated :item="topSerie" :type="topSerie.type" :topRatedImgs="this.topRatedPaths[index]">
+                    </CardTopRated>
+                </SwiperSlide>
+            </Swiper>
+        </div>
+
+        <h1 class="main_content-title">Novità su Boolflix</h1>
+        <div class="cards">
+            <Swiper>
+                <SwiperSlide v-for="(upMovie, index) in store.upcomingMovies" :key="upMovie.id">
+                    <Card :item="upMovie" :type="upMovie.type">
+                    </Card>
+                </SwiperSlide>
+            </Swiper>
+        </div>
     </div>
-
-
 </template>
 
 
@@ -71,11 +110,27 @@ export default {
             type: Array,
             required: true
         },
+        popularSeries: {
+            type: Array,
+            required: true
+        },
         type: {
             type: String,
             required: true
         },
         topRatedMovies: {
+            type: Array,
+            required: true
+        },
+        topRatedSeries: {
+            type: Array,
+            required: true
+        },
+        trendingSeries: {
+            type: Array,
+            required: true
+        },
+        upcomingMovies: {
             type: Array,
             required: true
         }
@@ -144,9 +199,6 @@ export default {
     },
     mounted() {
         this.selectRandomMovie()
-    },
-    updated() {
-        console.log(store.myList)
     }
 }
 </script>
