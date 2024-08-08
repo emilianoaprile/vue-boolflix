@@ -136,7 +136,7 @@ export default {
             axios
                 .get(`https://api.themoviedb.org/3/tv/popular?api_key=${store.api_key}&page=1`)
                 .then(res => {
-                    const dataResults = res.data.results
+                    const dataResults = res.data.results.filter(curr => curr.original_language === 'en')
                     this.popularSeriesMap = dataResults.map(curr => ({
                         id: curr.id,
                         title: curr.name,
@@ -197,7 +197,7 @@ export default {
             axios
                 .get(`https://api.themoviedb.org/3/trending/tv/week?api_key=${store.api_key}`)
                 .then((res) => {
-                    const dataResults = res.data.results
+                    const dataResults = res.data.results.filter(curr => curr.original_language === 'en')
                     this.trendingSeriesMap = dataResults.map(curr => ({
                         id: curr.id,
                         title: curr.name,
