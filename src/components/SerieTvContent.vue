@@ -25,12 +25,32 @@
         </div>
     </section>
     <div class="myList_slider">
+        <h1 class="main_content-title">Serie TV popolari scelte per te</h1>
+        <div class="cards">
+            <Swiper>
+                <SwiperSlide v-for="(popularSerie, index) in store.popularSeries" :key="popularSerie.id">
+                    <Card :item="popularSerie" :type="popularSerie.type">
+                    </Card>
+                </SwiperSlide>
+            </Swiper>
+        </div>
+
         <h1 class="main_content-title">Top 10 Serie Tv più amate di sempre</h1>
         <div class="cards">
             <Swiper>
                 <SwiperSlide v-for="(topSerie, index) in topSeries" :key="topSerie.id">
                     <CardTopRated :item="topSerie" :type="topSerie.type" :topRatedImgs="this.topRatedPaths[index]">
                     </CardTopRated>
+                </SwiperSlide>
+            </Swiper>
+        </div>
+
+        <h1 class="main_content-title">Serie TV più viste in questo momento</h1>
+        <div class="cards">
+            <Swiper>
+                <SwiperSlide v-for="(trendSerie, index) in trendingSeries" :key="trendSerie.id">
+                    <Card :item="trendSerie" :type="trendSerie.type">
+                    </Card>
                 </SwiperSlide>
             </Swiper>
         </div>
@@ -58,6 +78,10 @@ export default {
             required: true
         },
         topSeries: {
+            type: Array,
+            required: true
+        },
+        popularSeries: {
             type: Array,
             required: true
         }
@@ -139,7 +163,7 @@ export default {
     top: 95%;
     left: 0;
     width: 100%;
-    z-index: 2;
+    z-index: 0;
     background: transparent;
     padding: 20px 0;
     box-sizing: border-box;

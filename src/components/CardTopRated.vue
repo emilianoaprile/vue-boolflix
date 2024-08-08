@@ -100,6 +100,10 @@ export default {
             top: 0;
             width: 49%;
             background-color: #db202cce;
+            border: 2px solid white;
+            border-radius: $border-radius;
+
+
         }
 
         .card_img {

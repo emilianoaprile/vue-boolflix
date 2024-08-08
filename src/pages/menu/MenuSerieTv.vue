@@ -5,7 +5,11 @@
             <h1 class="title">Serie TV</h1>
         </div>
     </div>
-    <SerieTvContent :trendingSeries="store.trendingSeries" :topSeries="store.topRatedSeries"></SerieTvContent>
+    <SerieTvContent 
+        :trendingSeries="store.trendingSeries" 
+        :topSeries="store.topRatedSeries" 
+        :popularSeries="store.popularSeries">
+    </SerieTvContent>
 </template>
 
 <script>
@@ -25,6 +29,7 @@ export default {
             randomIndex: null,
             trendingSeriesMap: [],
             topRatedSeriesMap: [],
+            popularSeriesMap: [],
             apiKey: store.api_key,
             scrolled: false
 
@@ -33,9 +38,9 @@ export default {
     methods: {
         fetchTrendingSeries() {
             axios
-                .get(`https://api.themoviedb.org/3/trending/tv/week?api_key=${this.apiKey}`)
+                .get(`https://api.themoviedb.org/3/trending/tv/week?api_key=${this.apiKey}&page=${store.getRandomNumberPage(1,4)}`)
                 .then((res) => {
-                    const dataResults = res.data.results
+                    const dataResults = res.data.results.filter(curr => curr.original_language === 'en')
                     console.log(dataResults)
                     this.trendingSeriesMap = dataResults.map(curr => ({
                         id: curr.id,
@@ -73,6 +78,26 @@ export default {
                     console.error(err)
                 })
         },
+        fetchPopularSeries() {
+            axios
+                .get(`https://api.themoviedb.org/3/tv/popular?api_key=${store.api_key}&page=${store.getRandomNumberPage(1, 3)}`)
+                .then(res => {
+                    const dataResults = res.data.results.filter(curr => curr.original_language === 'en')
+                    this.popularSeriesMap = dataResults.map(curr => ({
+                        id: curr.id,
+                        title: curr.name,
+                        imgFront: curr.poster_path,
+                        imgBack: curr.backdrop_path,
+                        description: curr.overview,
+                        language: curr.original_language,
+                        vote: curr.vote_average
+                    }))
+                    store.popularSeries = this.popularSeriesMap.map(curr => ({...curr, type: 'serie'}))
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
 
         getRandomSerie() {
             const min = 0
@@ -93,6 +118,7 @@ export default {
     created() {
         this.fetchTrendingSeries()
         this.fetchTopRatedSeries()
+        this.fetchPopularSeries()
         window.addEventListener('scroll', this.isScrolled)
 
     },

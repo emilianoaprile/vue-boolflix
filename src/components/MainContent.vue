@@ -12,7 +12,7 @@
                         <font-awesome-icon class="play_icon" :icon="['fas', 'play']" />
                         <span>Riproduci</span>
                     </button>
-                    <router-link :to="{ name: 'show', params: { id: popularMovies[randomIndex].id, type: type } }">
+                    <router-link :to="{ name: 'show', params: { id: popularMovies[randomIndex].id, type: popularMovies[randomIndex].type } }">
                         <button class="btn btn_info">
                             <div class="circle">
                                 <font-awesome-icon class="info_icon" :icon="['fas', 'info']" />
@@ -112,10 +112,6 @@ export default {
         },
         popularSeries: {
             type: Array,
-            required: true
-        },
-        type: {
-            type: String,
             required: true
         },
         topRatedMovies: {
@@ -223,8 +219,8 @@ export default {
 }
 
 .cards {
-    padding-top: 30px;
-    padding-bottom: 30px;
+    padding-top: 40px;
+    padding-bottom: 40px;
 }
 
 .main_content-title {

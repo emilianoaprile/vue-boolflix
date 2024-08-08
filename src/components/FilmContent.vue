@@ -25,12 +25,30 @@
         </div>
     </section>
     <div class="myList_slider">
+        <h1 class="main_content-title">Film acclamati dal pubblico</h1>
+        <div class="cards">
+            <Swiper>
+                <SwiperSlide v-for="(popularMovie, index) in popularMovies" :key="popularMovie.id">
+                    <Card :item="popularMovie" :type="popularMovie.type">
+                    </Card>
+                </SwiperSlide>
+            </Swiper>
+        </div>
         <h1 class="main_content-title">Top 10 Film più amati di sempre</h1>
         <div class="cards">
             <Swiper>
-                <SwiperSlide v-for="(topFilm, index) in topFilms" :key="topFilm.id">
+                <SwiperSlide v-for="(topFilm, index) in topRatedFilms" :key="topFilm.id">
                     <CardTopRated :item="topFilm" :type="topFilm.type" :topRatedImgs="this.topRatedPaths[index]">
                     </CardTopRated>
+                </SwiperSlide>
+            </Swiper>
+        </div>
+        <h1 class="main_content-title">Film più guardati questa settimana</h1>
+        <div class="cards">
+            <Swiper>
+                <SwiperSlide v-for="(trendMovie, index) in trendingMovies" :key="trendMovie.id">
+                    <Card :item="trendMovie" :type="trendMovie.type">
+                    </Card>
                 </SwiperSlide>
             </Swiper>
         </div>
@@ -53,11 +71,15 @@ export default {
         CardTopRated
     },
     props: {
-        popularMovies: {
+        trendingMovies: {
             type: Array,
             required: true
         },
-        topFilms: {
+        topRatedFilms: {
+            type: Array,
+            required: true
+        },
+        popularMovies: {
             type: Array,
             required: true
         }
@@ -93,12 +115,12 @@ export default {
     methods: {
         getRandomMovie() {
             const min = 0
-            const max = this.popularMovies.length - 1
+            const max = this.trendingMovies.length - 1
             this.randomIndex = Math.floor(Math.random() * (max - min + 1) + min)
-            return this.popularMovies[this.randomIndex]
+            return this.trendingMovies[this.randomIndex]
         },
         selectRandomMovie() {
-            if (this.popularMovies.length > 0) {
+            if (this.trendingMovies.length > 0) {
                 this.randomMovie = this.getRandomMovie()
                 this.fetchImg()
             }
@@ -118,7 +140,7 @@ export default {
         },
     },
     watch: {
-        popularMovies: {
+        trendingMovies: {
             handler(value) {
                 if (value.length > 0) {
                     this.selectRandomMovie()
@@ -141,7 +163,7 @@ export default {
     top: 95%;
     left: 0;
     width: 100%;
-    z-index: 2;
+    z-index: 0;
     background: transparent;
     padding: 20px 0;
     box-sizing: border-box;

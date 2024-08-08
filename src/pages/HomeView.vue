@@ -8,7 +8,7 @@
         :topRatedSeries="store.topRatedSeries"
         :trendingSeries="store.trendingSeries"
         :upcomingMovies="store.upcomingMovies"
-        :type="'film'">
+        >
         </MainContent>
         <SearchResults 
         :loadingMain="loading" 
@@ -115,7 +115,7 @@ export default {
             axios
                 .get(`https://api.themoviedb.org/3/movie/popular?api_key=${store.api_key}&page=1`)
                 .then((res) => {
-                    const dataResults = res.data.results
+                    const dataResults = res.data.results.filter(curr => curr.original_language === 'en')
                     this.popularMoviesMap = dataResults.map(curr => ({
                         id: curr.id,
                         title: curr.title,
@@ -125,7 +125,7 @@ export default {
                         language: curr.original_language,
                         vote: curr.vote_average
                     }))
-                    store.popularMovies = this.popularMoviesMap
+                    store.popularMovies = this.popularMoviesMap.map(curr => ({...curr, type: 'film'}))
 
                 })
                 .catch(err => {

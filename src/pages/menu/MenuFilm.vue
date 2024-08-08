@@ -5,7 +5,12 @@
             <h1 class="title">Film</h1>
         </div>
     </div>
-    <FilmContent :popularMovies="store.popularMovies" :topFilms="store.topRatedMovies"></FilmContent>
+    <FilmContent 
+    :trendingMovies="store.trendingMovies" 
+    :topRatedFilms="store.topRatedMovies"
+    :popularMovies="store.popularMovies"
+    >
+    </FilmContent>
 </template>
 
 <script>
@@ -23,8 +28,9 @@ export default {
             store,
             randomSerie: null,
             randomIndex: null,
-            popularMoviesMap: [],
+            trendingMoviesMap: [],
             topRatedMoviesMap: [],
+            popularMoviesMap: [],
             apiKey: store.api_key,
             scrolled: false
 
@@ -33,11 +39,11 @@ export default {
     methods: {
         fetchTrendingMovies() {
             axios
-                .get(`https://api.themoviedb.org/3/trending/movie/week?api_key=${this.apiKey}`)
+                .get(`https://api.themoviedb.org/3/trending/movie/week?api_key=${this.apiKey}&page=${store.getRandomNumberPage(1, 4)}`)
                 .then((res) => {
                     const dataResults = res.data.results
                     console.log(dataResults)
-                    this.popularMoviesMap = dataResults.map(curr => ({
+                    this.trendingMoviesMap = dataResults.map(curr => ({
                         id: curr.id,
                         title: curr.title,
                         imgFront: curr.poster_path,
@@ -46,8 +52,8 @@ export default {
                         vote: curr.vote_average
                     }))
 
-                    store.popularMovies = this.popularMoviesMap.map(curr => ({ ...curr, type: 'film' }))
-                    console.log(store.popularMovies)
+                    store.trendingMovies = this.trendingMoviesMap.map(curr => ({ ...curr, type: 'film' }))
+                    console.log(store.trendingMovies)
                 })
                 .catch(err => {
                     console.error(err)
@@ -73,17 +79,26 @@ export default {
                     console.log(err)
                 })
         },
+        fetchPopularMovies() {
+            axios
+                .get(`https://api.themoviedb.org/3/movie/popular?api_key=${store.api_key}&page=${store.getRandomNumberPage(1,4)}`)
+                .then((res) => {
+                    const dataResults = res.data.results.filter(curr => curr.original_language === 'en')
+                    this.popularMoviesMap = dataResults.map(curr => ({
+                        id: curr.id,
+                        title: curr.title,
+                        imgFront: curr.poster_path,
+                        imgBack: curr.backdrop_path,
+                        description: curr.overview,
+                        language: curr.original_language,
+                        vote: curr.vote_average
+                    }))
+                    store.popularMovies = this.popularMoviesMap.map(curr => ({...curr, type: 'film'}))
 
-        getRandomMovie() {
-            const min = 0
-            const max = this.popularMoviesMap.length - 1
-            this.randomIndex = Math.floor(Math.random() * (max - min + 1) + min)
-            return this.popularMoviesMap[this.randomIndex]
-        },
-        selectRandomSerie() {
-            if (this.popularMovies.length > 0) {
-                this.randomMovie = this.getRandomMovie()
-            }
+                })
+                .catch(err => {
+                    console.log(err)
+                })
         },
         isScrolled() {
             this.scrolled = window.scrollY > 0
@@ -93,6 +108,7 @@ export default {
     created() {
         this.fetchTrendingMovies()
         this.fetchTopRatedMovies()
+        this.fetchPopularMovies()
         window.addEventListener('scroll', this.isScrolled)
 
     },
