@@ -45,7 +45,7 @@ export const store = reactive({
       }
     });
     if (!exists) {
-      this.myList.push(item);
+      this.myList.unshift(item);
       localStorage.setItem("myList", JSON.stringify(this.myList));
     }
   },
