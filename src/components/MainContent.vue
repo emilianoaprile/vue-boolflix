@@ -12,8 +12,9 @@
                         <font-awesome-icon class="play_icon" :icon="['fas', 'play']" />
                         <span>Riproduci</span>
                     </button>
-                    <router-link :to="{ name: 'show', params: { id: popularMovies[randomIndex].id, type: popularMovies[randomIndex].type } }">
-                        <button class="btn btn_info">
+                    <router-link
+                        :to="{ name: 'show', params: { id: popularMovies[randomIndex].id, type: popularMovies[randomIndex].type } }">
+                        <button class="btn_info">
                             <div class="circle">
                                 <font-awesome-icon class="info_icon" :icon="['fas', 'info']" />
                             </div>
@@ -24,7 +25,6 @@
             </div>
         </div>
     </section>
-    <!-- TODO: cambiare nomi delle classi -->
     <div class="myList_slider">
         <div class="myList_wrapper" v-if="store.myList.length > 0">
             <h1 class="main_content-title">La mia lista</h1>
@@ -286,8 +286,7 @@ export default {
         display: flex;
         gap: 20px;
 
-        .btn_play,
-        .btn_info {
+        .btn_play {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -297,32 +296,7 @@ export default {
                 font-size: 25px;
             }
 
-            .info_icon {
-                font-size: 16px;
-            }
-        }
 
-        .btn_info:hover {
-            .circle {
-                border: 2px solid white;
-                border-radius: 50%;
-                width: 25px;
-                height: 25px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-        }
-
-        .circle {
-            border: 2px solid black;
-            border-radius: 50%;
-            width: 25px;
-            height: 25px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: 0.1s;
         }
     }
 }

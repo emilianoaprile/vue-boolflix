@@ -1,9 +1,9 @@
 import { reactive } from "vue";
 
 const loadFromLocalStorage = () => {
-  const data = localStorage.getItem("myList");
+  const data = localStorage.getItem("myList")
   if (data) {
-    return JSON.parse(data);
+    return JSON.parse(data)
   }
   return [];
 };
@@ -38,20 +38,22 @@ export const store = reactive({
   myList: loadFromLocalStorage(),
 
   addToMyList(item) {
-    let exists = false;
+    let exists = false
     this.myList.forEach((el) => {
       if (el.id === item.id) {
-        exists = true;
+        exists = true
       }
     });
     if (!exists) {
-      this.myList.unshift(item);
-      localStorage.setItem("myList", JSON.stringify(this.myList));
+      this.myList.unshift(item)
+      // invocare una funzione per una modale che avverte di aver aggiunto un elemento alla mia lista
+      localStorage.setItem("myList", JSON.stringify(this.myList))
     }
   },
   removeFromMyList(item) {
-    this.myList = this.myList.filter((el) => el.id !== item.id);
-    localStorage.setItem("myList", JSON.stringify(this.myList));
+    // invocare una funzione per una modale che chiede se si è sicuri di togliere l'elemento dalla lista
+    this.myList = this.myList.filter((el) => el.id !== item.id)
+    localStorage.setItem("myList", JSON.stringify(this.myList))
   },
 
   getRandomNumberPage(min, max) {

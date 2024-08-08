@@ -13,7 +13,7 @@
                         <span>Riproduci</span>
                     </button>
                     <router-link :to="{name: 'show', params: {id: randomSerie.id, type: randomSerie.type}}">
-                        <button class="btn btn_info">
+                        <button class="btn_info">
                             <div class="circle">
                                 <font-awesome-icon class="info_icon" :icon="['fas', 'info']" />
                             </div>
@@ -240,8 +240,7 @@ export default {
                 display: flex;
                 gap: 20px;
 
-                .btn_play,
-                .btn_info {
+                .btn_play {
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -250,33 +249,6 @@ export default {
                     .play_icon {
                         font-size: 25px;
                     }
-
-                    .info_icon {
-                        font-size: 16px;
-                    }
-                }
-
-                .btn_info:hover {
-                    .circle {
-                        border: 2px solid white;
-                        border-radius: 50%;
-                        width: 25px;
-                        height: 25px;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                    }
-                }
-
-                .circle {
-                    border: 2px solid black;
-                    border-radius: 50%;
-                    width: 25px;
-                    height: 25px;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    transition: 0.1s;
                 }
             }
         }
