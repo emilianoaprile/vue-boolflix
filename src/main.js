@@ -17,7 +17,8 @@ import {
     faCheck,
     faInfo,
     faMagnifyingGlass,
-    faXmark
+    faXmark,
+    faRotateLeft
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -28,7 +29,7 @@ import {
 
 /* add icons to the library */
 library
-    .add(farStar, fasStar, faPlay, faPlus, faThumbsUp, faCheck, faInfo, faMagnifyingGlass, faXmark)
+    .add(farStar, fasStar, faPlay, faPlus, faThumbsUp, faCheck, faInfo, faMagnifyingGlass, faXmark, faRotateLeft)
 
 createApp(App)
 .use(router)

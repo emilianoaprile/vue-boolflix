@@ -50,23 +50,7 @@ a {
   color: #141414;
 }
 .btn:hover {
-  color: #fff;
-}
-
-
-.btn:hover:after {
-  width: 100%;
-}
-.btn:after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  transition: all 0.3s ease;
-  left: 0;
-  top: 0;
-  width: 0;
-  height: 100%;
-  background: #141414;
+  background-color: #ffffffa9;
 }
 
 .btn_round {
@@ -111,7 +95,6 @@ a {
   padding-left: 2rem;
   padding-right: 2.4rem;
   transition: all 0.3s ease;
-
 }
 .info_icon {
   font-size: 16px;
@@ -119,7 +102,6 @@ a {
 
 .btn_info:hover {
   background-color: rgba(109, 109, 110, 0.38);
-
 }
 
 .circle {
@@ -131,4 +113,18 @@ a {
   justify-content: center;
   align-items: center;
   transition: 0.1s;
+}
+
+.modal_btn {
+  background: none repeat scroll 0 0 transparent;
+  border: medium none;
+  text-decoration: none;
+  cursor: pointer;
+  padding-left: 2rem;
+  padding-right: 2.4rem;
+  height: 100%;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
 }
