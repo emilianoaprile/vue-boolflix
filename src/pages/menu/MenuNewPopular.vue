@@ -1,27 +1,35 @@
 <template>
     <Header class="header"></Header>
-    <div class="sub_header">
+    <div class="sub_header" v-if="showHero && store.searchInput.length === 0">
         <div class="sub_header-wrapper" :class="{ scrolled: scrolled }">
             <h1 class="title">Nuovi e Popolari</h1>
         </div>
     </div>
-    <NewPopularContent 
+    <NewPopularContent v-if="showHero && store.searchInput.length === 0"
         :topMovies="store.topRatedMovies" 
         :topSeries="store.topRatedSeries"
         :upcomingMovies="store.upcomingMovies"
         :upcomingSeries="store.upcomingSeries">
     </NewPopularContent>
+    <SearchResults 
+        :loadingMain="loading" 
+        :films="filteredFilms" 
+        :series="filteredSeries" 
+        :noResults="noResults">
+    </SearchResults>
 </template>
 
 <script>
 import axios from 'axios';
 import Header from '../../components/Header.vue';
+import SearchResults from '../../components/SearchResults.vue';
 import NewPopularContent from '../../components/NewPopularContent.vue';
 import { store } from '../../store';
 export default {
     components: {
         Header,
-        NewPopularContent
+        NewPopularContent,
+        SearchResults
     },
     data() {
         return {
@@ -32,12 +40,77 @@ export default {
             topRatedMoviesMap: [],
             upcomingMoviesMap: [],
             upcomingSeriesMap: [],
+            filmsMap: [],
+            seriesMap: [],
+            loading: false,
+            searchMode: false,
+            showHero: true,
 
         }
     },
     methods: {
         isScrolled() {
             this.scrolled = window.scrollY > 0
+        },
+        fetchFilms(showLoader = true) {
+            if (showLoader) { this.loading = true }
+            axios
+                .get(store.API_URL_MOVIES, {
+                    // al metodo GET passiamo l'url e un oggetto (params) che ha una proprietà (query) che prende il valore dell'input memorizzato nello store
+                    params: {
+                        query: store.searchInput
+                    }
+                })
+                .then(res => {
+                    // mappo i risultati della chiamata per avere un array di oggetti con le sole proprietà che mi servono
+                    const dataResults = res.data.results
+                    // console.log('MOVIES DATA', dataResults)
+                    this.filmsMap = dataResults.map(curr => ({
+                        id: curr.id,
+                        title: curr.title,
+                        imgFront: curr.poster_path,
+                        imgBack: curr.backdrop_path,
+                        description: curr.overview,
+                        language: curr.original_language,
+                        vote: curr.vote_average
+                    }))
+                    // assegno il valore dell'array mappato a quello dello store
+                    store.films = this.filmsMap.map(curr => ({...curr, type: 'film'}))
+                    this.loading = false
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
+        fetchSeries(showLoader = true) {
+            if (showLoader) { this.loading = true }
+            axios
+                .get(store.API_URL_SERIES, {
+                    // al metodo GET passiamo l'url e un oggetto (params) che ha una proprietà (query) che prende il valore dell'input memorizzato nello store
+                    params: {
+                        query: store.searchInput
+                    }
+                })
+                .then(res => {
+                    // mappo i risultati della chiamata per avere un array di oggetti con le sole proprietà che mi servono
+                    const dataResults = res.data.results
+                    // console.log('SERIE DATA:', dataResults)
+                    this.seriesMap = dataResults.map(curr => ({
+                        id: curr.id,
+                        title: curr.name,
+                        imgFront: curr.poster_path,
+                        imgBack: curr.backdrop_path,
+                        description: curr.overview,
+                        language: curr.original_language,
+                        vote: curr.vote_average
+                    }))
+                    // assegno il valore dell'array mappato a quello dello store
+                    store.series = this.seriesMap.map(curr => ({...curr, type: 'serie'}))
+                    this.loading = false
+                })
+                .catch(err => {
+                    console.error(err)
+                })
         },
         fetchTopRatedSeries() {
             axios
@@ -120,7 +193,24 @@ export default {
         },
 
     },
+    computed: {
+        filteredFilms() {
+            return this.store.films.filter(film =>
+                film.title.toLowerCase().includes(store.searchInput.toLowerCase())
+            )
+        },
+        filteredSeries() {
+            return this.store.series.filter(serie =>
+                serie.title.toLowerCase().includes(store.searchInput.toLowerCase())
+            )
+        },
+        noResults() {
+            return this.searchMode && this.filteredFilms.length === 0 && this.filteredSeries.length === 0
+        },
+    },
     created() {
+        this.fetchFilms(false)
+        this.fetchSeries(false)
         this.fetchTopRatedMovies()
         this.fetchTopRatedSeries()
         this.fetchUpcomingMovies()
@@ -130,7 +220,20 @@ export default {
     beforeUnmount() {
         window.removeEventListener('scroll', this.isScrolled)
 
-    }
+    },
+    watch: {
+        'store.searchInput': function (value) {
+            if (value) {
+                this.searchMode = true
+                this.showHero = false
+                this.fetchFilms()
+                this.fetchSeries()
+            } else {
+                this.searchMode = false
+                this.showHero = true
+            }
+        }
+    },
 
 }
 </script>

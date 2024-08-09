@@ -1,26 +1,34 @@
 <template>
-    <Header class="header"></Header>
-    <div class="sub_header">
+    <Header class="header" @searchFilms="fetchFilms" @searchSeries="fetchSeries"></Header>
+    <div class="sub_header" v-if="showHero && store.searchInput.length === 0">
         <div class="sub_header-wrapper" :class="{ scrolled: scrolled }">
             <h1 class="title">Serie TV</h1>
         </div>
     </div>
-    <SerieTvContent 
+    <SerieTvContent v-if="showHero && store.searchInput.length === 0"
         :trendingSeries="store.trendingSeries" 
         :topSeries="store.topRatedSeries" 
         :popularSeries="store.popularSeries">
     </SerieTvContent>
+    <SearchResults 
+        :loadingMain="loading" 
+        :films="filteredFilms" 
+        :series="filteredSeries" 
+        :noResults="noResults">
+    </SearchResults>
 </template>
 
 <script>
 import axios from 'axios';
 import Header from '../../components/Header.vue';
 import SerieTvContent from '../../components/SerieTvContent.vue';
+import SearchResults from '../../components/SearchResults.vue';
 import { store } from '../../store';
 export default {
     components: {
         Header,
         SerieTvContent,
+        SearchResults
     },
     data() {
         return {
@@ -31,11 +39,77 @@ export default {
             topRatedSeriesMap: [],
             popularSeriesMap: [],
             apiKey: store.api_key,
-            scrolled: false
+            scrolled: false,
+            filmsMap: [],
+            seriesMap: [],
+            loading: false,
+            searchMode: false,
+            showHero: true,
 
         }
     },
     methods: {
+
+        fetchFilms(showLoader = true) {
+            if (showLoader) { this.loading = true }
+            axios
+                .get(store.API_URL_MOVIES, {
+                    // al metodo GET passiamo l'url e un oggetto (params) che ha una proprietà (query) che prende il valore dell'input memorizzato nello store
+                    params: {
+                        query: store.searchInput
+                    }
+                })
+                .then(res => {
+                    // mappo i risultati della chiamata per avere un array di oggetti con le sole proprietà che mi servono
+                    const dataResults = res.data.results
+                    // console.log('MOVIES DATA', dataResults)
+                    this.filmsMap = dataResults.map(curr => ({
+                        id: curr.id,
+                        title: curr.title,
+                        imgFront: curr.poster_path,
+                        imgBack: curr.backdrop_path,
+                        description: curr.overview,
+                        language: curr.original_language,
+                        vote: curr.vote_average
+                    }))
+                    // assegno il valore dell'array mappato a quello dello store
+                    store.films = this.filmsMap.map(curr => ({...curr, type: 'film'}))
+                    this.loading = false
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
+        fetchSeries(showLoader = true) {
+            if (showLoader) { this.loading = true }
+            axios
+                .get(store.API_URL_SERIES, {
+                    // al metodo GET passiamo l'url e un oggetto (params) che ha una proprietà (query) che prende il valore dell'input memorizzato nello store
+                    params: {
+                        query: store.searchInput
+                    }
+                })
+                .then(res => {
+                    // mappo i risultati della chiamata per avere un array di oggetti con le sole proprietà che mi servono
+                    const dataResults = res.data.results
+                    // console.log('SERIE DATA:', dataResults)
+                    this.seriesMap = dataResults.map(curr => ({
+                        id: curr.id,
+                        title: curr.name,
+                        imgFront: curr.poster_path,
+                        imgBack: curr.backdrop_path,
+                        description: curr.overview,
+                        language: curr.original_language,
+                        vote: curr.vote_average
+                    }))
+                    // assegno il valore dell'array mappato a quello dello store
+                    store.series = this.seriesMap.map(curr => ({...curr, type: 'serie'}))
+                    this.loading = false
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
         fetchTrendingSeries() {
             axios
                 .get(`https://api.themoviedb.org/3/trending/tv/week?api_key=${this.apiKey}&page=${store.getRandomNumberPage(1,4)}`)
@@ -80,7 +154,7 @@ export default {
         },
         fetchPopularSeries() {
             axios
-                .get(`https://api.themoviedb.org/3/tv/popular?api_key=${store.api_key}&page=${store.getRandomNumberPage(1, 3)}`)
+                .get(`https://api.themoviedb.org/3/tv/popular?api_key=${store.api_key}&page=${store.getRandomNumberPage(2, 3)}`)
                 .then(res => {
                     const dataResults = res.data.results.filter(curr => curr.original_language === 'en')
                     this.popularSeriesMap = dataResults.map(curr => ({
@@ -114,8 +188,25 @@ export default {
             this.scrolled = window.scrollY > 0
         }
     },
+    computed: {
+        filteredFilms() {
+            return this.store.films.filter(film =>
+                film.title.toLowerCase().includes(store.searchInput.toLowerCase())
+            )
+        },
+        filteredSeries() {
+            return this.store.series.filter(serie =>
+                serie.title.toLowerCase().includes(store.searchInput.toLowerCase())
+            )
+        },
+        noResults() {
+            return this.searchMode && this.filteredFilms.length === 0 && this.filteredSeries.length === 0
+        },
+    },
 
     created() {
+        this.fetchFilms(false)
+        this.fetchSeries(false)
         this.fetchTrendingSeries()
         this.fetchTopRatedSeries()
         this.fetchPopularSeries()
@@ -124,6 +215,19 @@ export default {
     },
     beforeUnmount() {
         window.removeEventListener('scroll', this.isScrolled)
+    },
+    watch: {
+        'store.searchInput': function (value) {
+            if (value) {
+                this.searchMode = true
+                this.showHero = false
+                this.fetchFilms()
+                this.fetchSeries()
+            } else {
+                this.searchMode = false
+                this.showHero = true
+            }
+        }
     },
 }
 </script>

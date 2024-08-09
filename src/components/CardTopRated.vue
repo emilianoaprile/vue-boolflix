@@ -96,12 +96,13 @@ export default {
         .number {
             bottom: 0;
             position: absolute;
-            left: 1px;
+            left: 0;
             top: 0;
             width: 49%;
             background-color: #db202cce;
             border: 2px solid white;
             border-radius: $border-radius;
+            padding-left: 4px;
 
 
         }

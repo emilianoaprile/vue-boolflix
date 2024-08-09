@@ -46,8 +46,8 @@ export default {
             upcomingMoviesMap: [],
             loading: false,
             searchMode: false,
+            showHero: true,
             scrolled: false,
-            showHero: true
         }
     },
     methods: {
