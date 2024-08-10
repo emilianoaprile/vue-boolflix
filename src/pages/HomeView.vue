@@ -16,7 +16,6 @@
         :series="filteredSeries" 
         :noResults="noResults">
         </SearchResults>
-        <ModalRemoveItem></ModalRemoveItem>
     </div>
 </template>
 
@@ -24,7 +23,6 @@
 
 <script>
 import Header from '../components/Header.vue';
-import ModalRemoveItem from '../components/ModalRemoveItem.vue';
 import SearchResults from '../components/SearchResults.vue';
 import MainContent from '../components/MainContent.vue';
 import { store } from '../store.js';
@@ -34,7 +32,6 @@ export default {
         Header,
         SearchResults,
         MainContent,
-        ModalRemoveItem
     },
     data() {
         return {

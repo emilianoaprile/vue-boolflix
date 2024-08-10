@@ -1,9 +1,9 @@
 <template>
     <div class="modal">
         <div class="modal_text">
-            titolo del film è stato rimosso da La mia lista
+            {{ showDetails.title}} è stato rimosso da La mia lista
         </div>
-        <button class="modal_btn" >
+        <button class="modal_btn" @click="addToMyList">
             <font-awesome-icon class="cancel_icon" :icon="['fas', 'rotate-left']" />
             <span>Annulla</span>
         </button>
@@ -11,7 +11,34 @@
 </template>
 
 <script>
+import { store } from '../store'
 export default {
+    props: {
+        showDetails: {
+            type: Object,
+            rquired: true
+        },
+        type: {
+            type: String,
+            rquired: true
+        }
+    },
+    data() {
+        return {
+            store,
+        }
+    },
+    methods: {
+        addToMyList() {
+            store.addToMyList({ ...this.showDetails, type: this.type })
+            store.isIntoList = true
+            store.showModal = false
+        },
+    },
+    created() {
+        console.log(this.showDetails)
+        console.log(this.type)
+    }
 
 }
 </script>
@@ -20,7 +47,7 @@ export default {
 .modal {
     position: fixed;
     bottom: 3.2rem;
-    margin: 0px 12.5%;
+    margin: 0px 20%;
     z-index: 10;
     left: 0px;
     right: 0px;

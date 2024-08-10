@@ -19,6 +19,8 @@ export const store = reactive({
 
   searchInput: "",
   showCards: true,
+  isIntoList: false,
+  showModal: false,
 
   films: [],
   series: [],

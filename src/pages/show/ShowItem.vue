@@ -14,10 +14,10 @@
                         <font-awesome-icon class="play_icon" :icon="['fas', 'play']" />
                         <span>Riproduci</span>
                     </button>
-                    <button v-if="isIntoList" @click="removeFromMyList" class="btn_round btn_addlist">
+                    <button v-if="store.isIntoList" @click="removeFromMyList" class="btn_round btn_addlist">
                         <font-awesome-icon :icon="['fas', 'check']" />
                     </button>
-                    <button v-else="isIntoList" @click="addToMyList" class="btn_round btn_addlist">
+                    <button v-else="store.isIntoList" @click="addToMyList" class="btn_round btn_addlist">
                         <font-awesome-icon :icon="['fas', 'plus']" />
                     </button>
 
@@ -61,16 +61,20 @@
             </div>
         </div>
     </section>
+    <ModalRemoveItem v-if="store.showModal" :showDetails="showDetails" :type="type"></ModalRemoveItem>
+    
 
 </template>
 
 <script>
 import Header from '../../components/Header.vue';
+import ModalRemoveItem from '../../components/ModalRemoveItem.vue';
 import axios from 'axios';
 import { store } from '../../store.js';
 export default {
     components: {
-        Header
+        Header,
+        ModalRemoveItem
     },
     props: {
         id: {
@@ -96,7 +100,6 @@ export default {
                 orange: false,
                 red: false
             },
-            isIntoList: false,
             scrolled: false,
             imgs: []
 
@@ -161,7 +164,6 @@ export default {
                 })
         },
 
-
         imgBackSrcControll() {
             const basePath = store.imgBaseUrl_bg;
             return this.showDetails.imgBack === null ? this.defaultImg : basePath + this.showDetails.imgBack;
@@ -184,14 +186,16 @@ export default {
         },
         addToMyList() {
             store.addToMyList({ ...this.showDetails, type: this.type })
-            this.isIntoList = true
+            store.isIntoList = true
+            store.showModal = false
         },
         removeFromMyList() {
             store.removeFromMyList(this.showDetails)
-            this.isIntoList = false
+            store.isIntoList = false
+            store.showModal = true
         },
         checkIfIntoList() {
-            this.isIntoList = store.myList.find(item => item.id === this.showDetails.id);
+            store.isIntoList = store.myList.find(item => item.id === this.showDetails.id);
         },
         isScrolled() {
             this.scrolled = window.scrollY > 0
