@@ -192,13 +192,21 @@ export default {
         removeFromMyList() {
             store.removeFromMyList(this.showDetails)
             store.isIntoList = false
-            store.showModal = true
+            this.showModal()
         },
         checkIfIntoList() {
             store.isIntoList = store.myList.find(item => item.id === this.showDetails.id);
         },
         isScrolled() {
             this.scrolled = window.scrollY > 0
+        },
+        showModal() {
+            store.showModal = true
+            if(store.showModal) {
+                setTimeout(()=> {
+                    store.showModal = false
+                }, 5500)
+            }
         }
     },
     created() {
