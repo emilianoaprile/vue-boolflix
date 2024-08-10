@@ -1,7 +1,7 @@
 <template>
     <div class="modal">
         <div class="modal_text">
-            {{ showDetails.title}} è stato rimosso da La mia lista
+            {{ showDetails.title}} è stato rimosso da La mia lista.
         </div>
         <button class="modal_btn" @click="addToMyList">
             <font-awesome-icon class="cancel_icon" :icon="['fas', 'rotate-left']" />
@@ -58,9 +58,12 @@ export default {
     height: 70px;
     border-radius: 40px;
     padding: 0 50px;
+    font-size: 18px;
+    color: rgba(24, 24, 24);
 }
 
 .cancel_icon {
-    font-size: 25px;
+    font-size: 18px;
+    color: rgb(24, 24, 24);
 }
 </style>

@@ -1,5 +1,8 @@
 <template>
-    <section class="myList_cards-section">
+    <section class="myList_message" v-if="store.myList.length === 0">
+        Non hai aggiunto nessun titolo alla tua lista.
+    </section>
+    <section class="myList_cards-section" v-else="store.myList.length > 0">
         <router-link v-for="(listItem, index) in myList" :key="listItem.id"
             :to="{ name: 'show', params: { id: listItem.id, type: listItem.type } }">
             <div class="card">
@@ -95,5 +98,14 @@ export default {
         border-radius: 0.2vw;
 
     }
+}
+
+.myList_message {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #666
+
 }
 </style>

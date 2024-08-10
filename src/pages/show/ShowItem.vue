@@ -205,7 +205,7 @@ export default {
             if(store.showModal) {
                 setTimeout(()=> {
                     store.showModal = false
-                }, 5500)
+                }, 5000)
             }
         }
     },
