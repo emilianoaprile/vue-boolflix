@@ -104,7 +104,6 @@ export default {
 
 .main_content {
     padding: 120px 60px;
-    position: relative;
 
     .cards {
         padding-top: 30px;

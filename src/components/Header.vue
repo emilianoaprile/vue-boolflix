@@ -8,7 +8,7 @@
                 <ul class="menu_list">
                     <li class="menu_item" v-for="(listItem, i) in menu" :key="i"
                         :class="{ active: isActive(listItem.href) }">
-                        <router-link :to="{ name: listItem.href }">
+                        <router-link :to="{ name: listItem.href }" @click="removeInputString()">
                             <a>{{ listItem.item }}</a>
                         </router-link>
                     </li>
