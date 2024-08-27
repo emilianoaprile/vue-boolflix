@@ -12,14 +12,19 @@
                 <div class="buttons">
                     <button class="btn btn_play">
                         <font-awesome-icon class="play_icon" :icon="['fas', 'play']" />
-                        <span>Riproduci</span>
+                        <span>Play</span>
                     </button>
-                    <button v-if="store.isIntoList" @click="removeFromMyList" class="btn_round btn_addlist">
+                    <button v-if="store.isIntoList" @click="removeFromMyList" @mouseenter="handleMouseEnter('remove')"
+                        @mouseleave="handleMouseLeave" class="btn_round btn_addlist">
                         <font-awesome-icon :icon="['fas', 'check']" />
+                        <div class="tooltip">{{ tooltipText }}</div>
                     </button>
-                    <button v-else="store.isIntoList" @click="addToMyList" class="btn_round btn_addlist">
+                    <button v-else @click="addToMyList" @mouseenter="handleMouseEnter('add')"
+                        @mouseleave="handleMouseLeave" class="btn_round btn_addlist">
                         <font-awesome-icon :icon="['fas', 'plus']" />
+                        <div class="tooltip">{{ tooltipText }}</div>
                     </button>
+
 
                     <button class="btn_round btn_like">
                         <font-awesome-icon :icon="['far', 'thumbs-up']" />
@@ -53,7 +58,7 @@
                 </div>
                 <div class="info_content-right">
                     <ul class="genres">
-                        Generi:
+                        Genres:
                         <li v-for="genre in showDetails.genres">{{ genre.name }}</li>
                     </ul>
                 </div>
@@ -62,7 +67,7 @@
         </div>
     </section>
     <ModalRemoveItem v-if="store.showModal" :showDetails="showDetails" :type="type"></ModalRemoveItem>
-    
+
 
 </template>
 
@@ -101,7 +106,9 @@ export default {
                 red: false
             },
             scrolled: false,
-            imgs: []
+            imgs: [],
+            tooltipText: 'Add to My List',
+            clicked: false
 
         }
     },
@@ -184,28 +191,40 @@ export default {
             }
             return this.rating
         },
+        handleMouseEnter(action) {
+            if (!this.clicked) {
+                this.tooltipText = action === 'add' ? 'Add to My List' : 'Remove from My List'
+            }
+        },
+        handleMouseLeave() {
+            this.clicked = false
+        },
         addToMyList() {
             store.addToMyList({ ...this.showDetails, type: this.type })
             store.isIntoList = true
             store.showModal = false
+            this.clicked = true
+            this.tooltipText = 'Add to My List'
         },
         removeFromMyList() {
             store.removeFromMyList(this.showDetails)
             store.isIntoList = false
             this.showModal()
+            this.clicked = true
+            this.tooltipText = 'Remove from My List'
         },
         checkIfIntoList() {
-            store.isIntoList = store.myList.find(item => item.id === this.showDetails.id);
+            store.isIntoList = store.myList.find(item => item.id === this.showDetails.id)
         },
         isScrolled() {
             this.scrolled = window.scrollY > 0
         },
         showModal() {
             store.showModal = true
-            if(store.showModal) {
-                setTimeout(()=> {
+            if (store.showModal) {
+                setTimeout(() => {
                     store.showModal = false
-                }, 5000)
+                }, 3500)
             }
         }
     },
@@ -412,5 +431,31 @@ export default {
     white-space: nowrap;
     display: flex;
     align-items: center;
+}
+
+.btn_addlist {
+    position: relative;
+
+    .tooltip {
+        display: none;
+        position: absolute;
+        bottom: 150%;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgb(255, 255, 255);
+        color: black;
+        padding: 10px 15px;
+        border-radius: 5px;
+        white-space: nowrap;
+        font-size: 13.5px;
+        z-index: 10;
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    &:hover .tooltip {
+        display: block;
+        opacity: 1;
+    }
 }
 </style>

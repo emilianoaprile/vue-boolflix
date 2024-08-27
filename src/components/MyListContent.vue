@@ -1,6 +1,6 @@
 <template>
     <section class="myList_message" v-if="store.myList.length === 0">
-        Non hai aggiunto nessun titolo alla tua lista.
+        You have not added any titles to your list.
     </section>
     <section class="myList_cards-section" v-else="store.myList.length > 0">
         <router-link v-for="(listItem, index) in myList" :key="listItem.id"
@@ -106,6 +106,5 @@ export default {
     justify-content: center;
     align-items: center;
     color: #666
-
 }
 </style>

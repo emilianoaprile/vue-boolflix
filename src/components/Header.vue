@@ -39,11 +39,11 @@ export default {
             showInput: false,
             menu: [
                 { item: 'Home', href: 'home' },
-                { item: 'Serie TV', href: 'serieTV' },
-                { item: 'Film', href: 'film' },
-                { item: 'Nuovi e Popolari', href: 'nuovi-e-popolari' },
-                { item: 'La mia lista', href: 'la-mia-lista' },
-                { item: 'Sfoglia per lingua', href: 'sfoglia-per-lingua' },
+                { item: 'TV Shows', href: 'serieTV' },
+                { item: 'Movies', href: 'film' },
+                { item: 'New & Popular', href: 'nuovi-e-popolari' },
+                { item: 'My List', href: 'la-mia-lista' },
+                // { item: 'Sfoglia per lingua', href: 'sfoglia-per-lingua' },
             ],
             imgLogoPath: '/img/logo-boolflix.png',
             showXmark: false

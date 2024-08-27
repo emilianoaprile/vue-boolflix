@@ -1,20 +1,12 @@
 <template>
     <div class="home_view">
-        <Header class="header" :class="{ scrolled: scrolled}" @searchFilms="fetchFilms" @searchSeries="fetchSeries"></Header>
-        <MainContent v-if="showHero && store.searchInput.length === 0" 
-        :popularMovies="store.popularMovies"
-        :popularSeries="store.popularSeries"
-        :topRatedMovies="store.topRatedMovies"
-        :topRatedSeries="store.topRatedSeries"
-        :trendingSeries="store.trendingSeries"
-        :upcomingMovies="store.upcomingMovies"
-        >
+        <Header class="header" :class="{ scrolled: scrolled }"></Header>
+        <MainContent v-if="showHero && store.searchInput.length === 0" :popularMovies="store.popularMovies"
+            :popularSeries="store.popularSeries" :topRatedMovies="store.topRatedMovies"
+            :topRatedSeries="store.topRatedSeries" :trendingSeries="store.trendingSeries"
+            :upcomingMovies="store.upcomingMovies">
         </MainContent>
-        <SearchResults 
-        :loadingMain="loading" 
-        :films="filteredFilms" 
-        :series="filteredSeries" 
-        :noResults="noResults">
+        <SearchResults :loadingMain="loading" :films="filteredFilms" :series="filteredSeries" :noResults="noResults">
         </SearchResults>
     </div>
 </template>
@@ -74,7 +66,7 @@ export default {
                         vote: curr.vote_average
                     }))
                     // assegno il valore dell'array mappato a quello dello store
-                    store.films = this.filmsMap.map(curr => ({...curr, type: 'film'}))
+                    store.films = this.filmsMap.map(curr => ({ ...curr, type: 'film' }))
                     this.loading = false
                 })
                 .catch(err => {
@@ -104,7 +96,7 @@ export default {
                         vote: curr.vote_average
                     }))
                     // assegno il valore dell'array mappato a quello dello store
-                    store.series = this.seriesMap.map(curr => ({...curr, type: 'serie'}))
+                    store.series = this.seriesMap.map(curr => ({ ...curr, type: 'serie' }))
                     this.loading = false
                 })
                 .catch(err => {
@@ -125,7 +117,7 @@ export default {
                         language: curr.original_language,
                         vote: curr.vote_average
                     }))
-                    store.popularMovies = this.popularMoviesMap.map(curr => ({...curr, type: 'film'}))
+                    store.popularMovies = this.popularMoviesMap.map(curr => ({ ...curr, type: 'film' }))
 
                 })
                 .catch(err => {
@@ -146,13 +138,13 @@ export default {
                         language: curr.original_language,
                         vote: curr.vote_average
                     }))
-                    store.popularSeries = this.popularSeriesMap.map(curr => ({...curr, type: 'serie'}))
+                    store.popularSeries = this.popularSeriesMap.map(curr => ({ ...curr, type: 'serie' }))
                 })
                 .catch(err => {
                     console.error(err)
                 })
         },
-    
+
         fetchTopRatedMovies() {
             axios
                 .get(`https://api.themoviedb.org/3/movie/top_rated?api_key=${store.api_key}`)
@@ -167,7 +159,7 @@ export default {
                         language: curr.original_language,
                         vote: curr.vote_average
                     }))
-                    store.topRatedMovies = this.topRatedMoviesMap.slice(0, 10).map(curr => ({...curr, type: 'film'}))
+                    store.topRatedMovies = this.topRatedMoviesMap.slice(0, 10).map(curr => ({ ...curr, type: 'film' }))
                 })
                 .catch(err => {
                     console.log(err)
@@ -187,7 +179,7 @@ export default {
                         language: curr.original_language,
                         vote: curr.vote_average
                     }))
-                    store.topRatedSeries = this.topRatedSeriesMap.slice(0, 10).map(curr => ({...curr, type: 'serie'}))
+                    store.topRatedSeries = this.topRatedSeriesMap.slice(0, 10).map(curr => ({ ...curr, type: 'serie' }))
                 })
                 .catch(err => {
                     console.log(err)
@@ -228,7 +220,7 @@ export default {
                         description: curr.overview,
                         vote: curr.vote_average
                     }))
-                    store.upcomingMovies = this.upcomingMoviesMap.map(curr => ({...curr, type: 'film'}))
+                    store.upcomingMovies = this.upcomingMoviesMap.map(curr => ({ ...curr, type: 'film' }))
                 })
                 .catch(err => {
                     console.error(err)

@@ -10,14 +10,14 @@
                 <div class="buttons">
                     <button class="btn btn_play">
                         <font-awesome-icon class="play_icon" :icon="['fas', 'play']" />
-                        <span>Riproduci</span>
+                        <span>Play</span>
                     </button>
-                    <router-link :to="{name: 'show', params: {id: randomSerie.id, type: randomSerie.type}}">
+                    <router-link :to="{ name: 'show', params: { id: randomSerie.id, type: randomSerie.type } }">
                         <button class="btn_info">
                             <div class="circle">
                                 <font-awesome-icon class="info_icon" :icon="['fas', 'info']" />
                             </div>
-                            <span>Altre info</span>
+                            <span>More Info</span>
                         </button>
                     </router-link>
                 </div>
@@ -25,7 +25,7 @@
         </div>
     </section>
     <div class="myList_slider">
-        <h1 class="main_content-title">Serie TV popolari scelte per te</h1>
+        <h1 class="main_content-title">Popular TV series chosen for you</h1>
         <div class="cards">
             <Swiper>
                 <SwiperSlide v-for="(popularSerie, index) in store.popularSeries" :key="popularSerie.id">
@@ -35,7 +35,7 @@
             </Swiper>
         </div>
 
-        <h1 class="main_content-title">Top 10 Serie Tv più amate di sempre</h1>
+        <h1 class="main_content-title">Top 10 most loved TV Shows of all time</h1>
         <div class="cards">
             <Swiper>
                 <SwiperSlide v-for="(topSerie, index) in topSeries" :key="topSerie.id">
@@ -45,7 +45,7 @@
             </Swiper>
         </div>
 
-        <h1 class="main_content-title">Serie TV più viste in questo momento</h1>
+        <h1 class="main_content-title">Most watched TV Shows right now</h1>
         <div class="cards">
             <Swiper>
                 <SwiperSlide v-for="(trendSerie, index) in trendingSeries" :key="trendSerie.id">
@@ -116,8 +116,8 @@ export default {
     },
     methods: {
         getRandomSerie() {
-            const min = 0
-            const max = this.trendingSeries.length - 1
+            const min = 4
+            const max = 4
             this.randomIndex = Math.floor(Math.random() * (max - min + 1) + min)
             return this.trendingSeries[this.randomIndex]
         },
@@ -129,14 +129,18 @@ export default {
         },
         imgBackSrcControll() {
             const basePath = store.imgBaseUrl_bg
-            return this.randomSerie.imgBack === null ? this.defaultImg : basePath + this.randomSerie.imgBack
+            const cacheBuster = `?t=${new Date().getTime()}`
+            return this.randomSerie.imgBack === null ? this.defaultImg : basePath + this.randomSerie.imgBack + cacheBuster
         },
-        fetchImg() {
-            axios
-                .get(`https://api.themoviedb.org/3/tv/${this.randomSerie.id}/images?api_key=923fd129639cf98cbea32d9013dacbfd`)
-                .then((res) => {
-                    this.imgs = res.data.logos.filter(item => item.iso_639_1 === 'en')
-                })
+
+        async fetchImg() {
+            try {
+                const res = await axios.get(`https://api.themoviedb.org/3/tv/${this.randomSerie.id}/images?api_key=923fd129639cf98cbea32d9013dacbfd`)
+                this.imgs = res.data.logos.filter(item => item.iso_639_1 === 'en')
+            } catch (err) {
+                console.error(err)
+            }
+
         },
     },
     watch: {
@@ -146,7 +150,8 @@ export default {
                     this.selectRandomSerie()
                 }
             },
-            immediate: true
+            immediate: true,
+            deep: true
         }
     },
     mounted() {

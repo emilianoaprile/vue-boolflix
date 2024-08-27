@@ -10,7 +10,7 @@
                 <div class="buttons">
                     <button class="btn btn_play">
                         <font-awesome-icon class="play_icon" :icon="['fas', 'play']" />
-                        <span>Riproduci</span>
+                        <span>Play</span>
                     </button>
                     <router-link
                         :to="{ name: 'show', params: { id: popularMovies[randomIndex].id, type: popularMovies[randomIndex].type } }">
@@ -18,7 +18,7 @@
                             <div class="circle">
                                 <font-awesome-icon class="info_icon" :icon="['fas', 'info']" />
                             </div>
-                            <span>Altre info</span>
+                            <span>More Info</span>
                         </button>
                     </router-link>
                 </div>
@@ -27,7 +27,7 @@
     </section>
     <div class="myList_slider">
         <div class="myList_wrapper" v-if="store.myList.length > 0">
-            <h1 class="main_content-title">La mia lista</h1>
+            <h1 class="main_content-title">My list</h1>
             <div class="cards">
                 <Swiper>
                     <SwiperSlide v-for="listItem in store.myList" :key="listItem.id">
@@ -37,7 +37,7 @@
             </div>
         </div>
 
-        <h1 class="main_content-title">Serie TV che ti appassioneranno</h1>
+        <h1 class="main_content-title">TV Shows you'll love</h1>
         <div class="cards">
             <Swiper>
                 <SwiperSlide v-for="(trendSerie, index) in store.trendingSeries" :key="trendSerie.id">
@@ -47,7 +47,7 @@
             </Swiper>
         </div>
 
-        <h1 class="main_content-title">Top 10 film più amati di sempre</h1>
+        <h1 class="main_content-title">Top 10 most loved movies of all time</h1>
         <div class="cards">
             <Swiper>
                 <SwiperSlide v-for="(topFilm, index) in store.topRatedMovies" :key="topFilm.id">
@@ -57,7 +57,7 @@
             </Swiper>
         </div>
 
-        <h1 class="main_content-title">Serie TV popolari</h1>
+        <h1 class="main_content-title">Popular TV Shows</h1>
         <div class="cards">
             <Swiper>
                 <SwiperSlide v-for="(popularSerie, index) in store.popularSeries" :key="popularSerie.id">
@@ -67,7 +67,7 @@
             </Swiper>
         </div>
 
-        <h1 class="main_content-title">Top 10 serie TV più votate </h1>
+        <h1 class="main_content-title">Top 10 most loved TV Shows of all time</h1>
         <div class="cards">
             <Swiper>
                 <SwiperSlide v-for="(topSerie, index) in store.topRatedSeries" :key="topSerie.id">
@@ -77,7 +77,7 @@
             </Swiper>
         </div>
 
-        <h1 class="main_content-title">Novità su Boolflix</h1>
+        <h1 class="main_content-title">New on Boolflix</h1>
         <div class="cards">
             <Swiper>
                 <SwiperSlide v-for="(upMovie, index) in store.upcomingMovies" :key="upMovie.id">
@@ -160,8 +160,8 @@ export default {
     },
     methods: {
         getRandomFilm() {
-            const min = 0
-            const max = this.popularMovies.length - 1
+            const min = 1
+            const max = 10
             this.randomIndex = Math.floor(Math.random() * (max - min + 1) + min)
             return this.popularMovies[this.randomIndex]
         },

@@ -1,7 +1,7 @@
 <template>
     <section class="newPopular_section">
         <div class="myList_slider">
-            <h1 class="main_content-title">Novità su Boolflix</h1>
+            <h1 class="main_content-title">New on Boolflix</h1>
             <div class="cards">
                 <Swiper>
                     <SwiperSlide v-for="(upcomingMovie, index) in upcomingMovies" :key="upcomingMovie.id">
@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="myList_slider">
-            <h1 class="main_content-title">Top 10 Serie Tv più amate di sempre</h1>
+            <h1 class="main_content-title">Top 10 most loved TV Shows</h1>
             <div class="cards">
                 <Swiper>
                     <SwiperSlide v-for="(topSerie, index) in topSeries" :key="topSerie.id">
@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="myList_slider">
-            <h1 class="main_content-title">Top 10 Film più amati di sempre</h1>
+            <h1 class="main_content-title">Top 10 most loved movies</h1>
             <div class="cards">
                 <Swiper>
                     <SwiperSlide v-for="(topMovie, index) in topMovies" :key="topMovie.id">
@@ -35,7 +35,7 @@
         </div>
 
         <div class="myList_slider">
-            <h1 class="main_content-title">Serie Tv in arrivo nei prossimi giorni</h1>
+            <h1 class="main_content-title">TV Shows coming in the next few days</h1>
             <div class="cards">
                 <Swiper>
                     <SwiperSlide v-for="(upcomingSerie, index) in upcomingSeries" :key="upcomingSerie.id">
@@ -103,7 +103,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .newPopular_section {
     margin-top: 164px;
 }

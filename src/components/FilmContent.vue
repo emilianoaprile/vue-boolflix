@@ -10,14 +10,14 @@
                 <div class="buttons">
                     <button class="btn btn_play">
                         <font-awesome-icon class="play_icon" :icon="['fas', 'play']" />
-                        <span>Riproduci</span>
+                        <span>Play</span>
                     </button>
-                    <router-link :to="{name: 'show', params: {id: randomMovie.id, type: randomMovie.type}}">
+                    <router-link :to="{ name: 'show', params: { id: randomMovie.id, type: randomMovie.type } }">
                         <button class="btn_info">
                             <div class="circle">
                                 <font-awesome-icon class="info_icon" :icon="['fas', 'info']" />
                             </div>
-                            <span>Altre info</span>
+                            <span>More Info</span>
                         </button>
                     </router-link>
                 </div>
@@ -25,7 +25,7 @@
         </div>
     </section>
     <div class="myList_slider">
-        <h1 class="main_content-title">Film acclamati dal pubblico</h1>
+        <h1 class="main_content-title">Movies acclaimed by the public</h1>
         <div class="cards">
             <Swiper>
                 <SwiperSlide v-for="(popularMovie, index) in popularMovies" :key="popularMovie.id">
@@ -34,7 +34,7 @@
                 </SwiperSlide>
             </Swiper>
         </div>
-        <h1 class="main_content-title">Top 10 Film più amati di sempre</h1>
+        <h1 class="main_content-title">Top 10 most loved movies of all time</h1>
         <div class="cards">
             <Swiper>
                 <SwiperSlide v-for="(topFilm, index) in topRatedFilms" :key="topFilm.id">
@@ -43,7 +43,7 @@
                 </SwiperSlide>
             </Swiper>
         </div>
-        <h1 class="main_content-title">Film più guardati questa settimana</h1>
+        <h1 class="main_content-title">Most watched movies this week</h1>
         <div class="cards">
             <Swiper>
                 <SwiperSlide v-for="(trendMovie, index) in trendingMovies" :key="trendMovie.id">
@@ -115,7 +115,7 @@ export default {
     methods: {
         getRandomMovie() {
             const min = 0
-            const max = this.trendingMovies.length - 1
+            const max = 0
             this.randomIndex = Math.floor(Math.random() * (max - min + 1) + min)
             return this.trendingMovies[this.randomIndex]
         },

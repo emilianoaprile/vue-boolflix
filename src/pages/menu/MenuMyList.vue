@@ -2,20 +2,16 @@
     <Header class="header"></Header>
     <div class="sub_header" v-if="showHero && store.searchInput.length === 0">
         <div class="sub_header-wrapper" :class="{ scrolled: scrolled }">
-            <h1 class="title">La mia lista</h1>
+            <h1 class="title">My List</h1>
         </div>
     </div>
     <MyListContent v-if="showHero && store.searchInput.length === 0" :myList="store.myList"></MyListContent>
-    <SearchResults 
-        :loadingMain="loading" 
-        :films="filteredFilms" 
-        :series="filteredSeries" 
-        :noResults="noResults">
+    <SearchResults :loadingMain="loading" :films="filteredFilms" :series="filteredSeries" :noResults="noResults">
     </SearchResults>
 </template>
 
 <script>
-import {store} from '../../store'
+import { store } from '../../store'
 import axios from 'axios';
 import SearchResults from '../../components/SearchResults.vue';
 import Header from '../../components/Header.vue';
@@ -65,7 +61,7 @@ export default {
                         vote: curr.vote_average
                     }))
                     // assegno il valore dell'array mappato a quello dello store
-                    store.films = this.filmsMap.map(curr => ({...curr, type: 'film'}))
+                    store.films = this.filmsMap.map(curr => ({ ...curr, type: 'film' }))
                     this.loading = false
                 })
                 .catch(err => {
@@ -95,7 +91,7 @@ export default {
                         vote: curr.vote_average
                     }))
                     // assegno il valore dell'array mappato a quello dello store
-                    store.series = this.seriesMap.map(curr => ({...curr, type: 'serie'}))
+                    store.series = this.seriesMap.map(curr => ({ ...curr, type: 'serie' }))
                     this.loading = false
                 })
                 .catch(err => {
@@ -192,6 +188,4 @@ export default {
         font-weight: 300;
     }
 }
-
-
 </style>

@@ -1,11 +1,11 @@
 <template>
     <div class="modal">
         <div class="modal_text">
-            {{ showDetails.title}} è stato rimosso da La mia lista.
+            <strong>{{ showDetails.title }}</strong> has been removed from My List.
         </div>
         <button class="modal_btn" @click="addToMyList">
             <font-awesome-icon class="cancel_icon" :icon="['fas', 'rotate-left']" />
-            <span>Annulla</span>
+            <span>Undo</span>
         </button>
     </div>
 </template>

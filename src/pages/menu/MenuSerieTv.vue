@@ -2,19 +2,13 @@
     <Header class="header" @searchFilms="fetchFilms" @searchSeries="fetchSeries"></Header>
     <div class="sub_header" v-if="showHero && store.searchInput.length === 0">
         <div class="sub_header-wrapper" :class="{ scrolled: scrolled }">
-            <h1 class="title">Serie TV</h1>
+            <h1 class="title">TV Shows</h1>
         </div>
     </div>
-    <SerieTvContent v-if="showHero && store.searchInput.length === 0"
-        :trendingSeries="store.trendingSeries" 
-        :topSeries="store.topRatedSeries" 
-        :popularSeries="store.popularSeries">
+    <SerieTvContent v-if="showHero && store.searchInput.length === 0" :trendingSeries="store.trendingSeries"
+        :topSeries="store.topRatedSeries" :popularSeries="store.popularSeries">
     </SerieTvContent>
-    <SearchResults 
-        :loadingMain="loading" 
-        :films="filteredFilms" 
-        :series="filteredSeries" 
-        :noResults="noResults">
+    <SearchResults :loadingMain="loading" :films="filteredFilms" :series="filteredSeries" :noResults="noResults">
     </SearchResults>
 </template>
 
@@ -73,7 +67,7 @@ export default {
                         vote: curr.vote_average
                     }))
                     // assegno il valore dell'array mappato a quello dello store
-                    store.films = this.filmsMap.map(curr => ({...curr, type: 'film'}))
+                    store.films = this.filmsMap.map(curr => ({ ...curr, type: 'film' }))
                     this.loading = false
                 })
                 .catch(err => {
@@ -103,7 +97,7 @@ export default {
                         vote: curr.vote_average
                     }))
                     // assegno il valore dell'array mappato a quello dello store
-                    store.series = this.seriesMap.map(curr => ({...curr, type: 'serie'}))
+                    store.series = this.seriesMap.map(curr => ({ ...curr, type: 'serie' }))
                     this.loading = false
                 })
                 .catch(err => {
@@ -112,7 +106,7 @@ export default {
         },
         fetchTrendingSeries() {
             axios
-                .get(`https://api.themoviedb.org/3/trending/tv/week?api_key=${this.apiKey}&page=${store.getRandomNumberPage(1,4)}`)
+                .get(`https://api.themoviedb.org/3/trending/tv/week?api_key=${this.apiKey}&page=${store.getRandomNumberPage(1, 4)}`)
                 .then((res) => {
                     const dataResults = res.data.results.filter(curr => curr.original_language === 'en')
                     console.log(dataResults)
@@ -166,7 +160,7 @@ export default {
                         language: curr.original_language,
                         vote: curr.vote_average
                     }))
-                    store.popularSeries = this.popularSeriesMap.map(curr => ({...curr, type: 'serie'}))
+                    store.popularSeries = this.popularSeriesMap.map(curr => ({ ...curr, type: 'serie' }))
                 })
                 .catch(err => {
                     console.error(err)
