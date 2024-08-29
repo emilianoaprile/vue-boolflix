@@ -4,7 +4,7 @@
             <div class="jumbo">
                 <img :src="imgBackSrcControll()" class="jumbo_img" alt="Movie Image">
                 <div class="item_title">
-                    <img class="title_img" :src="imgSrc" alt="">
+                    <img class="title_img" :src="imgTitleSrc" alt="">
                 </div>
                 <div class="overlay"></div>
                 <div class="buttons">
@@ -152,9 +152,9 @@ export default {
         }
     },
     computed: {
-        imgSrc() {
-            if (this.imgs.length > 0) {
-                return store.imgBaseUrl + this.imgs[0].file_path
+        imgTitleSrc() {
+            if (this.imgs.id === this.randomMovie.id) {
+                return store.imgBaseUrl + this.imgs.src
             }
         }
     },
@@ -177,9 +177,15 @@ export default {
         },
         fetchImg() {
             axios
-                .get(`https://api.themoviedb.org/3/movie/${this.randomMovie.id}/images?api_key=923fd129639cf98cbea32d9013dacbfd`)
+                .get(`https://api.themoviedb.org/3/movie/${this.randomMovie.id}/images?api_key=${store.api_key}`)
                 .then((res) => {
-                    this.imgs = res.data.logos.filter(item => item.iso_639_1 === 'en')
+                    const imgsObj = res.data.logos.find(item => item.iso_639_1 === 'en')
+                    console.log(imgsObj)
+                    const filePath = imgsObj.file_path
+                    this.imgs = {
+                        id: this.randomMovie.id,
+                        src: filePath
+                    }
                 })
         }
     },
