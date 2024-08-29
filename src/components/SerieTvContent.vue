@@ -116,8 +116,8 @@ export default {
     },
     methods: {
         getRandomSerie() {
-            const min = 4
-            const max = 4
+            const min = 0
+            const max = 10
             this.randomIndex = Math.floor(Math.random() * (max - min + 1) + min)
             return this.trendingSeries[this.randomIndex]
         },

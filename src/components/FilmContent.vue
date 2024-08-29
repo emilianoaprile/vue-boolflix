@@ -114,10 +114,10 @@ export default {
     },
     methods: {
         getRandomMovie() {
-            const min = 0
-            const max = 10
-            this.randomIndex = Math.floor(Math.random() * (max - min + 1) + min)
-            return this.trendingMovies[this.randomIndex]
+            // const min = 0
+            // const max = 0
+            // this.randomIndex = Math.floor(Math.random() * (max - min + 1) + min)
+            return this.trendingMovies[0]
         },
         selectRandomMovie() {
             if (this.trendingMovies.length > 0) {

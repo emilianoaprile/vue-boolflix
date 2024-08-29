@@ -4,13 +4,12 @@
         <div v-if="renderCards" class="main_wrapper">
             <div v-if="noResults" class="no_results">
                 <div class="no_results-content">
-                    <h2>Nessun risultato per la tua ricerca</h2>
-                    <p>Suggerimenti:</p>
+                    <h2>Your search did not have any matches</h2>
+                    <p>Seggestions:</p>
                     <ul class="advice_list">
-                        <li>- Prova con parole chiave diverse</li>
-                        <li>- Cerchi un film o un serie TV?</li>
-                        <li>- Prova a usare il titolo di un film o serie TV oppure il nome di un attore</li>
-                        <li>- Prova con un genere, per esempio Commedia, Romantici, Sport o Dramma</li>
+                        <li>- Try differnt keywords</li>
+                        <li>- Looking for a movie o TV show?</li>
+                        <li>- Try using a movie or TV show title</li>
                     </ul>
                 </div>
             </div>
@@ -147,5 +146,6 @@ export default {
     top: 50%;
     right: 50%;
     transform: translate(-50%, -50%);
+    z-index: 10000;
 }
 </style>
